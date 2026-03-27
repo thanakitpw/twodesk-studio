@@ -1,0 +1,104 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "TWO DESK" [ref=e4] [cursor=pointer]:
+        - /url: /en
+      - generic [ref=e5]:
+        - link "Projects" [ref=e6] [cursor=pointer]:
+          - /url: /en/projects
+        - link "Blog" [ref=e7] [cursor=pointer]:
+          - /url: /en/blog
+        - link "About" [ref=e8] [cursor=pointer]:
+          - /url: /en/about
+        - link "Contact" [ref=e9] [cursor=pointer]:
+          - /url: /en/contact
+        - generic [ref=e10]:
+          - button "TH" [ref=e11] [cursor=pointer]
+          - button "EN" [ref=e12] [cursor=pointer]
+  - main [ref=e13]:
+    - main [ref=e14]:
+      - generic [ref=e16]:
+        - generic [ref=e17]:
+          - paragraph [ref=e18]: Get in Touch
+          - heading "Let's Talk Let's sit and chat" [level=1] [ref=e19]
+          - paragraph [ref=e20]: Whether you have a project in mind or just want to explore possibilities, we'd love to hear from you. Drop us a message and let's start a conversation.
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - heading "Email" [level=3] [ref=e23]
+            - link "hello@twodesk.studio" [ref=e24] [cursor=pointer]:
+              - /url: mailto:hello@twodesk.studio
+          - generic [ref=e25]:
+            - heading "Social" [level=3] [ref=e26]
+            - generic [ref=e27]:
+              - link "Instagram @twodesk.studio" [ref=e28] [cursor=pointer]:
+                - /url: https://www.instagram.com/twodesk.studio
+              - link "Facebook Twodesk Studio" [ref=e29] [cursor=pointer]:
+                - /url: https://www.facebook.com/twodeskstudio
+          - generic [ref=e30]:
+            - heading "Location" [level=3] [ref=e31]
+            - paragraph [ref=e32]: Bangkok, Thailand
+      - generic [ref=e36]:
+        - heading "Send us a message" [level=2] [ref=e37]
+        - generic [ref=e38]:
+          - generic [ref=e39]:
+            - generic [ref=e40]: Name
+            - textbox "Your name" [ref=e41]
+          - generic [ref=e42]:
+            - generic [ref=e43]: Email
+            - textbox "your@email.com" [ref=e44]
+        - generic [ref=e45]:
+          - generic [ref=e46]:
+            - generic [ref=e47]: Phone
+            - textbox "Your phone number" [ref=e48]
+          - generic [ref=e49]:
+            - generic [ref=e50]: Project Type
+            - combobox [ref=e51]:
+              - option "Select project type" [disabled] [selected]
+              - option "Commercial"
+              - option "Cafe / Bar / Restaurant"
+              - option "Residential"
+              - option "Others"
+        - generic [ref=e52]:
+          - generic [ref=e53]: Message
+          - textbox "Tell us about your project..." [ref=e54]
+        - button "Send Message" [ref=e55]
+      - paragraph [ref=e59]: Google Maps — Bangkok, Thailand
+  - contentinfo [ref=e61]:
+    - generic [ref=e62]:
+      - generic [ref=e63]:
+        - heading "TWO DESK" [level=3] [ref=e64]
+        - paragraph [ref=e65]: Design Studio — Interior, Architecture, Furniture & Craft Design. Based in Bangkok, Thailand.
+      - generic [ref=e66]:
+        - heading "Navigate" [level=4] [ref=e67]
+        - link "Projects" [ref=e68] [cursor=pointer]:
+          - /url: /en/projects
+        - link "Blog" [ref=e69] [cursor=pointer]:
+          - /url: /en/blog
+        - link "About" [ref=e70] [cursor=pointer]:
+          - /url: /en/about
+        - link "Contact" [ref=e71] [cursor=pointer]:
+          - /url: /en/contact
+      - generic [ref=e72]:
+        - heading "Connect" [level=4] [ref=e73]
+        - link "Instagram" [ref=e74] [cursor=pointer]:
+          - /url: https://www.instagram.com/twodesk.studio
+        - link "Facebook" [ref=e75] [cursor=pointer]:
+          - /url: https://www.facebook.com/twodeskstudio
+        - link "Email" [ref=e76] [cursor=pointer]:
+          - /url: mailto:hello@twodesk.studio
+      - generic [ref=e77]:
+        - heading "Contact" [level=4] [ref=e78]
+        - link "hello@twodesk.studio" [ref=e79] [cursor=pointer]:
+          - /url: mailto:hello@twodesk.studio
+        - link "@twodesk.studio" [ref=e80] [cursor=pointer]:
+          - /url: https://www.instagram.com/twodesk.studio
+    - generic [ref=e81]:
+      - generic [ref=e82]: © 2025 Two Desk Studio. All rights reserved.
+      - generic [ref=e83]: Designed & Developed by Best Solutions
+  - button "Open Next.js Dev Tools" [ref=e89] [cursor=pointer]:
+    - img [ref=e90]
+  - alert [ref=e93]
+```

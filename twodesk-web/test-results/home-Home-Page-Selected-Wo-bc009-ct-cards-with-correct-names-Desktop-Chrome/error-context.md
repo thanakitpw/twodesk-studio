@@ -1,0 +1,184 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "TWO DESK" [ref=e4] [cursor=pointer]:
+        - /url: /en
+      - generic [ref=e5]:
+        - link "Projects" [ref=e6] [cursor=pointer]:
+          - /url: /en/projects
+        - link "Blog" [ref=e7] [cursor=pointer]:
+          - /url: /en/blog
+        - link "About" [ref=e8] [cursor=pointer]:
+          - /url: /en/about
+        - link "Contact" [ref=e9] [cursor=pointer]:
+          - /url: /en/contact
+        - generic [ref=e10]:
+          - button "TH" [ref=e11] [cursor=pointer]
+          - button "EN" [ref=e12] [cursor=pointer]
+  - main [ref=e13]:
+    - generic [ref=e14]:
+      - img "Hero" [ref=e15]
+      - generic [ref=e17]:
+        - heading "We shape spaces that inspire" [level=1] [ref=e18]:
+          - generic [ref=e19]: We shape spaces
+          - text: that inspire
+        - paragraph [ref=e20]: Interior · Architecture · Furniture · Craft Design
+    - generic [ref=e21]:
+      - generic [ref=e23]:
+        - generic [ref=e24]:
+          - paragraph [ref=e25]: What We Do
+          - heading "Our Services" [level=2] [ref=e26]
+        - paragraph [ref=e27]: We offer a full spectrum of design services — from concept to completion, tailored to every space and purpose.
+      - generic [ref=e28]:
+        - generic [ref=e32]:
+          - heading "Interior Design" [level=3] [ref=e33]
+          - paragraph [ref=e34]: Crafting functional, beautiful interiors for commercial and residential spaces.
+        - generic [ref=e38]:
+          - heading "Architecture" [level=3] [ref=e39]
+          - paragraph [ref=e40]: Designing structures that balance form, function, and context.
+        - generic [ref=e44]:
+          - heading "Furniture Design" [level=3] [ref=e45]
+          - paragraph [ref=e46]: Custom-made furniture that complements every design vision.
+        - generic [ref=e50]:
+          - heading "Craft Design" [level=3] [ref=e51]
+          - paragraph [ref=e52]: Artisanal details and bespoke craftsmanship for unique projects.
+    - generic [ref=e54]:
+      - generic: TD
+      - generic [ref=e55]:
+        - generic [ref=e56]: 5+
+        - generic [ref=e57]: Years of Experience
+      - generic [ref=e58]:
+        - generic [ref=e59]: 30+
+        - generic [ref=e60]: Projects Completed
+      - generic [ref=e61]:
+        - generic [ref=e62]: "4"
+        - generic [ref=e63]: Team Members
+      - generic [ref=e64]:
+        - generic [ref=e65]: "4"
+        - generic [ref=e66]: Service Categories
+    - generic [ref=e67]:
+      - generic [ref=e69]:
+        - generic [ref=e70]:
+          - paragraph [ref=e71]: Projects
+          - heading "Selected Works" [level=2] [ref=e72]
+        - link "View All Projects →" [ref=e73] [cursor=pointer]:
+          - /url: "#"
+      - generic [ref=e74]:
+        - generic [ref=e75]:
+          - generic [ref=e78]: Cafe
+          - heading "Flow the Hub" [level=3] [ref=e79]
+          - paragraph [ref=e80]: Bangkok, Thailand
+        - generic [ref=e81]:
+          - generic [ref=e84]: Commercial
+          - heading "Office Sakaew" [level=3] [ref=e85]
+          - paragraph [ref=e86]: Sakaew, Thailand
+      - generic [ref=e87]:
+        - generic [ref=e88]:
+          - generic [ref=e91]: Cafe
+          - heading "Bbambbm Cafe" [level=3] [ref=e92]
+          - paragraph [ref=e93]: Bangkok, Thailand
+        - generic [ref=e94]:
+          - generic [ref=e97]: Residential
+          - heading "MM Bridal House" [level=3] [ref=e98]
+          - paragraph [ref=e99]: Bangkok, Thailand
+    - generic [ref=e101]:
+      - generic [ref=e102]:
+        - paragraph [ref=e103]: How We Work
+        - heading "A clear process, from vision to reality" [level=2] [ref=e104]:
+          - generic [ref=e105]: A clear process,
+          - text: from vision to reality
+        - paragraph [ref=e106]: Every project follows a structured approach — ensuring quality, transparency, and alignment at every stage.
+      - generic [ref=e107]:
+        - generic [ref=e108]:
+          - generic [ref=e109]: "01"
+          - generic [ref=e110]:
+            - heading "Consult & Brief" [level=4] [ref=e111]
+            - paragraph [ref=e112]: Understanding your needs, budget, and vision through in-depth conversation.
+        - generic [ref=e113]:
+          - generic [ref=e114]: "02"
+          - generic [ref=e115]:
+            - heading "Concept Design" [level=4] [ref=e116]
+            - paragraph [ref=e117]: Developing mood boards, layouts, and initial concepts for your approval.
+        - generic [ref=e118]:
+          - generic [ref=e119]: "03"
+          - generic [ref=e120]:
+            - heading "Design Development" [level=4] [ref=e121]
+            - paragraph [ref=e122]: Detailed drawings, material selection, and 3D visualization.
+        - generic [ref=e123]:
+          - generic [ref=e124]: "04"
+          - generic [ref=e125]:
+            - heading "Build & Deliver" [level=4] [ref=e126]
+            - paragraph [ref=e127]: Construction supervision, quality control, and handover.
+    - generic [ref=e128]:
+      - img "Team" [ref=e129]
+      - generic [ref=e130]:
+        - paragraph [ref=e131]: About Us
+        - heading "We believe great design starts with listening — to the space, the people, and the purpose." [level=2] [ref=e132]
+        - paragraph [ref=e133]: Two Desk Studio is a multidisciplinary design practice based in Bangkok. We specialize in interior, architecture, furniture, and craft design — approaching each project with curiosity and precision.
+        - link "Learn More About Us →" [ref=e134] [cursor=pointer]:
+          - /url: "#"
+    - generic [ref=e135]:
+      - generic [ref=e137]:
+        - generic [ref=e138]:
+          - paragraph [ref=e139]: Insights
+          - heading "From the Studio" [level=2] [ref=e140]
+        - link "View All Articles →" [ref=e141] [cursor=pointer]:
+          - /url: "#"
+      - generic [ref=e142]:
+        - generic [ref=e143]:
+          - paragraph [ref=e145]: Design Trends · Mar 2025
+          - heading "5 Interior Trends Shaping Bangkok's Cafe Scene" [level=3] [ref=e146]
+          - paragraph [ref=e147]: From raw concrete to biophilic design — what's next for the city's most creative spaces.
+        - generic [ref=e148]:
+          - paragraph [ref=e150]: Behind the Scenes · Feb 2025
+          - heading "How We Designed Flow the Hub from Scratch" [level=3] [ref=e151]
+          - paragraph [ref=e152]: A behind-the-scenes look at one of our most ambitious cafe projects.
+        - generic [ref=e153]:
+          - paragraph [ref=e155]: Tips · Jan 2025
+          - heading "What to Prepare Before Hiring a Design Studio" [level=3] [ref=e156]
+          - paragraph [ref=e157]: Essential questions, budgets, and references you should gather before the first meeting.
+    - generic [ref=e159]:
+      - paragraph [ref=e161]: Start a Project
+      - heading "Have a space in mind?" [level=2] [ref=e163]
+      - paragraph [ref=e165]: Tell us about your project. We'd love to hear your ideas and explore how we can bring them to life.
+      - link "Get in Touch" [ref=e167] [cursor=pointer]:
+        - /url: "#"
+  - contentinfo [ref=e169]:
+    - generic [ref=e170]:
+      - generic [ref=e171]:
+        - heading "TWO DESK" [level=3] [ref=e172]
+        - paragraph [ref=e173]: Design Studio — Interior, Architecture, Furniture & Craft Design. Based in Bangkok, Thailand.
+      - generic [ref=e174]:
+        - heading "Navigate" [level=4] [ref=e175]
+        - link "Projects" [ref=e176] [cursor=pointer]:
+          - /url: /en/projects
+        - link "Blog" [ref=e177] [cursor=pointer]:
+          - /url: /en/blog
+        - link "About" [ref=e178] [cursor=pointer]:
+          - /url: /en/about
+        - link "Contact" [ref=e179] [cursor=pointer]:
+          - /url: /en/contact
+      - generic [ref=e180]:
+        - heading "Connect" [level=4] [ref=e181]
+        - link "Instagram" [ref=e182] [cursor=pointer]:
+          - /url: https://www.instagram.com/twodesk.studio
+        - link "Facebook" [ref=e183] [cursor=pointer]:
+          - /url: https://www.facebook.com/twodeskstudio
+        - link "Email" [ref=e184] [cursor=pointer]:
+          - /url: mailto:hello@twodesk.studio
+      - generic [ref=e185]:
+        - heading "Contact" [level=4] [ref=e186]
+        - link "hello@twodesk.studio" [ref=e187] [cursor=pointer]:
+          - /url: mailto:hello@twodesk.studio
+        - link "@twodesk.studio" [ref=e188] [cursor=pointer]:
+          - /url: https://www.instagram.com/twodesk.studio
+    - generic [ref=e189]:
+      - generic [ref=e190]: © 2025 Two Desk Studio. All rights reserved.
+      - generic [ref=e191]: Designed & Developed by Best Solutions
+  - button "Open Next.js Dev Tools" [ref=e197] [cursor=pointer]:
+    - img [ref=e198]
+  - alert [ref=e201]
+```

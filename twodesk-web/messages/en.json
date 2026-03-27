@@ -1,0 +1,217 @@
+{
+  "nav": {
+    "projects": "Projects",
+    "blog": "Blog",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "home": {
+    "heroTitle": "We shape spaces\nthat inspire",
+    "heroSubtitle": "Interior · Architecture · Furniture · Craft Design",
+    "servicesLabel": "What We Do",
+    "servicesTitle": "Our Services",
+    "servicesDescription": "We offer a full spectrum of design services — from concept to completion, tailored to every space and purpose.",
+    "serviceInteriorTitle": "Interior Design",
+    "serviceInteriorDesc": "Crafting functional, beautiful interiors for commercial and residential spaces.",
+    "serviceArchTitle": "Architecture",
+    "serviceArchDesc": "Designing structures that balance form, function, and context.",
+    "serviceFurnitureTitle": "Furniture Design",
+    "serviceFurnitureDesc": "Custom-made furniture that complements every design vision.",
+    "serviceCraftTitle": "Craft Design",
+    "serviceCraftDesc": "Artisanal details and bespoke craftsmanship for unique projects.",
+    "statYears": "Years of Experience",
+    "statProjects": "Projects Completed",
+    "statTeam": "Team Members",
+    "statServices": "Service Categories",
+    "worksLabel": "Projects",
+    "worksTitle": "Selected Works",
+    "viewAllProjects": "View All Projects",
+    "processLabel": "How We Work",
+    "processTitle": "A clear process,\nfrom vision to reality",
+    "processDescription": "Every project follows a structured approach — ensuring quality, transparency, and alignment at every stage.",
+    "step1Title": "Consult & Brief",
+    "step1Desc": "Understanding your needs, budget, and vision through in-depth conversation.",
+    "step2Title": "Concept Design",
+    "step2Desc": "Developing mood boards, layouts, and initial concepts for your approval.",
+    "step3Title": "Design Development",
+    "step3Desc": "Detailed drawings, material selection, and 3D visualization.",
+    "step4Title": "Build & Deliver",
+    "step4Desc": "Construction supervision, quality control, and handover.",
+    "aboutLabel": "About Us",
+    "aboutTitle": "We believe great design starts with listening — to the space, the people, and the purpose.",
+    "aboutDescription": "Two Desk Studio is a multidisciplinary design practice based in Bangkok. We specialize in interior, architecture, furniture, and craft design — approaching each project with curiosity and precision.",
+    "aboutLink": "Learn More About Us",
+    "blogLabel": "Insights",
+    "blogTitle": "From the Studio",
+    "viewAllArticles": "View All Articles",
+    "ctaLabel": "Start a Project",
+    "ctaTitle": "Have a space in mind?",
+    "ctaDescription": "Tell us about your project. We'd love to hear your ideas and explore how we can bring them to life.",
+    "ctaButton": "Get in Touch"
+  },
+  "projects": {
+    "label": "Projects",
+    "title": "Projects",
+    "heading": "Our Projects",
+    "subtitle": "Selected Works",
+    "description": "A curated selection of our work across commercial, hospitality, and residential spaces.",
+    "viewAll": "View All Projects",
+    "filterAll": "All",
+    "filterCommercial": "Commercial",
+    "filterCafe": "Cafe / Restaurant",
+    "filterResidential": "Residential",
+    "filterOthers": "Others",
+    "noProjects": "No projects found in this category.",
+    "backToProjects": "Back to Projects",
+    "location": "Location",
+    "year": "Year",
+    "category": "Category",
+    "nextProject": "Next Project"
+  },
+  "blog": {
+    "label": "Insights",
+    "title": "Blog",
+    "heading": "From the Studio",
+    "subtitle": "From the Studio",
+    "description": "Thoughts on design, behind-the-scenes stories, and practical tips from our team.",
+    "viewAll": "View All Articles",
+    "backToBlog": "Back to Blog",
+    "article1Meta": "Design Trends · Mar 2025",
+    "article1Title": "5 Interior Trends Shaping Bangkok's Cafe Scene",
+    "article1Desc": "From raw concrete to biophilic design — what's next for the city's most creative spaces.",
+    "article2Meta": "Behind the Scenes · Feb 2025",
+    "article2Title": "How We Designed Flow the Hub from Scratch",
+    "article2Desc": "A behind-the-scenes look at one of our most ambitious cafe projects.",
+    "article3Meta": "Tips · Jan 2025",
+    "article3Title": "What to Prepare Before Hiring a Design Studio",
+    "article3Desc": "Essential questions, budgets, and references you should gather before the first meeting."
+  },
+  "about": {
+    "title": "About",
+    "subtitle": "About Us",
+    "hero": {
+      "label": "About Us",
+      "heading": "We believe great design starts with listening",
+      "description": "Two Desk Studio is a multidisciplinary design practice based in Bangkok. We specialize in interior, architecture, furniture, and craft design — approaching each project with curiosity, precision, and a deep respect for the spaces we shape."
+    },
+    "philosophy": {
+      "heading": "Design with purpose, build with care",
+      "paragraph1": "At Two Desk, we approach every project as a conversation — between the space, the people who use it, and the vision behind it. We don't believe in one-size-fits-all solutions. Instead, we listen, research, and craft designs that are as unique as the stories they hold.",
+      "paragraph2": "Our studio brings together architecture, interior design, furniture, and craft under one roof. This multidisciplinary approach allows us to think holistically — from the structure of a building to the texture of a door handle — ensuring every detail serves a purpose."
+    },
+    "team": {
+      "heading": "The people behind Two Desk",
+      "members": {
+        "nut": {
+          "name": "Nutthawat Jinyuyong",
+          "nickname": "Nut",
+          "role": "Partner / Architect"
+        },
+        "gun": {
+          "name": "Saharath Pornsiripithak",
+          "nickname": "Gun",
+          "role": "Partner / Architect"
+        },
+        "ping": {
+          "name": "Chanisara Piyasuwan",
+          "nickname": "Ping",
+          "role": "Partner / Architect"
+        },
+        "yo": {
+          "name": "Chonnavee Eiamvuttikorn",
+          "nickname": "Yo",
+          "role": "Civil Engineer"
+        }
+      }
+    },
+    "services": {
+      "label": "What We Do",
+      "heading": "Our Services",
+      "interior": {
+        "title": "Interior Design",
+        "description": "Crafting functional, beautiful interiors for commercial and residential spaces — from concept to completion."
+      },
+      "architecture": {
+        "title": "Architecture",
+        "description": "Designing structures that balance form, function, and context — buildings that belong to their surroundings."
+      },
+      "furniture": {
+        "title": "Furniture Design",
+        "description": "Custom-made furniture that complements every design vision — functional art for everyday living."
+      },
+      "craft": {
+        "title": "Craft Design",
+        "description": "Artisanal details and bespoke craftsmanship for unique projects — where precision meets creativity."
+      }
+    }
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Get in Touch",
+    "header": {
+      "label": "Get in Touch",
+      "heading": "Let's Talk\nLet's sit and chat",
+      "description": "Whether you have a project in mind or just want to explore possibilities, we'd love to hear from you. Drop us a message and let's start a conversation."
+    },
+    "info": {
+      "emailLabel": "Email",
+      "email": "hello@twodesk.studio",
+      "socialLabel": "Social",
+      "instagram": "@twodesk.studio",
+      "facebook": "Twodesk Studio",
+      "locationLabel": "Location",
+      "location": "Bangkok, Thailand"
+    },
+    "form": {
+      "heading": "Send us a message",
+      "name": "Name",
+      "namePlaceholder": "Your name",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "phone": "Phone",
+      "phonePlaceholder": "Your phone number",
+      "projectType": "Project Type",
+      "projectTypePlaceholder": "Select project type",
+      "projectTypes": {
+        "commercial": "Commercial",
+        "cafe": "Cafe / Bar / Restaurant",
+        "residential": "Residential",
+        "others": "Others"
+      },
+      "message": "Message",
+      "messagePlaceholder": "Tell us about your project...",
+      "submit": "Send Message"
+    },
+    "map": {
+      "text": "Google Maps — Bangkok, Thailand"
+    }
+  },
+  "cta": {
+    "label": "Start a Project",
+    "heading": "Have a space in mind?",
+    "description": "Tell us about your project. We'd love to hear your ideas and explore how we can bring them to life.",
+    "button": "Get in Touch"
+  },
+  "footer": {
+    "brandDescription": "Design Studio — Interior, Architecture,\nFurniture & Craft Design.\nBased in Bangkok, Thailand.",
+    "navigate": "Navigate",
+    "connect": "Connect",
+    "contactTitle": "Contact",
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "email": "Email",
+    "emailAddress": "hello@twodesk.studio",
+    "instagramHandle": "@twodesk.studio",
+    "copyright": "© 2025 Two Desk Studio. All rights reserved.",
+    "credit": "Designed & Developed by Best Solutions"
+  },
+  "common": {
+    "brandName": "TWO DESK",
+    "tagCafe": "Cafe",
+    "tagCommercial": "Commercial",
+    "tagResidential": "Residential",
+    "tagOthers": "Others",
+    "bangkok": "Bangkok, Thailand",
+    "sakaew": "Sakaew, Thailand"
+  }
+}

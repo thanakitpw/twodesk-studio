@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TWO DESK — Design Studio</title>
+  <style>
+    /* Reset & Base */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Helvetica, Arial, sans-serif;
+      color: #1a1a1a;
+      background: #fff;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    /* Container lock at 1440px */
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    /* ─── Navigation ─── */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+    }
+    .nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 80px;
+    }
+    .nav-logo {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: #999;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 300;
+    }
+    .nav-links a:hover { opacity: 0.6; }
+    .nav-lang { color: #999; font-weight: 300; }
+    .nav-lang .active { color: #1a1a1a; font-weight: 600; }
+
+    /* ─── Hero ─── */
+    .hero {
+      position: relative;
+      height: 720px;
+      overflow: hidden;
+    }
+    .hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 360px;
+      background: linear-gradient(to top, rgba(250,250,248,0.95) 0%, rgba(250,250,248,0.7) 50%, transparent 100%);
+    }
+    .hero-text {
+      position: absolute;
+      bottom: 64px;
+      left: 80px;
+    }
+    .hero-text h1 {
+      font-size: 56px;
+      font-weight: 700;
+      color: #1a1a1a;
+      line-height: 64px;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .hero-text p {
+      font-size: 17px;
+      color: #4a4a4a;
+      font-weight: 300;
+    }
+
+    /* ─── Section Containers ─── */
+    .section { padding: 100px 80px; max-width: 1440px; margin: 0 auto; }
+    .section-label {
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 16px;
+    }
+
+    /* ─── Services ─── */
+    .services-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 48px;
+    }
+    .services-header h2 { font-size: 32px; font-weight: 700; letter-spacing: -0.01em; }
+    .services-header p {
+      max-width: 480px;
+      font-size: 16px;
+      color: #6b6b6b;
+      line-height: 26px;
+      font-weight: 300;
+      text-align: right;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .service-card {
+      background: #f7f7f5;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .service-card-img {
+      height: 220px;
+      background-size: cover;
+      background-position: center;
+      border-radius: 4px;
+    }
+    .service-card-body { padding: 20px 24px; }
+    .service-card-body h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .service-card-body p {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    /* ─── Statistics ─── */
+    .statistics-wrap { background: #000; }
+    .statistics {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 80px;
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .statistics .td-watermark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 200px;
+      font-weight: 900;
+      color: rgba(255,255,255,0.03);
+      pointer-events: none;
+      user-select: none;
+    }
+    .stat-item {
+      flex: 1;
+      text-align: center;
+      padding: 24px 0;
+      border-right: 1px solid rgba(255,255,255,0.15);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-number {
+      font-size: 48px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .stat-label {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* ─── Works / Projects ─── */
+    .works-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 40px;
+    }
+    .works-header h2 { font-size: 32px; font-weight: 700; letter-spacing: -0.01em; }
+    .view-all {
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .view-all:hover { opacity: 0.6; }
+    .works-row {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+    .project-card { min-width: 0; }
+    .project-card.large { flex: 733; }
+    .project-card.small { flex: 523; }
+    .project-card-img {
+      border-radius: 4px;
+      background-size: cover;
+      background-position: center;
+      margin-bottom: 16px;
+    }
+    .works-row-1 .project-card-img { height: 480px; }
+    .works-row-2 .project-card-img { height: 420px; }
+    .project-tags {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .project-tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 3px;
+    }
+    .tag-cafe { background: #e8f0fe; color: #1a73e8; }
+    .tag-commercial { background: #fce8e6; color: #d93025; }
+    .tag-residential { background: #e6f4ea; color: #1e8e3e; }
+    .project-card h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .project-card .location {
+      font-size: 14px;
+      color: #999;
+    }
+
+    /* ─── Process ─── */
+    .process { display: flex; gap: 80px; }
+    .process-left { flex: 0 0 480px; }
+    .process-left h2 {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+    }
+    .process-left p {
+      font-size: 15px;
+      color: #666;
+      line-height: 1.6;
+    }
+    .process-right { flex: 1; }
+    .process-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      padding: 24px 0;
+      border-bottom: 1px solid #e5e5e5;
+    }
+    .process-step:first-child { border-top: 1px solid #e5e5e5; }
+    .step-number {
+      font-size: 32px;
+      font-weight: 700;
+      color: #ccc;
+      min-width: 48px;
+    }
+    .step-content h4 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .step-content p {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    /* ─── About Teaser ─── */
+    .about-teaser {
+      display: flex;
+      background: #000;
+    }
+    .about-teaser-img {
+      width: 50%;
+      min-height: 480px;
+      object-fit: cover;
+    }
+    .about-teaser-content {
+      flex: 1;
+      padding: 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      color: #fff;
+      max-width: 680px;
+    }
+    .about-teaser-content .section-label { color: rgba(255,255,255,0.5); }
+    .about-teaser-content h2 {
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 20px;
+    }
+    .about-teaser-content p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+    .about-teaser-content .link {
+      font-size: 14px;
+      color: #fff;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+    .about-teaser-content .link:hover { opacity: 0.7; }
+
+    /* ─── Blog ─── */
+    .blog-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 40px;
+    }
+    .blog-header h2 { font-size: 32px; font-weight: 700; letter-spacing: -0.01em; }
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .article-card-img {
+      height: 240px;
+      border-radius: 4px;
+      background-size: cover;
+      background-position: center;
+      margin-bottom: 16px;
+    }
+    .article-meta {
+      font-size: 11px;
+      color: #999;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .article-card h3 {
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 6px;
+    }
+    .article-card p {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    /* ─── Contact CTA ─── */
+    .contact-cta-wrap { background: #000; }
+    .contact-cta {
+      max-width: 1440px;
+      margin: 0 auto;
+      background: #000;
+      text-align: center;
+      padding: 100px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-cta-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      opacity: 0.08;
+      pointer-events: none;
+    }
+    .contact-cta-overlay img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .contact-cta .section-label { color: rgba(255,255,255,0.5); }
+    .contact-cta h2 {
+      font-size: 44px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+    .contact-cta p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 32px;
+    }
+    .btn-outline {
+      display: inline-block;
+      padding: 14px 40px;
+      border: 1px solid #fff;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s;
+      position: relative;
+      z-index: 1;
+    }
+    .btn-outline:hover {
+      background: #fff;
+      color: #000;
+    }
+
+    /* ─── Footer ─── */
+    .footer-wrap { background: #fafaf8; }
+    .footer {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 80px 80px 40px;
+      background: #fafaf8;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer-brand h3 {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: #999;
+      margin-bottom: 12px;
+    }
+    .footer-brand p {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.7;
+    }
+    .footer-col h4 {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 16px;
+    }
+    .footer-col a {
+      display: block;
+      font-size: 14px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    .footer-col a:hover { opacity: 0.6; }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 24px;
+      border-top: 1px solid #e5e5e5;
+      font-size: 12px;
+      color: #999;
+    }
+
+    /* ─── Animations ─── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+   <div class="container">
+    <div class="nav-logo">TWO DESK</div>
+    <div class="nav-links">
+      <a href="#">Projects</a>
+      <a href="#">Blog</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <span class="nav-lang"><span class="active">TH</span> EN</span>
+    </div>
+   </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <img class="hero-img" src="https://workers.paper.design/file-assets/01KKH1XNYR2JH27ZNJAM5Y6B8Q/5ZBHYX54W047K1FN4NSANHGY8Y.jpg" alt="Hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-text">
+      <h1>We shape spaces<br>that inspire</h1>
+      <p>Interior · Architecture · Furniture · Craft Design</p>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="section">
+    <div class="services-header fade-up">
+      <div>
+        <p class="section-label">What We Do</p>
+        <h2>Our Services</h2>
+      </div>
+      <p>We offer a full spectrum of design services — from concept to completion, tailored to every space and purpose.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card fade-up">
+        <div class="service-card-img" style="background-image: url('https://workers.paper.design/file-assets/01KKH1XNYR2JH27ZNJAM5Y6B8Q/18Y5H56H4XXT7N1EBAQC66BNGQ.jpg')"></div>
+        <div class="service-card-body">
+          <h3>Interior Design</h3>
+          <p>Crafting functional, beautiful interiors for commercial and residential spaces.</p>
+        </div>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-card-img" style="background-image: url('https://workers.paper.design/file-assets/01KKH1XNYR2JH27ZNJAM5Y6B8Q/44EPN6QM4HTSKZRVA2RF46KKNZ.jpg')"></div>
+        <div class="service-card-body">
+          <h3>Architecture</h3>
+          <p>Designing structures that balance form, function, and context.</p>
+        </div>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-card-img" style="background-image: url('https://workers.paper.design/file-assets/01KKH1XNYR2JH27ZNJAM5Y6B8Q/5T4MG4PFG9CJQP4K88TE39231Q.jpg')"></div>
+        <div class="service-card-body">
+          <h3>Furniture Design</h3>
+          <p>Custom-made furniture that complements every design vision.</p>
+        </div>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-card-img" style="background-image: url('https://workers.paper.design/file-assets/01KKH1XNYR2JH27ZNJAM5Y6B8Q/3XERBP1M9AKCAEAFMZN1CX4RSW.jpg')"></div>
+        <div class="service-card-body">
+          <h3>Craft Design</h3>
+          <p>Artisanal details and bespoke craftsmanship for unique projects.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Statistics -->
+  <div class="statistics-wrap">
+  <section class="statistics">
+    <span class="td-watermark">TD</span>
+    <div class="stat-item fade-up">
+      <div class="stat-number">5+</div>
+      <div class="stat-label">Years of Experience</div>
+    </div>
+    <div class="stat-item fade-up">
+      <div class="stat-number">30+</div>
+      <div class="stat-label">Projects Completed</div>
+    </div>
+    <div class="stat-item fade-up">
+      <div class="stat-number">4</div>
+      <div class="stat-label">Team Members</div>
+    </div>
+    <div class="stat-item fade-up">
+      <div class="stat-number">4</div>
+      <div class="stat-label">Service Categories</div>
+    </div>
+  </section>
+  </div>
+
+  <!-- Selected Works -->
+  <section class="section">
+    <div class="works-header fade-up">
+      <div>
+        <p class="section-label">Projects</p>
+        <h2>Selected Works</h2>
+      </div>
+      <a href="#" class="view-all">View All Projects →</a>
+    </div>
+    <div class="works-row works-row-1">
+      <div class="project-card large fade-up">
+        <div class="project-card-img" style="background-image: url('https://workers.paper.design/file-assets/01KKH1XNYR2JH27ZNJAM5Y6B8Q/6GMP96ZK01XVNNGBCTJWT2KXQK.jpg')"></div>
+        <div class="project-tags">
+          <span class="project-tag tag-cafe">Cafe</span>
+        </div>
+        <h3>Flow the Hub</h3>
+        <p class="location">Bangkok, Thailand</p>
+      </div>
+      <div class="project-card small fade-up">
+        <div class="project-card-img" style="background-image: url('https://workers.paper.design/file-assets/01KKH1XNYR2JH27ZNJAM5Y6B8Q/5X8HXKMAD0GWBEAV630BRTGVSY.jpg')"></div>
+        <div class="project-tags">
+          <span class="project-tag tag-commercial">Commercial</span>
+        </div>
+        <h3>Office Sakaew</h3>
+        <p class="location">Sakaew, Thailand</p>
+      </div>
+    </div>
+    <div class="works-row works-row-2">
+      <div class="project-card small fade-up">
+        <div class="project-card-img" style="background-image: url('https://workers.paper.design/file-assets/01KKH1XNYR2JH27ZNJAM5Y6B8Q/0KATTQ0NYTF7T4QVKDX0QH44BC.jpg')"></div>
+        <div class="project-tags">
+          <span class="project-tag tag-cafe">Cafe</span>
+        </div>
+        <h3>Bbambbm Cafe</h3>
+        <p class="location">Bangkok, Thailand</p>
+      </div>
+      <div class="project-card large fade-up">
+        <div class="project-card-img" style="background-image: url('https://workers.paper.design/file-assets/01KKH1XNYR2JH27ZNJAM5Y6B8Q/7SKG9HWSF8DXDA2H3V0RPN1XS2.jpg')"></div>
+        <div class="project-tags">
+          <span class="project-tag tag-residential">Residential</span>
+        </div>
+        <h3>MM Bridal House</h3>
+        <p class="location">Bangkok, Thailand</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="section">
+    <div class="process">
+      <div class="process-left fade-up">
+        <p class="section-label">How We Work</p>
+        <h2>A clear process,<br>from vision to reality</h2>
+        <p>Every project follows a structured approach — ensuring quality, transparency, and alignment at every stage.</p>
+      </div>
+      <div class="process-right">
+        <div class="process-step fade-up">
+          <div class="step-number">01</div>
+          <div class="step-content">
+            <h4>Consult &amp; Brief</h4>
+            <p>Understanding your needs, budget, and vision through in-depth conversation.</p>
+          </div>
+        </div>
+        <div class="process-step fade-up">
+          <div class="step-number">02</div>
+          <div class="step-content">
+            <h4>Concept Design</h4>
+            <p>Developing mood boards, layouts, and initial concepts for your approval.</p>
+          </div>
+        </div>
+        <div class="process-step fade-up">
+          <div class="step-number">03</div>
+          <div class="step-content">
+            <h4>Design Development</h4>
+            <p>Detailed drawings, material selection, and 3D visualization.</p>
+          </div>
+        </div>
+        <div class="process-step fade-up">
+          <div class="step-number">04</div>
+          <div class="step-content">
+            <h4>Build &amp; Deliver</h4>
+            <p>Construction supervision, quality control, and handover.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Teaser -->
+  <section class="about-teaser">
+    <img class="about-teaser-img" src="https://workers.paper.design/file-assets/01KKH1XNYR2JH27ZNJAM5Y6B8Q/5SSJHKWF80EZ17391VTRASH3RT.jpg" alt="Team">
+    <div class="about-teaser-content fade-up">
+      <p class="section-label">About Us</p>
+      <h2>We believe great design starts with listening — to the space, the people, and the purpose.</h2>
+      <p>Two Desk Studio is a multidisciplinary design practice based in Bangkok. We specialize in interior, architecture, furniture, and craft design — approaching each project with curiosity and precision.</p>
+      <a href="#" class="link">Learn More About Us →</a>
+    </div>
+  </section>
+
+  <!-- Blog -->
+  <section class="section">
+    <div class="blog-header fade-up">
+      <div>
+        <p class="section-label">Insights</p>
+        <h2>From the Studio</h2>
+      </div>
+      <a href="#" class="view-all">View All Articles →</a>
+    </div>
+    <div class="blog-grid">
+      <div class="article-card fade-up">
+        <div class="article-card-img" style="background-image: url('https://workers.paper.design/file-assets/01KKH1XNYR2JH27ZNJAM5Y6B8Q/03TSGYRBYJSNM6QFJ9AKVSMD9G.jpg')"></div>
+        <p class="article-meta">Design Trends · Mar 2025</p>
+        <h3>5 Interior Trends Shaping Bangkok's Cafe Scene</h3>
+        <p>From raw concrete to biophilic design — what's next for the city's most creative spaces.</p>
+      </div>
+      <div class="article-card fade-up">
+        <div class="article-card-img" style="background-image: url('https://workers.paper.design/file-assets/01KKH1XNYR2JH27ZNJAM5Y6B8Q/2RWM1AZK3SASHZ0FDT0YJF33MV.jpg')"></div>
+        <p class="article-meta">Behind the Scenes · Feb 2025</p>
+        <h3>How We Designed Flow the Hub from Scratch</h3>
+        <p>A behind-the-scenes look at one of our most ambitious cafe projects.</p>
+      </div>
+      <div class="article-card fade-up">
+        <div class="article-card-img" style="background-image: url('https://workers.paper.design/file-assets/01KKH1XNYR2JH27ZNJAM5Y6B8Q/2R9N3369092A7S0HFYXFY63TN7.jpg')"></div>
+        <p class="article-meta">Tips · Jan 2025</p>
+        <h3>What to Prepare Before Hiring a Design Studio</h3>
+        <p>Essential questions, budgets, and references you should gather before the first meeting.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact CTA -->
+  <div class="contact-cta-wrap">
+  <section class="contact-cta">
+    <div class="contact-cta-overlay">
+      <img src="https://v3b.fal.media/files/b/0a93df18/CXr74W9FVTZjq_nFUVe2z.jpg" alt="">
+    </div>
+    <p class="section-label fade-up">Start a Project</p>
+    <h2 class="fade-up">Have a space in mind?</h2>
+    <p class="fade-up">Tell us about your project. We'd love to hear your ideas and explore how we can bring them to life.</p>
+    <a href="#" class="btn-outline fade-up">Get in Touch</a>
+  </section>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer-wrap">
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>TWO DESK</h3>
+        <p>Design Studio — Interior, Architecture,<br>Furniture &amp; Craft Design.<br>Based in Bangkok, Thailand.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <a href="#">Projects</a>
+        <a href="#">Blog</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <a href="#">Instagram</a>
+        <a href="#">Facebook</a>
+        <a href="#">Email</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="#">hello@twodesk.studio</a>
+        <a href="#">@twodesk.studio</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Two Desk Studio. All rights reserved.</span>
+      <span>Designed &amp; Developed by Best Solutions</span>
+    </div>
+  </footer>
+  </div>
+
+  <!-- Scroll Animation -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
