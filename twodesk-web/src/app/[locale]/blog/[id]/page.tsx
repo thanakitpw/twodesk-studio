@@ -2,23 +2,52 @@ import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
-import { articles } from '@/lib/data';
+import { supabaseAdmin } from '@/lib/supabase/admin';
+import { articles as fallbackArticles } from '@/lib/data';
+
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
 
 interface Props {
   params: Promise<{ id: string; locale: string }>;
 }
 
-export const dynamicParams = true;
-
 export async function generateStaticParams() {
-  return articles.map((article) => ({
-    id: article.id,
-  }));
+  try {
+    const { data } = await supabaseAdmin
+      .from('articles')
+      .select('slug')
+      .eq('status', 'published');
+
+    if (data && data.length > 0) {
+      return data.map((a) => ({ id: a.slug }));
+    }
+  } catch {
+    // fallback
+  }
+  return fallbackArticles.map((article) => ({ id: article.id }));
 }
 
 export async function generateMetadata({ params }: Props) {
-  const { id } = await params;
-  const article = articles.find((a) => a.id === id);
+  const { id, locale } = await params;
+
+  try {
+    const { data } = await supabaseAdmin
+      .from('articles')
+      .select('title_th, title_en, excerpt_th, excerpt_en')
+      .eq('slug', id)
+      .single();
+
+    if (data) {
+      const title = locale === 'th' ? data.title_th : data.title_en;
+      const description = locale === 'th' ? data.excerpt_th : data.excerpt_en;
+      return { title: `${title} — TWO DESK`, description };
+    }
+  } catch {
+    // fallback
+  }
+
+  const article = fallbackArticles.find((a) => a.id === id);
   if (!article) return { title: 'Article Not Found' };
   return {
     title: `${article.title} — TWO DESK`,
@@ -27,11 +56,55 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export default async function ArticleDetailPage({ params }: Props) {
-  const { id } = await params;
+  const { id, locale } = await params;
   const t = await getTranslations('blog');
-  const article = articles.find((a) => a.id === id);
 
-  if (!article) notFound();
+  let article: {
+    title: string;
+    category: string;
+    date: string;
+    excerpt: string;
+    image: string;
+  } | null = null;
+
+  try {
+    const { data } = await supabaseAdmin
+      .from('articles')
+      .select('*')
+      .eq('slug', id)
+      .single();
+
+    if (data) {
+      article = {
+        title: locale === 'th' ? data.title_th : data.title_en,
+        category: data.category,
+        date: data.published_at
+          ? new Date(data.published_at).toLocaleDateString(locale === 'th' ? 'th-TH' : 'en-US', {
+              month: 'short',
+              year: 'numeric',
+            })
+          : '',
+        excerpt: locale === 'th' ? data.excerpt_th : data.excerpt_en,
+        image: data.cover_image,
+      };
+    }
+  } catch {
+    // fallback below
+  }
+
+  // Fallback to static data
+  if (!article) {
+    const staticArticle = fallbackArticles.find((a) => a.id === id);
+    if (!staticArticle) notFound();
+
+    article = {
+      title: staticArticle.title,
+      category: staticArticle.category,
+      date: staticArticle.date,
+      excerpt: staticArticle.excerpt,
+      image: staticArticle.image,
+    };
+  }
 
   return (
     <div className="min-h-screen bg-white">

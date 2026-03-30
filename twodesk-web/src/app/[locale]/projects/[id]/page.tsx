@@ -2,24 +2,53 @@ import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
-import { projects } from '@/lib/data';
+import { supabaseAdmin } from '@/lib/supabase/admin';
+import { projects as fallbackProjects } from '@/lib/data';
 import ProjectGallery from '@/components/ProjectGallery';
+
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
 
 interface Props {
   params: Promise<{ id: string; locale: string }>;
 }
 
-export const dynamicParams = true;
-
 export async function generateStaticParams() {
-  return projects.map((project) => ({
-    id: project.id,
-  }));
+  try {
+    const { data } = await supabaseAdmin
+      .from('projects')
+      .select('slug')
+      .eq('status', 'published');
+
+    if (data && data.length > 0) {
+      return data.map((p) => ({ id: p.slug }));
+    }
+  } catch {
+    // fallback
+  }
+  return fallbackProjects.map((project) => ({ id: project.id }));
 }
 
 export async function generateMetadata({ params }: Props) {
-  const { id } = await params;
-  const project = projects.find((p) => p.id === id);
+  const { id, locale } = await params;
+
+  try {
+    const { data } = await supabaseAdmin
+      .from('projects')
+      .select('title_th, title_en, description_th, description_en')
+      .eq('slug', id)
+      .single();
+
+    if (data) {
+      const title = locale === 'th' ? data.title_th : data.title_en;
+      const description = locale === 'th' ? data.description_th : data.description_en;
+      return { title: `${title} — TWO DESK`, description };
+    }
+  } catch {
+    // fallback
+  }
+
+  const project = fallbackProjects.find((p) => p.id === id);
   if (!project) return { title: 'Project Not Found' };
   return {
     title: `${project.title} — TWO DESK`,
@@ -35,14 +64,102 @@ const categoryColors: Record<string, { bg: string; text: string }> = {
 };
 
 export default async function ProjectDetailPage({ params }: Props) {
-  const { id } = await params;
+  const { id, locale } = await params;
   const t = await getTranslations('projects');
-  const project = projects.find((p) => p.id === id);
 
-  if (!project) notFound();
+  // Try fetching from Supabase
+  let project: {
+    title: string;
+    category: string;
+    location: string;
+    year: string;
+    area?: string;
+    description: string;
+    image: string;
+    images: string[];
+    imageGroups?: { label: string; images: string[] }[];
+  } | null = null;
 
-  const currentIndex = projects.findIndex((p) => p.id === id);
-  const nextProject = projects[(currentIndex + 1) % projects.length];
+  let allProjectSlugs: string[] = [];
+
+  try {
+    const { data } = await supabaseAdmin
+      .from('projects')
+      .select('*')
+      .eq('slug', id)
+      .single();
+
+    if (data) {
+      project = {
+        title: locale === 'th' ? data.title_th : data.title_en,
+        category: data.category,
+        location: locale === 'th' ? data.location_th : data.location_en,
+        year: String(data.year),
+        area: data.area_sqm ? `${data.area_sqm} sq.m.` : undefined,
+        description: locale === 'th' ? data.description_th : data.description_en,
+        image: data.cover_image,
+        images: data.images ?? [],
+        imageGroups: data.image_groups ?? [],
+      };
+
+      // Get all slugs for next project navigation
+      const { data: allProjects } = await supabaseAdmin
+        .from('projects')
+        .select('slug')
+        .eq('status', 'published')
+        .order('sort_order');
+
+      if (allProjects) {
+        allProjectSlugs = allProjects.map((p) => p.slug);
+      }
+    }
+  } catch {
+    // fallback below
+  }
+
+  // Fallback to static data
+  if (!project) {
+    const staticProject = fallbackProjects.find((p) => p.id === id);
+    if (!staticProject) notFound();
+
+    project = {
+      title: staticProject.title,
+      category: staticProject.category,
+      location: staticProject.location,
+      year: staticProject.year,
+      area: staticProject.area,
+      description: staticProject.description,
+      image: staticProject.image,
+      images: staticProject.images ?? [staticProject.image],
+      imageGroups: staticProject.imageGroups,
+    };
+    allProjectSlugs = fallbackProjects.map((p) => p.id);
+  }
+
+  // Find next project
+  const currentIndex = allProjectSlugs.indexOf(id);
+  const nextSlug = allProjectSlugs[(currentIndex + 1) % allProjectSlugs.length];
+
+  // Get next project title
+  let nextTitle = '';
+  try {
+    const { data: nextData } = await supabaseAdmin
+      .from('projects')
+      .select('title_th, title_en')
+      .eq('slug', nextSlug)
+      .single();
+
+    if (nextData) {
+      nextTitle = locale === 'th' ? nextData.title_th : nextData.title_en;
+    }
+  } catch {
+    // fallback
+  }
+
+  if (!nextTitle) {
+    const nextStatic = fallbackProjects.find((p) => p.id === nextSlug);
+    nextTitle = nextStatic?.title ?? '';
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -129,29 +246,31 @@ export default async function ProjectDetailPage({ params }: Props) {
         {/* Image Gallery with Tabs + Lightbox */}
         <div className="mb-10 md:mb-16">
           <ProjectGallery
-            images={project.images ?? [project.image]}
+            images={project.images.length > 0 ? project.images : [project.image]}
             imageGroups={project.imageGroups}
             title={project.title}
           />
         </div>
 
         {/* Next Project */}
-        <div className="border-t border-[#e5e5e5] pt-8 md:pt-12">
-          <p className="mb-2 text-xs uppercase tracking-[0.2em] text-[#999]">
-            {t('nextProject')}
-          </p>
-          <Link
-            href={`/projects/${nextProject.id}`}
-            className="group inline-flex items-center gap-3"
-          >
-            <h2 className="text-2xl font-bold text-[#1a1a1a] transition-colors group-hover:text-[#999] md:text-3xl">
-              {nextProject.title}
-            </h2>
-            <span className="text-2xl text-[#999] transition-transform group-hover:translate-x-1">
-              &rarr;
-            </span>
-          </Link>
-        </div>
+        {nextSlug && nextTitle && (
+          <div className="border-t border-[#e5e5e5] pt-8 md:pt-12">
+            <p className="mb-2 text-xs uppercase tracking-[0.2em] text-[#999]">
+              {t('nextProject')}
+            </p>
+            <Link
+              href={`/projects/${nextSlug}`}
+              className="group inline-flex items-center gap-3"
+            >
+              <h2 className="text-2xl font-bold text-[#1a1a1a] transition-colors group-hover:text-[#999] md:text-3xl">
+                {nextTitle}
+              </h2>
+              <span className="text-2xl text-[#999] transition-transform group-hover:translate-x-1">
+                &rarr;
+              </span>
+            </Link>
+          </div>
+        )}
       </section>
     </div>
   );

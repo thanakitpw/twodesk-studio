@@ -166,6 +166,7 @@
 - MCP config อยู่ที่ `.mcp.json` — project ref: `fvssgqjchklkmtkureag`
 
 ### กฎการทำงาน
+- **อัปเดต `ADMIN_TASKS.md` ทุกครั้งที่ทำ task เสร็จ** — ติ๊ก `[x]` ทันที ไม่รอ
 - **หลังทำเสร็จแต่ละ Phase** ต้องรัน testing ละเอียดด้วย Agent ทุกครั้ง:
   - ใช้ Playwright E2E test (config อยู่ที่ `twodesk-web/playwright.config.ts`)
   - ทดสอบทุกหน้าที่เกี่ยวข้องกับ Phase นั้น

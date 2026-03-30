@@ -13,6 +13,9 @@ export default function ContactForm() {
     projectType: "",
     message: "",
   });
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -22,11 +25,33 @@ export default function ContactForm() {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    alert("Message sent! (demo)");
-    setFormData({ name: "", email: "", phone: "", projectType: "", message: "" });
+    setSubmitting(true);
+    setError("");
+    setSuccess(false);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Something went wrong");
+        return;
+      }
+
+      setSuccess(true);
+      setFormData({ name: "", email: "", phone: "", projectType: "", message: "" });
+    } catch {
+      setError("Network error. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const inputClass =
@@ -123,12 +148,21 @@ export default function ContactForm() {
         />
       </div>
 
+      {/* Status Messages */}
+      {success && (
+        <p className="text-sm text-green-700">{t("successMessage")}</p>
+      )}
+      {error && (
+        <p className="text-sm text-red-600">{error}</p>
+      )}
+
       {/* Submit */}
       <button
         type="submit"
-        className="w-full bg-black px-10 py-3.5 text-sm font-medium text-white transition-colors hover:bg-[#333] sm:w-auto sm:self-start"
+        disabled={submitting}
+        className="w-full bg-black px-10 py-3.5 text-sm font-medium text-white transition-colors hover:bg-[#333] disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:self-start"
       >
-        {t("submit")}
+        {submitting ? t("submitting") : t("submit")}
       </button>
     </form>
   );

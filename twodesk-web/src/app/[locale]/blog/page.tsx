@@ -1,9 +1,11 @@
-import Image from 'next/image';
-import { Link } from '@/i18n/navigation';
 import { getTranslations } from 'next-intl/server';
-import { articles } from '@/lib/data';
+import { supabaseAdmin } from '@/lib/supabase/admin';
+import { articles as fallbackArticles } from '@/lib/data';
+import type { Article } from '@/lib/data';
 import type { Metadata } from 'next';
 import BlogContent from './BlogContent';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Blog — TWO DESK',
@@ -11,8 +13,43 @@ export const metadata: Metadata = {
     'Insights, trends, and behind-the-scenes stories from Two Desk Studio.',
 };
 
-export default async function BlogPage() {
+interface Props {
+  params: Promise<{ locale: string }>;
+}
+
+export default async function BlogPage({ params }: Props) {
+  const { locale } = await params;
   const t = await getTranslations('blog');
+
+  let articleItems: Article[];
+
+  try {
+    const { data, error } = await supabaseAdmin
+      .from('articles')
+      .select('*')
+      .eq('status', 'published')
+      .order('published_at', { ascending: false });
+
+    if (error || !data || data.length === 0) {
+      articleItems = fallbackArticles;
+    } else {
+      articleItems = data.map((a) => ({
+        id: a.slug,
+        title: locale === 'th' ? a.title_th : a.title_en,
+        category: a.category,
+        date: a.published_at
+          ? new Date(a.published_at).toLocaleDateString(locale === 'th' ? 'th-TH' : 'en-US', {
+              month: 'short',
+              year: 'numeric',
+            })
+          : '',
+        excerpt: locale === 'th' ? a.excerpt_th : a.excerpt_en,
+        image: a.cover_image,
+      }));
+    }
+  } catch {
+    articleItems = fallbackArticles;
+  }
 
   const filters = [
     { key: 'All', label: t('filterAll') },
@@ -39,7 +76,7 @@ export default async function BlogPage() {
 
       {/* Filter Tabs + Articles (Client Component for interactivity) */}
       <BlogContent
-        articles={articles}
+        articles={articleItems}
         filters={filters}
         readArticleLabel={t('readArticle')}
       />

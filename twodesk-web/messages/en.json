@@ -192,7 +192,9 @@
       },
       "message": "Message",
       "messagePlaceholder": "Tell us about your project...",
-      "submit": "Send Message"
+      "submit": "Send Message",
+      "submitting": "Sending...",
+      "successMessage": "Message sent successfully. Thank you for contacting us!"
     },
     "map": {
       "text": "Google Maps — Bangkok, Thailand"
