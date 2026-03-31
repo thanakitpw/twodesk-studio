@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
+import PageTransition from "@/components/PageTransition";
 
 export async function generateMetadata({
   params,
@@ -39,7 +40,9 @@ export default async function LocaleLayout({
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
       <Nav />
-      <main>{children}</main>
+      <PageTransition>
+        <main>{children}</main>
+      </PageTransition>
       <Footer />
     </NextIntlClientProvider>
   );
