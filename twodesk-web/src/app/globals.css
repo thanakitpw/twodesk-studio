@@ -21,30 +21,75 @@ a {
   color: inherit;
 }
 
+/* ThaiSans Neue — local font files */
+@font-face {
+  font-family: 'ThaiSans Neue';
+  src: url('/fonts/ThaiSansNeue-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ThaiSans Neue';
+  src: url('/fonts/ThaiSansNeue-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ThaiSans Neue';
+  src: url('/fonts/ThaiSansNeue-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ThaiSans Neue';
+  src: url('/fonts/ThaiSansNeue-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Thai font — apply when locale is 'th' */
 .locale-th,
 .locale-th * {
-  font-family: var(--font-thai), "Sarabun", "TH Sarabun New", sans-serif;
+  font-family: 'ThaiSans Neue', sans-serif !important;
+}
+.locale-th main p,
+.locale-th main li,
+.locale-th footer p {
+  line-height: 1.8;
+  letter-spacing: 0.015em;
 }
 
 /* Thai font weight scale matching brand guidelines */
 .locale-th h1,
 .locale-th h2,
 .locale-th h3 {
-  font-weight: 800; /* ExtraBold for Thai titles */
+  font-weight: 800 !important;
 }
-
 .locale-th h4,
 .locale-th h5,
 .locale-th h6 {
-  font-weight: 400; /* Regular for Thai subtitles */
+  font-weight: 400 !important;
 }
-
 .locale-th p,
 .locale-th li,
-.locale-th span {
-  font-weight: 300; /* Light for Thai body */
+.locale-th span,
+.locale-th a,
+.locale-th button {
+  font-weight: 300 !important;
 }
+
+/* ThaiSans Neue ตัวเล็กกว่า Helvetica — ใช้ CSS zoom scale ทั้ง page */
+div.locale-th {
+  zoom: 1.15;
+}
+div.locale-th nav {
+  zoom: calc(1 / 1.15); /* reset nav กลับเป็นขนาดปกติ */
+}
+
 
 @theme inline {
   --font-heading: var(--font-sans);

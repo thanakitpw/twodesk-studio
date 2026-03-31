@@ -1,16 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Geist, Sarabun } from "next/font/google";
+import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
-
-const sarabun = Sarabun({
-  subsets: ["thai", "latin"],
-  weight: ["300", "400", "800"],
-  variable: "--font-thai",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "TWO DESK — Design Studio",
@@ -24,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html suppressHydrationWarning className={cn("font-sans", geist.variable, sarabun.variable)}>
+    <html suppressHydrationWarning className={cn("font-sans", geist.variable)}>
       <body className="min-h-screen antialiased">{children}</body>
     </html>
   );
