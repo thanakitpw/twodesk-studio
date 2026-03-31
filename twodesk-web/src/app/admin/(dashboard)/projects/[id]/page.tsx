@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import { type JSONContent } from '@tiptap/react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -16,6 +17,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
+import RichTextEditor from '@/components/admin/RichTextEditor';
 
 interface ProjectData {
   title_th: string;
@@ -28,6 +30,8 @@ interface ProjectData {
   year: string;
   description_th: string;
   description_en: string;
+  content_en: JSONContent | null;
+  content_th: JSONContent | null;
   cover_image: string;
   seo_title: string;
   seo_description: string;
@@ -38,7 +42,9 @@ interface ProjectData {
 const emptyProject: ProjectData = {
   title_th: '', title_en: '', slug: '', category: 'others',
   location_th: '', location_en: '', area_sqm: '', year: '',
-  description_th: '', description_en: '', cover_image: '',
+  description_th: '', description_en: '',
+  content_en: null, content_th: null,
+  cover_image: '',
   seo_title: '', seo_description: '', seo_keywords: [], status: 'draft',
 };
 
@@ -69,6 +75,8 @@ export default function ProjectEditorPage() {
             year: data.year ?? '',
             description_th: data.description_th ?? '',
             description_en: data.description_en ?? '',
+            content_en: data.content_en ?? null,
+            content_th: data.content_th ?? null,
             cover_image: data.cover_image ?? '',
             seo_title: data.seo_title ?? '',
             seo_description: data.seo_description ?? '',
@@ -79,7 +87,7 @@ export default function ProjectEditorPage() {
     }
   }, [id, isNew]);
 
-  const update = (field: keyof ProjectData, value: string | string[]) => {
+  const update = (field: keyof ProjectData, value: string | string[] | JSONContent | null) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -195,7 +203,7 @@ export default function ProjectEditorPage() {
                 />
               </div>
 
-              {/* Description */}
+              {/* Description / Excerpt */}
               <div className="flex flex-col gap-1.5">
                 <Label className="text-[11px] uppercase tracking-[0.1em] text-[#999]">Description</Label>
                 {lang === 'en' ? (
@@ -203,14 +211,36 @@ export default function ProjectEditorPage() {
                     value={form.description_en}
                     onChange={(e) => update('description_en', e.target.value)}
                     placeholder="Project description in English"
-                    rows={5}
+                    rows={3}
                   />
                 ) : (
                   <Textarea
                     value={form.description_th}
                     onChange={(e) => update('description_th', e.target.value)}
                     placeholder="คำอธิบายโปรเจกต์ภาษาไทย"
-                    rows={5}
+                    rows={3}
+                  />
+                )}
+              </div>
+
+              {/* Content — RichTextEditor */}
+              <div className="flex flex-col gap-1.5">
+                <Label className="text-[11px] uppercase tracking-[0.1em] text-[#999]">
+                  Content {lang === 'en' ? '(English)' : '(ภาษาไทย)'}
+                </Label>
+                {lang === 'en' ? (
+                  <RichTextEditor
+                    key="content-en"
+                    content={form.content_en ?? undefined}
+                    onChange={(json) => update('content_en', json)}
+                    placeholder="Write project content in English..."
+                  />
+                ) : (
+                  <RichTextEditor
+                    key="content-th"
+                    content={form.content_th ?? undefined}
+                    onChange={(json) => update('content_th', json)}
+                    placeholder="เขียนเนื้อหาโปรเจกต์ภาษาไทย..."
                   />
                 )}
               </div>

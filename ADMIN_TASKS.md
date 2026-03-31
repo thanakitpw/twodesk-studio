@@ -187,16 +187,20 @@
 ## Phase 5: เชื่อม Frontend กับ Database
 
 ### 5.1 Projects — Frontend
-- [ ] แก้ projects pages → ดึงจาก Supabase แทน data.ts
-- [ ] ดึง locale-specific fields
+- [x] แก้ projects pages → ดึงจาก Supabase แทน data.ts
+- [x] ดึง locale-specific fields (title_th/en, location_th/en, description_th/en)
+- [x] สร้าง ProjectsContent.tsx แยก client logic
+- [x] Fallback เป็น static data เมื่อ DB error
 
 ### 5.2 Blog — Frontend
-- [ ] แก้ blog pages → ดึงจาก Supabase
+- [x] แก้ blog pages → ดึงจาก Supabase
+- [x] ดึง locale-specific fields ตาม locale
 - [ ] Render Tiptap JSON → HTML
 
 ### 5.3 Contact Form → Database
-- [ ] สร้าง API route → บันทึก messages + ส่ง email (Resend)
-- [ ] แก้ ContactForm → call API
+- [x] สร้าง API route `/api/contact` → validate + บันทึก messages
+- [x] แก้ ContactForm → fetch API จริง + loading/success/error states
+- [ ] ส่ง email notification (Resend)
 
 ### 5.4 Page Content → Database
 - [ ] แก้ Home/About/Contact → ดึงจาก site_settings
@@ -247,9 +251,9 @@
 |-------|------------|-------|-----------|
 | Phase 1: Infrastructure | ~25 tasks | ~20 ✅ | เสร็จ |
 | Phase 2: Core UI | ~20 tasks | ~18 ✅ | เสร็จ |
-| Phase 3: CRUD Pages | ~45 tasks | ~28 ✅ | กำลังทำ |
+| Phase 3: CRUD Pages | ~45 tasks | ~28 ✅ | เกือบเสร็จ |
 | Phase 4: Website Pages | ~15 tasks | 0 | ยังไม่ได้ทำ |
-| Phase 5: Connect Frontend | ~15 tasks | 0 | ยังไม่ได้ทำ |
+| Phase 5: Connect Frontend | ~15 tasks | ~10 ✅ | เกือบเสร็จ |
 | Phase 6: Analytics + Settings | ~20 tasks | 0 | ยังไม่ได้ทำ |
 | Phase 7: Testing + Deploy | ~15 tasks | ~3 ✅ | deploy เสร็จ |
-| **รวม** | **~155 tasks** | **~56 ✅** | **~36% เสร็จ** |
+| **รวม** | **~155 tasks** | **~79 ✅** | **~51% เสร็จ** |

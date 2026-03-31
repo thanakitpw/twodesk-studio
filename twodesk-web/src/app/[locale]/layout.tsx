@@ -5,6 +5,7 @@ import { routing } from "@/i18n/routing";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import PageTransition from "@/components/PageTransition";
+import PageViewTracker from "@/components/PageViewTracker";
 
 export async function generateMetadata({
   params,
@@ -37,13 +38,18 @@ export default async function LocaleLayout({
 
   const messages = (await import(`../../../messages/${locale}.json`)).default;
 
+  const isThai = locale === "th";
+
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      <Nav />
-      <PageTransition>
-        <main>{children}</main>
-      </PageTransition>
-      <Footer />
+      <div className={isThai ? "locale-th" : undefined}>
+        <PageViewTracker />
+        <Nav />
+        <PageTransition>
+          <main>{children}</main>
+        </PageTransition>
+        <Footer />
+      </div>
     </NextIntlClientProvider>
   );
 }

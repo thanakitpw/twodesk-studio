@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import { type JSONContent } from '@tiptap/react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -10,17 +11,21 @@ import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
+import RichTextEditor from '@/components/admin/RichTextEditor';
 
 interface ArticleData {
   title_th: string; title_en: string; slug: string; category: string;
   excerpt_th: string; excerpt_en: string;
+  content_en: JSONContent | null; content_th: JSONContent | null;
   cover_image: string; seo_title: string; seo_description: string;
   seo_keywords: string[]; status: string; published_at: string;
 }
 
 const empty: ArticleData = {
   title_th: '', title_en: '', slug: '', category: 'Tips',
-  excerpt_th: '', excerpt_en: '', cover_image: '',
+  excerpt_th: '', excerpt_en: '',
+  content_en: null, content_th: null,
+  cover_image: '',
   seo_title: '', seo_description: '', seo_keywords: [],
   status: 'draft', published_at: '',
 };
@@ -43,6 +48,7 @@ export default function BlogEditorPage() {
           title_th: data.title_th ?? '', title_en: data.title_en ?? '',
           slug: data.slug ?? '', category: data.category ?? 'Tips',
           excerpt_th: data.excerpt_th ?? '', excerpt_en: data.excerpt_en ?? '',
+          content_en: data.content_en ?? null, content_th: data.content_th ?? null,
           cover_image: data.cover_image ?? '',
           seo_title: data.seo_title ?? '', seo_description: data.seo_description ?? '',
           seo_keywords: data.seo_keywords ?? [], status: data.status ?? 'draft',
@@ -52,7 +58,9 @@ export default function BlogEditorPage() {
     }
   }, [id, isNew]);
 
-  const update = (f: keyof ArticleData, v: string | string[]) => setForm(p => ({ ...p, [f]: v }));
+  const update = (f: keyof ArticleData, v: string | string[] | JSONContent | null) =>
+    setForm(p => ({ ...p, [f]: v }));
+
   const genSlug = (t: string) => t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
   const handleSave = async (status?: string) => {
@@ -87,7 +95,15 @@ export default function BlogEditorPage() {
           <Card>
             <CardContent className="flex flex-col gap-4 p-6">
               <span className="text-[15px] font-bold text-[#1A1A1A]">Article Details</span>
-              <Tabs value={lang} onValueChange={setLang}><TabsList><TabsTrigger value="en">EN</TabsTrigger><TabsTrigger value="th">TH</TabsTrigger></TabsList></Tabs>
+
+              <Tabs value={lang} onValueChange={setLang}>
+                <TabsList>
+                  <TabsTrigger value="en">EN</TabsTrigger>
+                  <TabsTrigger value="th">TH</TabsTrigger>
+                </TabsList>
+              </Tabs>
+
+              {/* Title */}
               <div className="flex flex-col gap-1.5">
                 <Label className="text-[11px] uppercase tracking-[0.1em] text-[#999]">Title</Label>
                 {lang === 'en' ? (
@@ -96,16 +112,42 @@ export default function BlogEditorPage() {
                   <Input value={form.title_th} onChange={e => update('title_th', e.target.value)} placeholder="หัวข้อบทความ" />
                 )}
               </div>
+
+              {/* Slug */}
               <div className="flex flex-col gap-1.5">
                 <Label className="text-[11px] uppercase tracking-[0.1em] text-[#999]">URL Slug</Label>
                 <Input value={form.slug} onChange={e => update('slug', e.target.value)} className="bg-[#FAFAF8]" />
               </div>
+
+              {/* Excerpt */}
               <div className="flex flex-col gap-1.5">
                 <Label className="text-[11px] uppercase tracking-[0.1em] text-[#999]">Excerpt</Label>
                 {lang === 'en' ? (
                   <Textarea value={form.excerpt_en} onChange={e => update('excerpt_en', e.target.value)} placeholder="Short description" rows={3} />
                 ) : (
                   <Textarea value={form.excerpt_th} onChange={e => update('excerpt_th', e.target.value)} placeholder="คำอธิบายสั้นๆ" rows={3} />
+                )}
+              </div>
+
+              {/* Content — RichTextEditor */}
+              <div className="flex flex-col gap-1.5">
+                <Label className="text-[11px] uppercase tracking-[0.1em] text-[#999]">
+                  Content {lang === 'en' ? '(English)' : '(ภาษาไทย)'}
+                </Label>
+                {lang === 'en' ? (
+                  <RichTextEditor
+                    key="content-en"
+                    content={form.content_en ?? undefined}
+                    onChange={(json) => update('content_en', json)}
+                    placeholder="Write article content in English..."
+                  />
+                ) : (
+                  <RichTextEditor
+                    key="content-th"
+                    content={form.content_th ?? undefined}
+                    onChange={(json) => update('content_th', json)}
+                    placeholder="เขียนเนื้อหาบทความภาษาไทย..."
+                  />
                 )}
               </div>
             </CardContent>

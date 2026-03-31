@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { useState } from 'react';
 
 interface NavItem {
   name: string;
@@ -45,6 +46,20 @@ const NAV_SECTIONS: { label: string; items: NavItem[] }[] = [
 
 export default function AdminSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const [loggingOut, setLoggingOut] = useState(false);
+
+  const handleLogout = async () => {
+    if (loggingOut) return;
+    setLoggingOut(true);
+    try {
+      await fetch('/api/admin/auth/logout', { method: 'POST' });
+    } catch {
+      // ignore network errors — proceed to redirect
+    } finally {
+      router.push('/admin/login');
+    }
+  };
 
   const isActive = (href: string) => {
     if (href === '/admin') return pathname === '/admin';
@@ -101,17 +116,27 @@ export default function AdminSidebar() {
         </nav>
       </div>
 
-      {/* User */}
-      <div className="flex items-center gap-2.5 border-t border-white/[0.08] px-2 pt-3">
-        <Avatar className="h-8 w-8">
-          <AvatarFallback className="bg-white/[0.12] text-xs font-bold" style={{ color: '#fff' }}>
-            N
-          </AvatarFallback>
-        </Avatar>
-        <div className="flex flex-col">
-          <span className="text-[13px]" style={{ color: '#fff' }}>Nut</span>
-          <span className="text-[10px]" style={{ color: 'rgba(255,255,255,0.4)' }}>Admin</span>
+      {/* User + Logout */}
+      <div className="flex flex-col gap-2 border-t border-white/[0.08] pt-3">
+        <div className="flex items-center gap-2.5 px-2">
+          <Avatar className="h-8 w-8">
+            <AvatarFallback className="bg-white/[0.12] text-xs font-bold" style={{ color: '#fff' }}>
+              N
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col">
+            <span className="text-[13px]" style={{ color: '#fff' }}>Nut</span>
+            <span className="text-[10px]" style={{ color: 'rgba(255,255,255,0.4)' }}>Admin</span>
+          </div>
         </div>
+        <button
+          onClick={handleLogout}
+          disabled={loggingOut}
+          className="flex w-full items-center rounded-lg px-3 py-2 text-[13px] transition-colors hover:bg-white/[0.04] disabled:opacity-50"
+          style={{ color: 'rgba(255,255,255,0.5)' }}
+        >
+          {loggingOut ? 'Signing out...' : 'Sign out'}
+        </button>
       </div>
     </aside>
   );

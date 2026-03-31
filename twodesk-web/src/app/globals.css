@@ -21,9 +21,35 @@ a {
   color: inherit;
 }
 
+/* Thai font — apply when locale is 'th' */
+.locale-th,
+.locale-th * {
+  font-family: var(--font-thai), "Sarabun", "TH Sarabun New", sans-serif;
+}
+
+/* Thai font weight scale matching brand guidelines */
+.locale-th h1,
+.locale-th h2,
+.locale-th h3 {
+  font-weight: 800; /* ExtraBold for Thai titles */
+}
+
+.locale-th h4,
+.locale-th h5,
+.locale-th h6 {
+  font-weight: 400; /* Regular for Thai subtitles */
+}
+
+.locale-th p,
+.locale-th li,
+.locale-th span {
+  font-weight: 300; /* Light for Thai body */
+}
+
 @theme inline {
   --font-heading: var(--font-sans);
   --font-sans: var(--font-sans);
+  --font-thai: var(--font-thai);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
