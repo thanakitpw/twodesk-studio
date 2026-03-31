@@ -61,9 +61,9 @@ function LightboxContent({ images, initialIndex, onClose }: LightboxProps) {
   return (
     <div
       className="fixed inset-0 z-[9999] flex items-center justify-center"
-      style={{ zoom: 1 }}
       onClick={handleClose}
       style={{
+        zoom: 1,
         backgroundColor: isVisible ? 'rgba(0,0,0,0.92)' : 'rgba(0,0,0,0)',
         transition: 'background-color 0.3s ease',
       }}
