@@ -1,9 +1,12 @@
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import ScrollAnimate from "@/components/scroll-animate";
 
 export default function AboutTeaser() {
   const t = useTranslations("home");
+  const locale = useLocale();
+  const isTh = locale === "th";
+  const thScale = (px: number) => isTh ? `${Math.round(px * 1.35)}px` : undefined;
 
   return (
     <section className="relative flex flex-col md:flex-row bg-black overflow-hidden">
@@ -27,18 +30,28 @@ export default function AboutTeaser() {
 
       {/* Content */}
       <ScrollAnimate className="relative z-10 flex flex-1 flex-col justify-center px-5 py-10 md:p-20 text-white max-w-full md:max-w-[680px]">
-        <p className="mb-3 md:mb-4 text-xs font-normal uppercase tracking-[0.2em] text-white/50">
+        <p
+          className="mb-3 md:mb-4 text-xs font-normal uppercase tracking-[0.2em] text-white/50"
+          style={isTh ? { fontSize: "18px" } : undefined}
+        >
           {t("aboutLabel")}
         </p>
-        <h2 className="mb-4 md:mb-5 text-[24px] md:text-[28px] font-bold leading-[1.3]">
+        <h2
+          className="mb-4 md:mb-5 text-[24px] md:text-[28px] font-bold leading-[1.3]"
+          style={isTh ? { fontSize: thScale(28), lineHeight: 1.5 } : undefined}
+        >
           {t("aboutTitle")}
         </h2>
-        <p className="mb-5 md:mb-6 text-[14px] md:text-[15px] leading-[1.7] text-white/70">
+        <p
+          className="mb-5 md:mb-6 text-[14px] md:text-[15px] leading-[1.7] text-white/70"
+          style={isTh ? { fontSize: thScale(15) } : undefined}
+        >
           {t("aboutDescription")}
         </p>
         <Link
           href="/about"
           className="text-sm text-white underline underline-offset-4 hover:opacity-70 transition-opacity"
+          style={isTh ? { fontSize: "19px" } : undefined}
         >
           {t("aboutLink")} →
         </Link>

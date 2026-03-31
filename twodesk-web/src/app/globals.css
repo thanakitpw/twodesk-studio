@@ -45,6 +45,20 @@ a {
 }
 @font-face {
   font-family: 'ThaiSans Neue';
+  src: url('/fonts/ThaiSansNeue-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ThaiSans Neue';
+  src: url('/fonts/ThaiSansNeue-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ThaiSans Neue';
   src: url('/fonts/ThaiSansNeue-ExtraBold.ttf') format('truetype');
   font-weight: 800;
   font-style: normal;
@@ -61,34 +75,32 @@ a {
 .locale-th footer p {
   line-height: 1.8;
   letter-spacing: 0.015em;
+  text-wrap: pretty;
 }
 
 /* Thai font weight scale matching brand guidelines */
 .locale-th h1,
 .locale-th h2,
 .locale-th h3 {
-  font-weight: 800 !important;
+  font-weight: 700 !important;
+  text-wrap: balance;
 }
 .locale-th h4,
 .locale-th h5,
 .locale-th h6 {
   font-weight: 400 !important;
 }
-.locale-th p,
-.locale-th li,
-.locale-th span,
-.locale-th a,
-.locale-th button {
+.locale-th main p,
+.locale-th main li,
+.locale-th main span,
+.locale-th main a,
+.locale-th footer p,
+.locale-th footer li,
+.locale-th footer span,
+.locale-th footer a {
   font-weight: 300 !important;
 }
 
-/* ThaiSans Neue ตัวเล็กกว่า Helvetica — ใช้ CSS zoom scale ทั้ง page */
-div.locale-th {
-  zoom: 1.15;
-}
-div.locale-th nav {
-  zoom: calc(1 / 1.15); /* reset nav กลับเป็นขนาดปกติ */
-}
 
 
 @theme inline {

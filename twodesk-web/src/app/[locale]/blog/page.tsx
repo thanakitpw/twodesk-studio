@@ -20,6 +20,7 @@ interface Props {
 export default async function BlogPage({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations('blog');
+  const isTh = locale === 'th';
 
   let articleItems: Article[];
 
@@ -63,13 +64,22 @@ export default async function BlogPage({ params }: Props) {
     <div className="min-h-screen bg-white">
       {/* Header */}
       <section className="mx-auto max-w-[1440px] px-5 pt-28 pb-8 md:px-20 md:pt-32 md:pb-10">
-        <p className="mb-4 text-xs font-normal uppercase tracking-[0.2em] text-[#999]">
+        <p
+          className="mb-4 text-xs font-normal uppercase tracking-[0.2em] text-[#999]"
+          style={isTh ? { fontSize: '18px' } : undefined}
+        >
           {t('label')}
         </p>
-        <h1 className="mb-4 text-3xl font-bold tracking-tight text-[#1a1a1a] md:text-5xl">
+        <h1
+          className="mb-4 text-3xl font-bold tracking-tight text-[#1a1a1a] md:text-5xl"
+          style={isTh ? { fontSize: '52px', lineHeight: 1.3 } : undefined}
+        >
           {t('heading')}
         </h1>
-        <p className="max-w-xl text-sm font-light leading-relaxed text-[#6b6b6b] md:text-base">
+        <p
+          className="max-w-xl text-sm font-light leading-relaxed text-[#6b6b6b] md:text-base"
+          style={isTh ? { fontSize: '20px', lineHeight: 1.6 } : undefined}
+        >
           {t('description')}
         </p>
       </section>

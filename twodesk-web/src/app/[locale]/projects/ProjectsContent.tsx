@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { motion, type Variants } from 'framer-motion';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 export interface ProjectItem {
   id: string;
@@ -45,6 +45,8 @@ const fadeUp: Variants = {
 
 export default function ProjectsContent({ projects }: { projects: ProjectItem[] }) {
   const t = useTranslations('projects');
+  const locale = useLocale();
+  const isTh = locale === 'th';
   const [activeFilter, setActiveFilter] = useState<string>('all');
 
   const filtered =
@@ -61,6 +63,7 @@ export default function ProjectsContent({ projects }: { projects: ProjectItem[] 
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="mb-4 text-xs font-normal uppercase tracking-[0.2em] text-[#999]"
+          style={isTh ? { fontSize: '18px' } : undefined}
         >
           {t('label')}
         </motion.p>
@@ -69,6 +72,7 @@ export default function ProjectsContent({ projects }: { projects: ProjectItem[] 
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
           className="mb-4 text-4xl font-bold tracking-tight text-[#1a1a1a] md:text-5xl"
+          style={isTh ? { fontSize: '52px', lineHeight: 1.3 } : undefined}
         >
           {t('heading')}
         </motion.h1>
@@ -77,6 +81,7 @@ export default function ProjectsContent({ projects }: { projects: ProjectItem[] 
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           className="max-w-lg text-base font-light leading-relaxed text-[#6b6b6b]"
+          style={isTh ? { fontSize: '20px', lineHeight: 1.6 } : undefined}
         >
           {t('description')}
         </motion.p>
@@ -99,6 +104,7 @@ export default function ProjectsContent({ projects }: { projects: ProjectItem[] 
                   ? 'border-[#1a1a1a] bg-[#1a1a1a] text-white'
                   : 'border-[#e5e5e5] bg-white text-[#1a1a1a] hover:border-[#999]'
               }`}
+              style={isTh ? { fontSize: '18px' } : undefined}
             >
               {t(cat.labelKey)}
             </button>
@@ -140,10 +146,18 @@ export default function ProjectsContent({ projects }: { projects: ProjectItem[] 
                     {project.category}
                   </span>
                 </div>
-                <h3 className="mb-1 text-base font-semibold text-[#1a1a1a] md:text-xl">
+                <h3
+                  className="mb-1 text-base font-semibold text-[#1a1a1a] md:text-xl"
+                  style={isTh ? { fontSize: '22px' } : undefined}
+                >
                   {project.title}
                 </h3>
-                <p className="text-sm text-[#999]">{project.location}</p>
+                <p
+                  className="text-sm text-[#999]"
+                  style={isTh ? { fontSize: '19px' } : undefined}
+                >
+                  {project.location}
+                </p>
               </Link>
             </motion.div>
           ))}

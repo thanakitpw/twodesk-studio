@@ -54,19 +54,27 @@ export default function Nav() {
           </Link>
 
           {/* Desktop links */}
-          <div className={`hidden md:flex items-center gap-8 font-light transition-all duration-300 ${scrolled ? "text-xs" : "text-sm"}`}>
-            <Link href="/projects" className="hover:opacity-60 transition-opacity">
-              {t("projects")}
-            </Link>
-            <Link href="/blog" className="hover:opacity-60 transition-opacity">
-              {t("blog")}
-            </Link>
-            <Link href="/about" className="hover:opacity-60 transition-opacity">
-              {t("about")}
-            </Link>
-            <Link href="/contact" className="hover:opacity-60 transition-opacity">
-              {t("contact")}
-            </Link>
+          <div
+            className={`hidden md:flex items-center gap-8 transition-all duration-300 ${locale === "th" ? "font-medium" : "font-light"}`}
+            style={{
+              fontSize: locale === "th" ? (scrolled ? "18px" : "20px") : (scrolled ? "12px" : "14px"),
+              ...(locale === "th" ? { fontWeight: 500 } : {}),
+            }}
+          >
+            {[
+              { href: "/projects" as const, label: t("projects") },
+              { href: "/blog" as const, label: t("blog") },
+              { href: "/about" as const, label: t("about") },
+              { href: "/contact" as const, label: t("contact") },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="relative py-1 transition-opacity hover:opacity-80 after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:w-0 after:bg-[#1a1a1a] after:transition-all after:duration-300 hover:after:w-full"
+              >
+                {item.label}
+              </Link>
+            ))}
             <span className="text-[#999] font-light">
               <span className="text-[#ccc] cursor-not-allowed opacity-50" title="Coming soon">
                 TH

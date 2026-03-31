@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import ScrollAnimate from "@/components/scroll-animate";
 
 const STEPS = [
@@ -10,16 +10,25 @@ const STEPS = [
 
 export default function Process() {
   const t = useTranslations("home");
+  const locale = useLocale();
+  const isTh = locale === "th";
+  const thScale = (px: number) => isTh ? `${Math.round(px * 1.35)}px` : undefined;
 
   return (
     <section className="mx-auto max-w-[1440px] px-5 md:px-20 py-16 md:py-[100px]">
       <div className="flex flex-col md:flex-row gap-10 md:gap-20">
         {/* Left */}
         <ScrollAnimate className="md:flex-none md:w-[480px]">
-          <p className="mb-3 md:mb-4 text-xs font-normal uppercase tracking-[0.2em] text-[#999]">
+          <p
+            className="mb-3 md:mb-4 text-xs font-normal uppercase tracking-[0.2em] text-[#999]"
+            style={isTh ? { fontSize: "18px" } : undefined}
+          >
             {t("processLabel")}
           </p>
-          <h2 className="mb-3 md:mb-4 text-[26px] md:text-[32px] font-bold leading-[1.2] tracking-tight">
+          <h2
+            className="mb-3 md:mb-4 text-[26px] md:text-[32px] font-bold leading-[1.2] tracking-tight"
+            style={isTh ? { fontSize: thScale(32), lineHeight: 1.4 } : undefined}
+          >
             {t("processTitle")
               .split("\n")
               .map((line, i) => (
@@ -29,7 +38,10 @@ export default function Process() {
                 </span>
               ))}
           </h2>
-          <p className="text-[14px] md:text-[15px] leading-[1.6] text-[#666]">
+          <p
+            className="text-[14px] md:text-[15px] leading-[1.6] text-[#666]"
+            style={isTh ? { fontSize: thScale(15) } : undefined}
+          >
             {t("processDescription")}
           </p>
         </ScrollAnimate>
@@ -43,12 +55,23 @@ export default function Process() {
                 i === 0 ? "border-t" : ""
               }`}
             >
-              <div className="min-w-[40px] md:min-w-[48px] text-[26px] md:text-[32px] font-bold text-[#ccc] transition-colors duration-300 group-hover:text-[#1a1a1a]">
+              <div
+                className="min-w-[40px] md:min-w-[48px] text-[26px] md:text-[32px] font-bold text-[#ccc] transition-colors duration-300 group-hover:text-[#1a1a1a]"
+                style={isTh ? { fontSize: thScale(32) } : undefined}
+              >
                 {step.num}
               </div>
               <div>
-                <h4 className="mb-1 text-sm md:text-base font-bold transition-colors duration-300 group-hover:text-[#333]">{t(step.title)}</h4>
-                <p className="text-[12px] md:text-[13px] leading-[1.5] text-[#666] transition-colors duration-300 group-hover:text-[#444]">
+                <h4
+                  className="mb-1 text-sm md:text-base font-bold transition-colors duration-300 group-hover:text-[#333]"
+                  style={isTh ? { fontSize: "20px" } : undefined}
+                >
+                  {t(step.title)}
+                </h4>
+                <p
+                  className="text-[12px] md:text-[13px] leading-[1.5] text-[#666] transition-colors duration-300 group-hover:text-[#444]"
+                  style={isTh ? { fontSize: thScale(13) } : undefined}
+                >
                   {t(step.desc)}
                 </p>
               </div>

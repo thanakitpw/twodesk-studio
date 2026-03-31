@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import ScrollAnimate from "@/components/scroll-animate";
 
@@ -32,6 +32,9 @@ const ARTICLES = [
 export default function BlogPreview() {
   const t = useTranslations("home");
   const tb = useTranslations("blog");
+  const locale = useLocale();
+  const isTh = locale === "th";
+  const thScale = (px: number) => isTh ? `${Math.round(px * 1.35)}px` : undefined;
 
   return (
     <section className="mx-auto max-w-[1440px] px-5 md:px-20 py-16 md:py-[100px]">
@@ -39,16 +42,23 @@ export default function BlogPreview() {
       <ScrollAnimate>
         <div className="mb-8 md:mb-10 flex items-end justify-between">
           <div>
-            <p className="mb-3 md:mb-4 text-xs font-normal uppercase tracking-[0.2em] text-[#999]">
+            <p
+              className="mb-3 md:mb-4 text-xs font-normal uppercase tracking-[0.2em] text-[#999]"
+              style={isTh ? { fontSize: "18px" } : undefined}
+            >
               {t("blogLabel")}
             </p>
-            <h2 className="text-[26px] md:text-[32px] font-bold tracking-tight">
+            <h2
+              className="text-[26px] md:text-[32px] font-bold tracking-tight"
+              style={isTh ? { fontSize: thScale(32) } : undefined}
+            >
               {t("blogTitle")}
             </h2>
           </div>
           <Link
             href="/blog"
             className="flex items-center gap-1.5 text-xs md:text-sm hover:opacity-60 transition-opacity"
+            style={isTh ? { fontSize: "19px" } : undefined}
           >
             {t("viewAllArticles")} →
           </Link>
@@ -66,13 +76,22 @@ export default function BlogPreview() {
                   style={{ backgroundImage: `url('${article.image}')` }}
                 />
               </div>
-              <p className="mb-2 text-[11px] tracking-[0.5px] text-[#999]">
+              <p
+                className="mb-2 text-[11px] tracking-[0.5px] text-[#999]"
+                style={isTh ? { fontSize: thScale(11) } : undefined}
+              >
                 {tb(article.metaKey)}
               </p>
-              <h3 className="mb-1.5 text-lg font-semibold leading-[1.4] transition-colors duration-300 group-hover:text-[#555]">
+              <h3
+                className="mb-1.5 text-lg font-semibold leading-[1.4] transition-colors duration-300 group-hover:text-[#555]"
+                style={isTh ? { fontSize: "22px" } : undefined}
+              >
                 {tb(article.titleKey)}
               </h3>
-              <p className="text-[13px] leading-[1.5] text-[#666]">
+              <p
+                className="text-[13px] leading-[1.5] text-[#666]"
+                style={isTh ? { fontSize: thScale(13) } : undefined}
+              >
                 {tb(article.descKey)}
               </p>
             </Link>
@@ -91,13 +110,22 @@ export default function BlogPreview() {
                 style={{ backgroundImage: `url('${ARTICLES[0].image}')` }}
               />
             </div>
-            <p className="mb-1.5 text-[11px] tracking-[0.5px] text-[#999]">
+            <p
+              className="mb-1.5 text-[11px] tracking-[0.5px] text-[#999]"
+              style={isTh ? { fontSize: thScale(11) } : undefined}
+            >
               {tb(ARTICLES[0].metaKey)}
             </p>
-            <h3 className="mb-1 text-base font-semibold leading-[1.4]">
+            <h3
+              className="mb-1 text-base font-semibold leading-[1.4]"
+              style={isTh ? { fontSize: "20px" } : undefined}
+            >
               {tb(ARTICLES[0].titleKey)}
             </h3>
-            <p className="text-[12px] leading-[1.5] text-[#666]">
+            <p
+              className="text-[12px] leading-[1.5] text-[#666]"
+              style={isTh ? { fontSize: thScale(12) } : undefined}
+            >
               {tb(ARTICLES[0].descKey)}
             </p>
           </Link>
@@ -114,13 +142,22 @@ export default function BlogPreview() {
                 />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="mb-1 text-[10px] tracking-[0.5px] text-[#999]">
+                <p
+                  className="mb-1 text-[10px] tracking-[0.5px] text-[#999]"
+                  style={isTh ? { fontSize: thScale(10) } : undefined}
+                >
                   {tb(article.metaKey)}
                 </p>
-                <h3 className="mb-1 text-sm font-semibold leading-[1.3] transition-colors duration-300 group-hover:text-[#555]">
+                <h3
+                  className="mb-1 text-sm font-semibold leading-[1.3] transition-colors duration-300 group-hover:text-[#555]"
+                  style={isTh ? { fontSize: "19px" } : undefined}
+                >
                   {tb(article.titleKey)}
                 </h3>
-                <p className="text-[11px] leading-[1.4] text-[#666] line-clamp-2">
+                <p
+                  className="text-[11px] leading-[1.4] text-[#666] line-clamp-2"
+                  style={isTh ? { fontSize: thScale(11) } : undefined}
+                >
                   {tb(article.descKey)}
                 </p>
               </div>

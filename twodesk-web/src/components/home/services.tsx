@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import ScrollAnimate from "@/components/scroll-animate";
 
 const SERVICE_IMAGES = [
@@ -17,6 +17,9 @@ const SERVICE_KEYS = [
 
 export default function Services() {
   const t = useTranslations("home");
+  const locale = useLocale();
+  const isTh = locale === "th";
+  const thScale = (px: number) => isTh ? `${Math.round(px * 1.35)}px` : undefined;
 
   return (
     <section className="mx-auto max-w-[1440px] px-5 md:px-20 py-16 md:py-[100px]">
@@ -24,14 +27,17 @@ export default function Services() {
       <ScrollAnimate>
         <div className="mb-8 md:mb-12 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
           <div>
-            <p className="mb-3 md:mb-4 text-xs font-normal uppercase tracking-[0.2em] text-[#999]">
+            <p className="mb-3 md:mb-4 text-xs font-normal uppercase tracking-[0.2em] text-[#999]" style={isTh ? { fontSize: "18px" } : undefined}>
               {t("servicesLabel")}
             </p>
-            <h2 className="text-[26px] md:text-[32px] font-bold tracking-tight">
+            <h2
+              className="text-[26px] md:text-[32px] font-bold tracking-tight"
+              style={isTh ? { fontSize: thScale(32) } : undefined}
+            >
               {t("servicesTitle")}
             </h2>
           </div>
-          <p className="max-w-[480px] md:text-right text-sm md:text-base font-light leading-[24px] md:leading-[26px] text-[#6b6b6b]">
+          <p className="max-w-[480px] md:text-right text-sm md:text-base font-light leading-[24px] md:leading-[26px] text-[#6b6b6b]" style={isTh ? { fontSize: "20px", lineHeight: 1.6 } : undefined}>
             {t("servicesDescription")}
           </p>
         </div>
@@ -49,10 +55,13 @@ export default function Services() {
                 />
               </div>
               <div className="px-4 md:px-6 py-4 md:py-5">
-                <h3 className="mb-1.5 md:mb-2 text-sm md:text-base font-bold transition-colors duration-300 group-hover:text-[#555]">
+                <h3 className="mb-1.5 md:mb-2 text-sm md:text-base font-bold transition-colors duration-300 group-hover:text-[#555]" style={isTh ? { fontSize: "22px" } : undefined}>
                   {t(service.title)}
                 </h3>
-                <p className="text-[12px] md:text-[13px] leading-[1.5] text-[#666]">
+                <p
+                  className="text-[12px] md:text-[13px] leading-[1.5] text-[#666]"
+                  style={isTh ? { fontSize: "17px", lineHeight: 1.5 } : undefined}
+                >
                   {t(service.desc)}
                 </p>
               </div>

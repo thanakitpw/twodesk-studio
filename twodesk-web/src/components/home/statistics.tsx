@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 const STATS = [
   { value: 5, suffix: "+", key: "statYears" },
@@ -59,6 +59,8 @@ function CountUp({ target, suffix }: { target: number; suffix: string }) {
 
 export default function Statistics() {
   const t = useTranslations("home");
+  const locale = useLocale();
+  const isTh = locale === "th";
 
   return (
     <div className="bg-black">
@@ -89,7 +91,7 @@ export default function Statistics() {
             <div className="mb-1.5 md:mb-2 text-3xl md:text-5xl font-bold text-white">
               <CountUp target={stat.value} suffix={stat.suffix} />
             </div>
-            <div className="text-xs md:text-sm text-white/60">{t(stat.key)}</div>
+            <div className="text-xs md:text-sm text-white/60" style={isTh ? { fontSize: "18px" } : undefined}>{t(stat.key)}</div>
           </div>
         ))}
       </section>

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
+import { useLocale } from 'next-intl';
 import type { Article } from '@/lib/data';
 
 interface BlogContentProps {
@@ -17,6 +18,8 @@ export default function BlogContent({
   readArticleLabel,
 }: BlogContentProps) {
   const [activeFilter, setActiveFilter] = useState('All');
+  const locale = useLocale();
+  const isTh = locale === 'th';
 
   const filtered =
     activeFilter === 'All'
@@ -39,6 +42,7 @@ export default function BlogContent({
                 ? 'border-[#1a1a1a] bg-[#1a1a1a] text-white'
                 : 'border-[#e0e0e0] bg-white text-[#666] hover:border-[#999]'
             }`}
+            style={isTh ? { fontSize: '18px' } : undefined}
           >
             {filter.label}
           </button>
@@ -70,13 +74,22 @@ export default function BlogContent({
                   {featured.date}
                 </span>
               </p>
-              <h2 className="mb-3 text-xl font-bold leading-snug text-[#1a1a1a] md:text-3xl">
+              <h2
+                className="mb-3 text-xl font-bold leading-snug text-[#1a1a1a] md:text-3xl"
+                style={isTh ? { fontSize: '34px', lineHeight: 1.3 } : undefined}
+              >
                 {featured.title}
               </h2>
-              <p className="mb-4 text-sm font-light leading-relaxed text-[#666]">
+              <p
+                className="mb-4 text-sm font-light leading-relaxed text-[#666]"
+                style={isTh ? { fontSize: '20px', lineHeight: 1.6 } : undefined}
+              >
                 {featured.excerpt}
               </p>
-              <span className="inline-block text-sm font-medium text-[#1a1a1a]">
+              <span
+                className="inline-block text-sm font-medium text-[#1a1a1a]"
+                style={isTh ? { fontSize: '19px' } : undefined}
+              >
                 {readArticleLabel} &rarr;
               </span>
             </div>
@@ -108,10 +121,16 @@ export default function BlogContent({
                   {article.date}
                 </span>
               </p>
-              <h3 className="mb-1.5 line-clamp-2 text-sm font-semibold leading-snug text-[#1a1a1a] md:text-base">
+              <h3
+                className="mb-1.5 line-clamp-2 text-sm font-semibold leading-snug text-[#1a1a1a] md:text-base"
+                style={isTh ? { fontSize: '20px' } : undefined}
+              >
                 {article.title}
               </h3>
-              <p className="line-clamp-2 text-[13px] font-light leading-relaxed text-[#666]">
+              <p
+                className="line-clamp-2 text-[13px] font-light leading-relaxed text-[#666]"
+                style={isTh ? { fontSize: '17px', lineHeight: 1.5 } : undefined}
+              >
                 {article.excerpt}
               </p>
             </Link>

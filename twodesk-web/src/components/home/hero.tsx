@@ -1,7 +1,10 @@
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 export default function Hero() {
   const t = useTranslations("home");
+  const locale = useLocale();
+  const isTh = locale === "th";
+  const thScale = (px: number) => isTh ? `${Math.round(px * 1.35)}px` : undefined;
 
   return (
     <section className="relative h-[420px] md:h-[85vh] overflow-hidden">
@@ -23,7 +26,10 @@ export default function Hero() {
 
       {/* Text */}
       <div className="absolute bottom-10 md:bottom-16 left-5 md:left-20">
-        <h1 className="mb-3 md:mb-4 text-[32px] md:text-[56px] font-bold leading-[38px] md:leading-[64px] tracking-tight text-[#1a1a1a]">
+        <h1
+          className="mb-3 md:mb-4 text-[32px] md:text-[56px] font-bold leading-[38px] md:leading-[64px] tracking-tight text-[#1a1a1a]"
+          style={isTh ? { fontSize: thScale(56), lineHeight: 1.15 } : undefined}
+        >
           {t("heroTitle")
             .split("\n")
             .map((line, i) => (
@@ -33,7 +39,10 @@ export default function Hero() {
               </span>
             ))}
         </h1>
-        <p className="text-[14px] md:text-[17px] font-light text-[#4a4a4a]">
+        <p
+          className="text-[14px] md:text-[17px] font-light text-[#4a4a4a]"
+          style={isTh ? { fontSize: thScale(17) } : undefined}
+        >
           {t("heroSubtitle")}
         </p>
       </div>

@@ -66,6 +66,7 @@ const categoryColors: Record<string, { bg: string; text: string }> = {
 export default async function ProjectDetailPage({ params }: Props) {
   const { id, locale } = await params;
   const t = await getTranslations('projects');
+  const isTh = locale === 'th';
 
   // Try fetching from Supabase
   let project: {
@@ -181,6 +182,7 @@ export default async function ProjectDetailPage({ params }: Props) {
         <Link
           href="/projects"
           className="mb-8 inline-flex items-center gap-2 text-sm text-[#999] transition-colors hover:text-[#1a1a1a]"
+          style={isTh ? { fontSize: '19px' } : undefined}
         >
           <span>&larr;</span>
           <span>{t('backToProjects')}</span>
@@ -197,25 +199,40 @@ export default async function ProjectDetailPage({ params }: Props) {
                 {project.category}
               </span>
             </div>
-            <h1 className="mb-4 text-4xl font-bold tracking-tight text-[#1a1a1a] md:text-5xl">
+            <h1
+              className="mb-4 text-4xl font-bold tracking-tight text-[#1a1a1a] md:text-5xl"
+              style={isTh ? { fontSize: '52px', lineHeight: 1.3 } : undefined}
+            >
               {project.title}
             </h1>
-            <p className="text-base font-light leading-relaxed text-[#6b6b6b]">
+            <p
+              className="text-base font-light leading-relaxed text-[#6b6b6b]"
+              style={isTh ? { fontSize: '20px', lineHeight: 1.6 } : undefined}
+            >
               {project.description}
             </p>
           </div>
 
           <div className="grid grid-cols-3 gap-4 border-t border-[#e5e5e5] pt-4 md:grid-cols-1 md:shrink-0 md:gap-4 md:border-l md:border-t-0 md:pl-8 md:pt-0">
             <div>
-              <p className="text-[10px] uppercase tracking-wider text-[#999] md:text-xs">
+              <p
+                className="text-[10px] uppercase tracking-wider text-[#999] md:text-xs"
+                style={isTh ? { fontSize: '16px' } : undefined}
+              >
                 {t('location')}
               </p>
-              <p className="text-xs font-medium text-[#1a1a1a] md:text-sm">
+              <p
+                className="text-xs font-medium text-[#1a1a1a] md:text-sm"
+                style={isTh ? { fontSize: '19px' } : undefined}
+              >
                 {project.location}
               </p>
             </div>
             <div>
-              <p className="text-[10px] uppercase tracking-wider text-[#999] md:text-xs">
+              <p
+                className="text-[10px] uppercase tracking-wider text-[#999] md:text-xs"
+                style={isTh ? { fontSize: '16px' } : undefined}
+              >
                 {t('year')}
               </p>
               <p className="text-xs font-medium text-[#1a1a1a] md:text-sm">
@@ -223,16 +240,25 @@ export default async function ProjectDetailPage({ params }: Props) {
               </p>
             </div>
             <div>
-              <p className="text-[10px] uppercase tracking-wider text-[#999] md:text-xs">
+              <p
+                className="text-[10px] uppercase tracking-wider text-[#999] md:text-xs"
+                style={isTh ? { fontSize: '16px' } : undefined}
+              >
                 {t('category')}
               </p>
-              <p className="text-xs font-medium capitalize text-[#1a1a1a] md:text-sm">
+              <p
+                className="text-xs font-medium capitalize text-[#1a1a1a] md:text-sm"
+                style={isTh ? { fontSize: '19px' } : undefined}
+              >
                 {project.category}
               </p>
             </div>
             {project.area && (
               <div>
-                <p className="text-[10px] uppercase tracking-wider text-[#999] md:text-xs">
+                <p
+                  className="text-[10px] uppercase tracking-wider text-[#999] md:text-xs"
+                  style={isTh ? { fontSize: '16px' } : undefined}
+                >
                   Area
                 </p>
                 <p className="text-xs font-medium text-[#1a1a1a] md:text-sm">
@@ -255,14 +281,20 @@ export default async function ProjectDetailPage({ params }: Props) {
         {/* Next Project */}
         {nextSlug && nextTitle && (
           <div className="border-t border-[#e5e5e5] pt-8 md:pt-12">
-            <p className="mb-2 text-xs uppercase tracking-[0.2em] text-[#999]">
+            <p
+              className="mb-2 text-xs uppercase tracking-[0.2em] text-[#999]"
+              style={isTh ? { fontSize: '18px' } : undefined}
+            >
               {t('nextProject')}
             </p>
             <Link
               href={`/projects/${nextSlug}`}
               className="group inline-flex items-center gap-3"
             >
-              <h2 className="text-2xl font-bold text-[#1a1a1a] transition-colors group-hover:text-[#999] md:text-3xl">
+              <h2
+                className="text-2xl font-bold text-[#1a1a1a] transition-colors group-hover:text-[#999] md:text-3xl"
+                style={isTh ? { fontSize: '34px', lineHeight: 1.3 } : undefined}
+              >
                 {nextTitle}
               </h2>
               <span className="text-2xl text-[#999] transition-transform group-hover:translate-x-1">
