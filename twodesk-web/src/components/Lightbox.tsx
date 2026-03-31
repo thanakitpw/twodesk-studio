@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import Image from 'next/image';
 
 interface LightboxProps {
@@ -9,7 +10,7 @@ interface LightboxProps {
   onClose: () => void;
 }
 
-export default function Lightbox({ images, initialIndex, onClose }: LightboxProps) {
+function LightboxContent({ images, initialIndex, onClose }: LightboxProps) {
   const [index, setIndex] = useState(initialIndex);
   const [closing, setClosing] = useState(false);
   const [entered, setEntered] = useState(false);
@@ -59,7 +60,8 @@ export default function Lightbox({ images, initialIndex, onClose }: LightboxProp
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center"
+      className="fixed inset-0 z-[9999] flex items-center justify-center"
+      style={{ zoom: 1 }}
       onClick={handleClose}
       style={{
         backgroundColor: isVisible ? 'rgba(0,0,0,0.92)' : 'rgba(0,0,0,0)',
@@ -153,4 +155,11 @@ export default function Lightbox({ images, initialIndex, onClose }: LightboxProp
       )}
     </div>
   );
+}
+
+export default function Lightbox(props: LightboxProps) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+  return createPortal(<LightboxContent {...props} />, document.body);
 }
