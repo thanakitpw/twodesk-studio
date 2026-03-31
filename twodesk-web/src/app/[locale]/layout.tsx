@@ -6,6 +6,7 @@ import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import PageTransition from "@/components/PageTransition";
 import PageViewTracker from "@/components/PageViewTracker";
+import SplashWrapper from "@/components/SplashWrapper";
 
 export async function generateMetadata({
   params,
@@ -42,14 +43,16 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      <div className={isThai ? "locale-th" : undefined}>
-        <PageViewTracker />
-        <Nav />
-        <PageTransition>
-          <main>{children}</main>
-        </PageTransition>
-        <Footer />
-      </div>
+      <SplashWrapper>
+        <div className={isThai ? "locale-th" : undefined}>
+          <PageViewTracker />
+          <Nav />
+          <PageTransition>
+            <main>{children}</main>
+          </PageTransition>
+          <Footer />
+        </div>
+      </SplashWrapper>
     </NextIntlClientProvider>
   );
 }

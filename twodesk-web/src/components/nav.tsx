@@ -47,9 +47,9 @@ export default function Nav() {
         <div className={`mx-auto max-w-[1440px] flex items-center justify-between px-5 md:px-20 transition-all duration-300 ${scrolled ? "py-2" : "py-4"}`}>
           <Link href="/" className="flex items-center">
             <img
-              src="/logo.svg"
+              src="/logo-full.svg"
               alt="TWO DESKS"
-              className={`w-auto transition-all duration-300 ${scrolled ? "h-7 md:h-8" : "h-9 md:h-11"}`}
+              className={`w-auto transition-all duration-300 ${scrolled ? "h-4 md:h-5" : "h-5 md:h-6"}`}
             />
           </Link>
 
@@ -122,7 +122,7 @@ export default function Nav() {
             {/* Header */}
             <div className="flex items-center justify-between px-5 py-4">
               <Link href="/" className="flex items-center" onClick={() => setMobileMenuOpen(false)}>
-                <img src="/logo.svg" alt="TWO DESKS" className="h-9 w-auto" />
+                <img src="/logo-full.svg" alt="TWO DESKS" className="h-9 w-auto" />
               </Link>
               <button
                 className="flex items-center justify-center w-10 h-10 cursor-pointer"
