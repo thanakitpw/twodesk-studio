@@ -147,28 +147,28 @@ export default function Nav() {
             <div className="flex flex-col px-5 pb-8 gap-1">
               <Link
                 href="/projects"
-                className="py-3 text-lg font-light border-b border-[#f0f0f0] hover:opacity-60 transition-opacity"
+                className={`py-3 border-b border-[#f0f0f0] hover:opacity-60 transition-opacity ${locale === "th" ? "text-2xl font-normal" : "text-lg font-light"}`}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t("projects")}
               </Link>
               <Link
                 href="/blog"
-                className="py-3 text-lg font-light border-b border-[#f0f0f0] hover:opacity-60 transition-opacity"
+                className={`py-3 border-b border-[#f0f0f0] hover:opacity-60 transition-opacity ${locale === "th" ? "text-2xl font-normal" : "text-lg font-light"}`}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t("blog")}
               </Link>
               <Link
                 href="/about"
-                className="py-3 text-lg font-light border-b border-[#f0f0f0] hover:opacity-60 transition-opacity"
+                className={`py-3 border-b border-[#f0f0f0] hover:opacity-60 transition-opacity ${locale === "th" ? "text-2xl font-normal" : "text-lg font-light"}`}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t("about")}
               </Link>
               <Link
                 href="/contact"
-                className="py-3 text-lg font-light border-b border-[#f0f0f0] hover:opacity-60 transition-opacity"
+                className={`py-3 border-b border-[#f0f0f0] hover:opacity-60 transition-opacity ${locale === "th" ? "text-2xl font-normal" : "text-lg font-light"}`}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t("contact")}
