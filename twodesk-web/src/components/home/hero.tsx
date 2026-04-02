@@ -25,10 +25,14 @@ export default function Hero() {
       />
 
       {/* Text */}
-      <div className="absolute bottom-10 md:bottom-16 left-5 md:left-20">
+      <div className="absolute bottom-10 md:bottom-16 left-5 md:left-20 right-5 md:right-auto">
         <h1
-          className="mb-3 md:mb-4 text-[32px] md:text-[56px] font-bold leading-[38px] md:leading-[64px] tracking-tight text-[#1a1a1a]"
-          style={isTh ? { fontSize: thScale(56), lineHeight: 1.15 } : undefined}
+          className={`mb-3 md:mb-4 font-bold tracking-tight text-[#1a1a1a] ${
+            isTh
+              ? "text-[36px] md:text-[56px] leading-[1.2] md:leading-[1.15]"
+              : "text-[32px] md:text-[56px] leading-[38px] md:leading-[64px]"
+          }`}
+          style={isTh ? { fontSize: undefined } : undefined}
         >
           {t("heroTitle")
             .split("\n")
@@ -40,8 +44,12 @@ export default function Hero() {
             ))}
         </h1>
         <p
-          className="text-[14px] md:text-[17px] font-light text-[#4a4a4a]"
-          style={isTh ? { fontSize: thScale(17) } : undefined}
+          className={`font-light text-[#4a4a4a] ${
+            isTh
+              ? "text-[15px] md:text-[17px]"
+              : "text-[14px] md:text-[17px]"
+          }`}
+          style={isTh ? { fontSize: undefined } : undefined}
         >
           {t("heroSubtitle")}
         </p>
