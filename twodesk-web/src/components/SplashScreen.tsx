@@ -63,6 +63,71 @@ function MorphPath({
   return <motion.path d={d} fill={fill} fillRule="evenodd" />;
 }
 
+// Bubble shape (speech bubble outline)
+const BUBBLE = 'M5 5 Q5 0 12 0 L38 0 Q45 0 45 5 L45 22 Q45 27 38 27 L18 27 L10 35 L12 27 Q5 27 5 22 Z';
+
+// Icons inside bubbles — pairs that cycle
+const BUBBLE_ICONS = [
+  // Round 1: บ้าน + ตึก
+  {
+    left: 'M16 22 L25 12 L34 22 L34 27 L16 27 Z M22 27 L22 21 L28 21 L28 27',
+    right: 'M18 27 L18 8 L32 8 L32 27 M22 12 L22 15 M26 12 L26 15 M22 18 L22 21 M26 18 L26 21',
+  },
+  // Round 2: ตลับเมตร + ดินสอไม้ฉาก
+  {
+    left: 'M14 14 L36 14 Q38 14 38 16 L38 24 Q38 26 36 26 L14 26 Q12 26 12 24 L12 16 Q12 14 14 14 Z M18 14 L18 26 M22 18 L22 22 M26 18 L26 22 M30 18 L30 22',
+    right: 'M16 8 L18 8 L18 27 L16 27 Z M18 27 L34 27 L34 25 L18 25 M16 8 L28 8 L16 20',
+  },
+  // Round 3: บ้าน + ตลับเมตร (สลับ)
+  {
+    left: 'M16 22 L25 12 L34 22 L34 27 L16 27 Z M22 27 L22 21 L28 21 L28 27',
+    right: 'M14 14 L36 14 Q38 14 38 16 L38 24 Q38 26 36 26 L14 26 Q12 26 12 24 L12 16 Q12 14 14 14 Z M18 14 L18 26 M22 18 L22 22 M26 18 L26 22 M30 18 L30 22',
+  },
+];
+
+function CyclingBubbles() {
+  const [round, setRound] = useState(0);
+
+  useEffect(() => {
+    const t1 = setTimeout(() => setRound(1), 1000);
+    const t2 = setTimeout(() => setRound(2), 2000);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, []);
+
+  const icons = BUBBLE_ICONS[round];
+
+  return (
+    <div className="absolute flex justify-between" style={{ width: '300px', top: 'calc(50% - 85px)' }}>
+      {/* Left bubble */}
+      <motion.svg
+        key={`left-${round}`}
+        viewBox="0 0 50 40"
+        className="h-[44px] w-auto"
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.8, opacity: 0 }}
+        transition={{ type: 'spring', stiffness: 120, damping: 12 }}
+      >
+        <path d={BUBBLE} fill="none" stroke="#c8c9cb" strokeWidth="1.5" strokeLinejoin="round" />
+        <path d={icons.left} fill="none" stroke="#c8c9cb" strokeWidth="1" strokeLinejoin="round" strokeLinecap="round" />
+      </motion.svg>
+      {/* Right bubble */}
+      <motion.svg
+        key={`right-${round}`}
+        viewBox="0 0 50 40"
+        className="h-[44px] w-auto"
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.8, opacity: 0 }}
+        transition={{ type: 'spring', stiffness: 120, damping: 12, delay: 0.15 }}
+      >
+        <path d={BUBBLE} fill="none" stroke="#c8c9cb" strokeWidth="1.5" strokeLinejoin="round" />
+        <path d={icons.right} fill="none" stroke="#c8c9cb" strokeWidth="1" strokeLinejoin="round" strokeLinecap="round" />
+      </motion.svg>
+    </div>
+  );
+}
+
 export default function SplashScreen({ onComplete }: { onComplete: () => void }) {
   const [phase, setPhase] = useState<Phase>(1);
 
@@ -72,14 +137,14 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
     const timers = [
       setTimeout(() => setPhase(2), 1000),   // Scene 1 → 2
       setTimeout(() => setPhase(3), 1800),   // Scene 2 → 3a (T+D converge)
-      setTimeout(() => setPhase(4), 3200),   // Scene 3 → 4 (T stretch + D rotate)
-      setTimeout(() => setPhase(5), 4600),   // Scene 4 → 4b (crossfade to symbol)
-      setTimeout(() => setPhase(6), 5200),   // Scene 4b → 5 (people)
-      setTimeout(() => setPhase(7), 6100),   // Scene 5 → 6 (chat)
-      setTimeout(() => setPhase(8), 6800),   // Scene 6 → 7 (fade sketch)
-      setTimeout(() => setPhase(9), 7200),   // Scene 7 → 8 (move corner)
-      setTimeout(() => setPhase(10), 7800),  // Scene 8 → done
-      setTimeout(() => handleComplete(), 8200),
+      setTimeout(() => setPhase(4), 2800),   // Scene 3 → 4 (T stretch + D rotate) — เร็วขึ้น
+      setTimeout(() => setPhase(5), 3800),   // Scene 4 → 4b (crossfade to symbol) — เร็วขึ้น
+      setTimeout(() => setPhase(6), 4400),   // Scene 4b → 5 (people)
+      setTimeout(() => setPhase(7), 6100),   // Scene 5 → 6 (chat bubbles cycling)
+      setTimeout(() => setPhase(8), 9200),   // Scene 6 → 7 (fade sketch) — 3.1s สำหรับ 3 รอบ
+      setTimeout(() => setPhase(9), 9600),   // Scene 7 → 8 (move corner)
+      setTimeout(() => setPhase(10), 10200),  // Scene 8 → done
+      setTimeout(() => handleComplete(), 10600),
     ];
     return () => timers.forEach(clearTimeout);
   }, [handleComplete]);
@@ -163,7 +228,7 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
                 className="h-[40px] md:h-[56px] w-auto"
                 initial={{ x: -30 }}
                 animate={{ x: -8 }}
-                transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
+                transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
                 style={{ willChange: 'transform' }}
               >
                 <path fill={GREY} fillRule="evenodd" d={T_PATH} />
@@ -173,7 +238,7 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
                 className="h-[39px] md:h-[55px] w-auto"
                 initial={{ x: 30 }}
                 animate={{ x: 8 }}
-                transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
+                transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
                 style={{ willChange: 'transform' }}
               >
                 <path fill={GREY} fillRule="evenodd" d={D_PATH} />
@@ -189,7 +254,7 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
                 className="h-[40px] md:h-[56px] w-auto"
                 initial={{ scaleX: 1 }}
                 animate={{ scaleX: 1.5 }}
-                transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
+                transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
                 style={{ willChange: 'transform', transformOrigin: 'left center' }}
               >
                 <path fill={GREY} fillRule="evenodd" d={T_PATH} />
@@ -199,7 +264,7 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
                 className="h-[39px] md:h-[55px] w-auto"
                 initial={{ rotate: 0 }}
                 animate={{ rotate: -90 }}
-                transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
+                transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
                 style={{ willChange: 'transform' }}
               >
                 <path fill={GREY} fillRule="evenodd" d={D_PATH} />
@@ -248,18 +313,14 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
             </div>
           )}
 
-          {/* ===== Scene 6-9: Symbol stays + sketch ===== */}
+          {/* ===== Scene 6-9: Symbol stays → fade out ===== */}
           {phase >= 6 && phase <= 9 && (
             <motion.div
               className="absolute"
-              initial={{ scale: 1, opacity: 1, x: 0, y: 0 }}
-              animate={
-                phase === 9
-                  ? { x: '-42vw', y: '-42vh', scale: 0.4, opacity: 1 }
-                  : { scale: 1, opacity: 1, x: 0, y: 0 }
-              }
-              transition={phase === 9 ? { ...smooth, duration: 0.5 } : { duration: 0.3 }}
-              style={{ willChange: 'transform, opacity' }}
+              initial={{ opacity: 1 }}
+              animate={{ opacity: phase === 9 ? 0 : 1 }}
+              transition={{ duration: 0.6 }}
+              style={{ willChange: 'opacity' }}
             >
               <svg viewBox="0 0 112 88" className="h-[56px] md:h-[72px] w-auto">
                 <path fill={GREY} fillRule="evenodd" d={SYMBOL_PATH_1} />
@@ -268,119 +329,106 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
             </motion.div>
           )}
 
-          {/* ===== Scene 6-8: People sitting beside symbol (as table) ===== */}
+          {/* ===== Scene 6-8: People sitting on chairs beside symbol (table) ===== */}
           {(phase === 6 || phase === 7 || phase === 8) && (
             <motion.div
-              className="absolute flex items-end justify-center gap-0"
+              className="absolute flex items-center justify-center"
               initial={{ opacity: 0 }}
               animate={{ opacity: phase === 8 ? 0 : 1 }}
               transition={{ duration: 0.4 }}
               style={{ willChange: 'opacity' }}
             >
-              {/* Person LEFT — sitting, facing right */}
+              {/* Person LEFT — sitting on chair, facing right, arm on table */}
               <motion.svg
-                viewBox="0 0 60 90"
-                className="h-[80px] md:h-[110px] w-auto"
+                viewBox="0 0 70 100"
+                className="h-[90px] md:h-[115px] w-auto"
+                style={{ marginRight: '-4px' }}
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                 transition={{ duration: 0.4, delay: 0.1 }}
               >
                 {/* Head */}
-                <motion.circle cx="30" cy="18" r="8" fill="none" stroke={GREY} strokeWidth="2"
+                <motion.circle cx="28" cy="20" r="7" fill="none" stroke="#c8c9cb" strokeWidth="1.8"
                   initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
                   transition={{ duration: 0.4, ease: 'easeOut' }}
                 />
-                {/* Body */}
-                <motion.path d="M30 26 L30 50" fill="none" stroke={GREY} strokeWidth="2" strokeLinecap="round"
+                {/* Body — leaning forward slightly */}
+                <motion.path d="M28 27 L32 48" fill="none" stroke="#c8c9cb" strokeWidth="1.8" strokeLinecap="round"
                   initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-                  transition={{ duration: 0.3, delay: 0.15, ease: 'easeOut' }}
+                  transition={{ duration: 0.3, delay: 0.1, ease: 'easeOut' }}
                 />
-                {/* Left arm resting on table */}
-                <motion.path d="M30 36 L42 42 L50 38" fill="none" stroke={GREY} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                  initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-                  transition={{ duration: 0.3, delay: 0.25, ease: 'easeOut' }}
-                />
-                {/* Right arm */}
-                <motion.path d="M30 36 L18 44" fill="none" stroke={GREY} strokeWidth="2" strokeLinecap="round"
-                  initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-                  transition={{ duration: 0.2, delay: 0.3, ease: 'easeOut' }}
-                />
-                {/* Legs sitting */}
-                <motion.path d="M30 50 L22 70 L18 80 M30 50 L38 70 L42 62" fill="none" stroke={GREY} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                  initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-                  transition={{ duration: 0.3, delay: 0.35, ease: 'easeOut' }}
-                />
-                {/* Chair */}
-                <motion.path d="M18 62 L18 80 M38 50 L38 62 L18 62" fill="none" stroke={GREY} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
-                  initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-                  transition={{ duration: 0.3, delay: 0.4, ease: 'easeOut' }}
-                />
-              </motion.svg>
-
-              {/* Symbol as "table" — stays in center (already rendered in scene 6-9) */}
-              <div className="w-[56px] md:w-[72px]" />
-
-              {/* Person RIGHT — sitting, facing left */}
-              <motion.svg
-                viewBox="0 0 60 90"
-                className="h-[80px] md:h-[110px] w-auto"
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                transition={{ duration: 0.4, delay: 0.2 }}
-              >
-                {/* Head */}
-                <motion.circle cx="30" cy="18" r="8" fill="none" stroke={GREY} strokeWidth="2"
-                  initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-                  transition={{ duration: 0.4, delay: 0.1, ease: 'easeOut' }}
-                />
-                {/* Body */}
-                <motion.path d="M30 26 L30 50" fill="none" stroke={GREY} strokeWidth="2" strokeLinecap="round"
+                {/* Arm reaching to table */}
+                <motion.path d="M30 34 Q40 36 52 32" fill="none" stroke="#c8c9cb" strokeWidth="1.8" strokeLinecap="round"
                   initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
                   transition={{ duration: 0.3, delay: 0.2, ease: 'easeOut' }}
                 />
-                {/* Left arm resting on table */}
-                <motion.path d="M30 36 L18 42 L10 38" fill="none" stroke={GREY} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                {/* Other arm behind */}
+                <motion.path d="M30 36 Q22 42 18 38" fill="none" stroke="#c8c9cb" strokeWidth="1.5" strokeLinecap="round"
                   initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-                  transition={{ duration: 0.3, delay: 0.3, ease: 'easeOut' }}
+                  transition={{ duration: 0.2, delay: 0.25, ease: 'easeOut' }}
                 />
-                {/* Right arm */}
-                <motion.path d="M30 36 L42 44" fill="none" stroke={GREY} strokeWidth="2" strokeLinecap="round"
+                {/* Upper leg (sitting) */}
+                <motion.path d="M32 48 L42 56" fill="none" stroke="#c8c9cb" strokeWidth="1.8" strokeLinecap="round"
+                  initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+                  transition={{ duration: 0.2, delay: 0.3, ease: 'easeOut' }}
+                />
+                {/* Lower leg */}
+                <motion.path d="M42 56 L38 72" fill="none" stroke="#c8c9cb" strokeWidth="1.8" strokeLinecap="round"
                   initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
                   transition={{ duration: 0.2, delay: 0.35, ease: 'easeOut' }}
                 />
-                {/* Legs sitting */}
-                <motion.path d="M30 50 L38 70 L42 80 M30 50 L22 70 L18 62" fill="none" stroke={GREY} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                {/* Chair — seat + back + legs */}
+                <motion.path d="M20 52 L44 52 M20 52 L18 72 M44 52 L44 72 M20 52 L20 34" fill="none" stroke="#c8c9cb" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
                   initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-                  transition={{ duration: 0.3, delay: 0.4, ease: 'easeOut' }}
+                  transition={{ duration: 0.4, delay: 0.4, ease: 'easeOut' }}
                 />
-                {/* Chair */}
-                <motion.path d="M42 62 L42 80 M22 50 L22 62 L42 62" fill="none" stroke={GREY} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
+              </motion.svg>
+
+              {/* Gap for symbol (table) — already rendered by Scene 6-9 */}
+              <div className="w-[56px] md:w-[72px]" />
+
+              {/* Person RIGHT — sitting on chair, facing left, arm on table */}
+              <motion.svg
+                viewBox="0 0 70 100"
+                className="h-[90px] md:h-[115px] w-auto"
+                style={{ marginLeft: '-4px', transform: 'scaleX(-1)' }}
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+              >
+                {/* Mirror of left person */}
+                <motion.circle cx="28" cy="20" r="7" fill="none" stroke="#c8c9cb" strokeWidth="1.8"
                   initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-                  transition={{ duration: 0.3, delay: 0.45, ease: 'easeOut' }}
+                  transition={{ duration: 0.4, delay: 0.1, ease: 'easeOut' }}
+                />
+                <motion.path d="M28 27 L32 48" fill="none" stroke="#c8c9cb" strokeWidth="1.8" strokeLinecap="round"
+                  initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+                  transition={{ duration: 0.3, delay: 0.15, ease: 'easeOut' }}
+                />
+                <motion.path d="M30 34 Q40 36 52 32" fill="none" stroke="#c8c9cb" strokeWidth="1.8" strokeLinecap="round"
+                  initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+                  transition={{ duration: 0.3, delay: 0.25, ease: 'easeOut' }}
+                />
+                <motion.path d="M30 36 Q22 42 18 38" fill="none" stroke="#c8c9cb" strokeWidth="1.5" strokeLinecap="round"
+                  initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+                  transition={{ duration: 0.2, delay: 0.3, ease: 'easeOut' }}
+                />
+                <motion.path d="M32 48 L42 56" fill="none" stroke="#c8c9cb" strokeWidth="1.8" strokeLinecap="round"
+                  initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+                  transition={{ duration: 0.2, delay: 0.35, ease: 'easeOut' }}
+                />
+                <motion.path d="M42 56 L38 72" fill="none" stroke="#c8c9cb" strokeWidth="1.8" strokeLinecap="round"
+                  initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+                  transition={{ duration: 0.2, delay: 0.4, ease: 'easeOut' }}
+                />
+                <motion.path d="M20 52 L44 52 M20 52 L18 72 M44 52 L44 72 M20 52 L20 34" fill="none" stroke="#c8c9cb" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
+                  initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+                  transition={{ duration: 0.4, delay: 0.45, ease: 'easeOut' }}
                 />
               </motion.svg>
             </motion.div>
           )}
 
-          {/* ===== Scene 7: Chat bubbles above people ===== */}
-          {phase === 7 && (
-            <div className="absolute flex justify-between" style={{ width: '280px', top: 'calc(50% - 80px)' }}>
-              {/* Left bubble — house */}
-              <motion.svg viewBox="0 0 50 40" className="h-[40px] w-auto"
-                initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
-                transition={{ ...spring }}
-              >
-                <path d="M5 5 Q5 0 12 0 L38 0 Q45 0 45 5 L45 22 Q45 27 38 27 L18 27 L10 35 L12 27 Q5 27 5 22 Z" fill="none" stroke={GREY} strokeWidth="1.5" strokeLinejoin="round" />
-                <path d="M16 22 L25 14 L34 22 L34 27 L16 27 Z M21 27 L21 22 L29 22 L29 27" fill="none" stroke={GREY} strokeWidth="1" strokeLinejoin="round" />
-              </motion.svg>
-              {/* Right bubble — building */}
-              <motion.svg viewBox="0 0 50 40" className="h-[40px] w-auto"
-                initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
-                transition={{ ...spring, delay: 0.3 }}
-              >
-                <path d="M5 5 Q5 0 12 0 L38 0 Q45 0 45 5 L45 22 Q45 27 38 27 L18 27 L10 35 L12 27 Q5 27 5 22 Z" fill="none" stroke={GREY} strokeWidth="1.5" strokeLinejoin="round" />
-                <path d="M18 27 L18 10 L32 10 L32 27 M22 14 L22 17 M26 14 L26 17 M22 20 L22 23 M26 20 L26 23" fill="none" stroke={GREY} strokeWidth="1" strokeLinejoin="round" />
-              </motion.svg>
-            </div>
-          )}
+          {/* ===== Scene 7: Chat bubbles cycling 3 rounds ===== */}
+          {phase === 7 && <CyclingBubbles />}
         </motion.div>
       )}
     </AnimatePresence>

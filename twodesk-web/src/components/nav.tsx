@@ -76,9 +76,16 @@ export default function Nav() {
               </Link>
             ))}
             <span className="text-[#999] font-light">
-              <span className="text-[#ccc] cursor-not-allowed opacity-50" title="Coming soon">
+              <button
+                onClick={() => switchLocale("th")}
+                className={`${
+                  locale === "th"
+                    ? "text-[#1a1a1a] font-semibold"
+                    : "text-[#999]"
+                } hover:opacity-60 transition-opacity cursor-pointer`}
+              >
                 TH
-              </span>
+              </button>
               {" "}
               <button
                 onClick={() => switchLocale("en")}
@@ -108,21 +115,21 @@ export default function Nav() {
         </div>
       </nav>
 
-      {/* Mobile menu overlay */}
+      {/* Mobile menu overlay — full screen, slide from right */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-[200] md:hidden">
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-black/40"
+            className="absolute inset-0 bg-black/40 animate-in fade-in duration-300"
             onClick={() => setMobileMenuOpen(false)}
           />
 
-          {/* Menu panel */}
-          <div className="absolute top-0 left-0 right-0 bg-white animate-in slide-in-from-top duration-200">
+          {/* Menu panel — full screen, slide from right */}
+          <div className="absolute inset-0 bg-white animate-in slide-in-from-right duration-300">
             {/* Header */}
             <div className="flex items-center justify-between px-5 py-4">
               <Link href="/" className="flex items-center" onClick={() => setMobileMenuOpen(false)}>
-                <img src="/logo-full.svg" alt="TWO DESKS" className="h-9 w-auto" />
+                <img src="/logo-full.svg" alt="TWO DESKS" className="h-5 w-auto" />
               </Link>
               <button
                 className="flex items-center justify-center w-10 h-10 cursor-pointer"
@@ -169,9 +176,19 @@ export default function Nav() {
 
               {/* Language switcher */}
               <div className="flex gap-4 pt-4 text-sm">
-                <span className="text-[#ccc] cursor-not-allowed opacity-50" title="Coming soon">
+                <button
+                  onClick={() => {
+                    switchLocale("th");
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`${
+                    locale === "th"
+                      ? "text-[#1a1a1a] font-semibold"
+                      : "text-[#999]"
+                  } hover:opacity-60 transition-opacity cursor-pointer`}
+                >
                   TH
-                </span>
+                </button>
                 <button
                   onClick={() => {
                     switchLocale("en");
