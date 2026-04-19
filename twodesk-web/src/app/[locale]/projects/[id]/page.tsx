@@ -207,7 +207,7 @@ export default async function ProjectDetailPage({ params }: Props) {
             </h1>
             <p
               className="text-base font-light leading-relaxed text-[#6b6b6b]"
-              style={isTh ? { fontSize: '20px', lineHeight: 1.6 } : undefined}
+              style={isTh ? { fontSize: '22px', lineHeight: 1.4 } : undefined}
             >
               {project.description}
             </p>
@@ -217,13 +217,13 @@ export default async function ProjectDetailPage({ params }: Props) {
             <div>
               <p
                 className="text-[10px] uppercase tracking-wider text-[#999] md:text-xs"
-                style={isTh ? { fontSize: '16px' } : undefined}
+                style={isTh ? { fontSize: '20px', lineHeight: 1.3 } : undefined}
               >
                 {t('location')}
               </p>
               <p
                 className="text-xs font-medium text-[#1a1a1a] md:text-sm"
-                style={isTh ? { fontSize: '19px' } : undefined}
+                style={isTh ? { fontSize: '22px', lineHeight: 1.3 } : undefined}
               >
                 {project.location}
               </p>
@@ -231,24 +231,27 @@ export default async function ProjectDetailPage({ params }: Props) {
             <div>
               <p
                 className="text-[10px] uppercase tracking-wider text-[#999] md:text-xs"
-                style={isTh ? { fontSize: '16px' } : undefined}
+                style={isTh ? { fontSize: '20px', lineHeight: 1.3 } : undefined}
               >
                 {t('year')}
               </p>
-              <p className="text-xs font-medium text-[#1a1a1a] md:text-sm">
+              <p
+                className="text-xs font-medium text-[#1a1a1a] md:text-sm"
+                style={isTh ? { fontSize: '22px', lineHeight: 1.3 } : undefined}
+              >
                 {project.year}
               </p>
             </div>
             <div>
               <p
                 className="text-[10px] uppercase tracking-wider text-[#999] md:text-xs"
-                style={isTh ? { fontSize: '16px' } : undefined}
+                style={isTh ? { fontSize: '20px', lineHeight: 1.3 } : undefined}
               >
                 {t('category')}
               </p>
               <p
                 className="text-xs font-medium capitalize text-[#1a1a1a] md:text-sm"
-                style={isTh ? { fontSize: '19px' } : undefined}
+                style={isTh ? { fontSize: '22px', lineHeight: 1.3 } : undefined}
               >
                 {project.category}
               </p>
@@ -257,11 +260,14 @@ export default async function ProjectDetailPage({ params }: Props) {
               <div>
                 <p
                   className="text-[10px] uppercase tracking-wider text-[#999] md:text-xs"
-                  style={isTh ? { fontSize: '16px' } : undefined}
+                  style={isTh ? { fontSize: '20px', lineHeight: 1.3 } : undefined}
                 >
-                  Area
+                  {t('area')}
                 </p>
-                <p className="text-xs font-medium text-[#1a1a1a] md:text-sm">
+                <p
+                  className="text-xs font-medium text-[#1a1a1a] md:text-sm"
+                  style={isTh ? { fontSize: '22px', lineHeight: 1.3 } : undefined}
+                >
                   {project.area}
                 </p>
               </div>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import { useLocale } from 'next-intl';
 import Lightbox from './Lightbox';
 import type { ImageGroup } from '@/lib/data';
 
@@ -76,6 +77,8 @@ function GalleryImage({
 export default function ProjectGallery({ images, imageGroups, title }: ProjectGalleryProps) {
   const [lightbox, setLightbox] = useState<{ images: string[]; index: number } | null>(null);
   const [activeGroup, setActiveGroup] = useState(0);
+  const locale = useLocale();
+  const isTh = locale === 'th';
 
   const groups = imageGroups && imageGroups.length > 0 ? imageGroups : [{ label: 'All', images }];
   const currentGroup = groups[activeGroup];
@@ -83,20 +86,22 @@ export default function ProjectGallery({ images, imageGroups, title }: ProjectGa
   return (
     <>
       {/* Group Tabs */}
-      {groups.length > 1 && (
+      {imageGroups && imageGroups.length > 0 && (
         <div className="mb-6 flex gap-2">
           {groups.map((group, i) => (
             <button
               key={group.label}
               onClick={() => setActiveGroup(i)}
-              className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${
+              className={`rounded-full border font-medium transition-colors ${
+                isTh ? 'px-5 py-2 text-base' : 'px-4 py-1.5 text-xs'
+              } ${
                 activeGroup === i
                   ? 'border-[#1a1a1a] bg-[#1a1a1a] text-white'
                   : 'border-[#e5e5e5] bg-white text-[#666] hover:border-[#999]'
               }`}
             >
               {group.label}
-              <span className="ml-1.5 text-[10px] opacity-60">{group.images.length}</span>
+              <span className={`ml-1.5 opacity-60 ${isTh ? 'text-sm' : 'text-[10px]'}`}>{group.images.length}</span>
             </button>
           ))}
         </div>

@@ -8,7 +8,7 @@ const STATS = [
   { value: 5, suffix: "+", key: "statYears" },
   { value: 30, suffix: "+", key: "statProjects" },
   { value: 4, suffix: "", key: "statTeam" },
-  { value: 4, suffix: "", key: "statServices" },
+  { value: 5, suffix: "", key: "statServices" },
 ] as const;
 
 function CountUp({ target, suffix }: { target: number; suffix: string }) {

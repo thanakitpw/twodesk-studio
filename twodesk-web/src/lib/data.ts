@@ -45,26 +45,16 @@ export const projects: Project[] = [
     ],
     imageGroups: [
       {
-        label: 'Render 3D',
+        label: 'Render 3D & Construction',
         images: [
           '/projects/hidden-sunken-hub/render/render-01.jpg',
           '/projects/hidden-sunken-hub/render/render-02.jpg',
           '/projects/hidden-sunken-hub/render/render-03.jpg',
           '/projects/hidden-sunken-hub/render/render-04.jpg',
           '/projects/hidden-sunken-hub/render/render-05.jpg',
-        ],
-      },
-      {
-        label: 'Construction',
-        images: Array.from({ length: 16 }, (_, i) =>
-          `/projects/hidden-sunken-hub/construction/photo-${String(i + 1).padStart(2, '0')}.jpg`
-        ),
-      },
-      {
-        label: 'Layout',
-        images: [
-          '/projects/hidden-sunken-hub/layout/plan-01.jpg',
-          '/projects/hidden-sunken-hub/layout/plan-02.jpg',
+          ...Array.from({ length: 16 }, (_, i) =>
+            `/projects/hidden-sunken-hub/construction/photo-${String(i + 1).padStart(2, '0')}.jpg`
+          ),
         ],
       },
     ],

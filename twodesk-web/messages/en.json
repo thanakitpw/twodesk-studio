@@ -66,6 +66,7 @@
     "location": "Location",
     "year": "Year",
     "category": "Category",
+    "area": "Area",
     "nextProject": "Next Project"
   },
   "blog": {
