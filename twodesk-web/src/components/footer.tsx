@@ -15,7 +15,7 @@ export default function Footer() {
           {/* Brand - full width on mobile */}
           <div className="col-span-2 md:col-span-1">
             <img
-              src="/logo-full.svg"
+              src="/logo_twodesk_new.svg"
               alt="TWO DESKS"
               className="h-6 md:h-7 w-auto mb-3"
             />
