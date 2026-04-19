@@ -192,9 +192,12 @@ export default async function ProjectDetailPage({ params }: Props) {
           <div className="max-w-2xl">
             <div className="mb-3 flex gap-2">
               <span
-                className={`inline-block rounded px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${
+                className={`inline-block rounded font-semibold uppercase tracking-wider ${
+                  isTh ? 'px-3 py-1' : 'px-2 py-0.5 text-[10px]'
+                } ${
                   categoryColors[project.category]?.bg ?? 'bg-gray-100'
                 } ${categoryColors[project.category]?.text ?? 'text-gray-600'}`}
+                style={isTh ? { fontSize: '16px' } : undefined}
               >
                 {project.category}
               </span>

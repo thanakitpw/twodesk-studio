@@ -23,8 +23,8 @@ export default function AboutTeaser() {
 
       {/* Image */}
       <img
-        src="https://workers.paper.design/file-assets/01KKH1XNYR2JH27ZNJAM5Y6B8Q/5SSJHKWF80EZ17391VTRASH3RT.jpg"
-        alt="Team"
+        src="/images/about-working.jpg"
+        alt="Design process"
         className="relative z-10 w-full md:w-1/2 h-[280px] md:h-auto md:min-h-[480px] object-cover"
       />
 

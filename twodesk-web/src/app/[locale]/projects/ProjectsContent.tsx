@@ -34,6 +34,14 @@ const categoryColors: Record<string, { bg: string; text: string }> = {
   others: { bg: 'bg-[#fef7e0]', text: 'text-[#f9ab00]' },
 };
 
+const tabPalette: Record<string, { solid: string; tint: string }> = {
+  all: { solid: '#1a1a1a', tint: '#f1f1f1' },
+  commercial: { solid: '#d93025', tint: '#fce8e6' },
+  cafe: { solid: '#1a73e8', tint: '#e8f0fe' },
+  residential: { solid: '#1e8e3e', tint: '#e6f4ea' },
+  others: { solid: '#f9ab00', tint: '#fef7e0' },
+};
+
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: (i: number) => ({
@@ -95,20 +103,25 @@ export default function ProjectsContent({ projects }: { projects: ProjectItem[] 
           transition={{ duration: 0.5, delay: 0.3 }}
           className="flex flex-wrap gap-2 md:gap-3"
         >
-          {categories.map((cat) => (
-            <button
-              key={cat.key}
-              onClick={() => setActiveFilter(cat.key)}
-              className={`rounded-full border px-4 py-1.5 text-xs md:px-5 md:py-2 md:text-sm font-light transition-all ${
-                activeFilter === cat.key
-                  ? 'border-[#1a1a1a] bg-[#1a1a1a] text-white'
-                  : 'border-[#e5e5e5] bg-white text-[#1a1a1a] hover:border-[#999]'
-              }`}
-              style={isTh ? { fontSize: '18px' } : undefined}
-            >
-              {t(cat.labelKey)}
-            </button>
-          ))}
+          {categories.map((cat) => {
+            const palette = tabPalette[cat.key];
+            const isActive = activeFilter === cat.key;
+            return (
+              <button
+                key={cat.key}
+                onClick={() => setActiveFilter(cat.key)}
+                className="rounded-full border px-4 py-1.5 text-xs md:px-5 md:py-2 md:text-sm font-light transition-all"
+                style={{
+                  backgroundColor: isActive ? palette.solid : palette.tint,
+                  borderColor: palette.solid,
+                  color: isActive ? '#fff' : palette.solid,
+                  ...(isTh ? { fontSize: '18px' } : {}),
+                }}
+              >
+                {t(cat.labelKey)}
+              </button>
+            );
+          })}
         </motion.div>
       </section>
 
