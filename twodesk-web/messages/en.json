@@ -136,21 +136,25 @@
     "services": {
       "label": "What We Do",
       "heading": "Our Services",
-      "interior": {
-        "title": "Interior Design",
-        "description": "Crafting functional, beautiful interiors for commercial and residential spaces — from concept to completion."
-      },
       "architecture": {
         "title": "Architecture",
         "description": "Designing structures that balance form, function, and context — buildings that belong to their surroundings."
       },
-      "furniture": {
-        "title": "Furniture Design",
-        "description": "Custom-made furniture that complements every design vision — functional art for everyday living."
+      "interior": {
+        "title": "Interior",
+        "description": "Crafting functional, beautiful interiors for commercial and residential spaces — from concept to completion."
       },
-      "craft": {
-        "title": "Craft Design",
-        "description": "Artisanal details and bespoke craftsmanship for unique projects — where precision meets creativity."
+      "engineering": {
+        "title": "Engineering",
+        "description": "Structural and civil engineering that brings designs to life safely and efficiently — rigor behind every line."
+      },
+      "consult": {
+        "title": "Consult",
+        "description": "Expert consultation across design, feasibility, and planning — guiding your project from early ideas to clear direction."
+      },
+      "furniture": {
+        "title": "Furniture & Built-in Service",
+        "description": "Custom furniture and built-in millwork tailored to each space — crafted to fit perfectly, not pulled off a shelf."
       }
     }
   },

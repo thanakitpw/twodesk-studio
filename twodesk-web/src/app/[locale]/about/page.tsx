@@ -27,7 +27,7 @@ const TEAM_MEMBERS = [
   },
 ];
 
-const SERVICES = ["interior", "architecture", "furniture", "craft"] as const;
+const SERVICES = ["architecture", "interior", "engineering", "consult", "furniture"] as const;
 
 export default function AboutPage() {
   const t = useTranslations("about");

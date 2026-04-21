@@ -24,7 +24,7 @@ export default function ContactCta() {
         <ScrollAnimate>
           <p
             className="mb-3 md:mb-4 text-xs font-normal uppercase tracking-[0.2em] text-white/50"
-            style={isTh ? { fontSize: "18px" } : undefined}
+            style={isTh ? { fontSize: "22px" } : undefined}
           >
             {t("ctaLabel")}
           </p>
@@ -40,7 +40,7 @@ export default function ContactCta() {
         <ScrollAnimate>
           <p
             className="mb-6 md:mb-8 text-[13px] md:text-[15px] text-white/60"
-            style={isTh ? { fontSize: thScale(15) } : undefined}
+            style={isTh ? { fontSize: "22px", lineHeight: 1.5 } : undefined}
           >
             {t("ctaDescription")}
           </p>
@@ -49,7 +49,7 @@ export default function ContactCta() {
           <a
             href="#"
             className="relative z-20 inline-block border border-white bg-transparent px-8 md:px-10 py-3 md:py-3.5 text-sm font-medium !text-white transition-all duration-300 hover:bg-white hover:!text-black"
-            style={isTh ? { fontSize: "19px" } : undefined}
+            style={isTh ? { fontSize: "22px" } : undefined}
           >
             {t("ctaButton")}
           </a>
