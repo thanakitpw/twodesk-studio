@@ -41,22 +41,13 @@ export default function AboutPage() {
         <div className="flex min-h-[50vh] flex-col-reverse lg:min-h-[70vh] lg:flex-row">
           {/* Text — left ~55% */}
           <div className="flex flex-col justify-center px-5 py-12 md:px-12 md:py-20 lg:w-[55%] lg:px-20 lg:py-28 xl:px-28">
-            <p
-              className="mb-5 text-xs font-normal uppercase tracking-[0.2em] text-white/50"
-              style={isTh ? { fontSize: "18px" } : undefined}
-            >
+            <p className={`mb-5 text-white/50 ${isTh ? "th-eyebrow" : "text-xs font-normal uppercase tracking-[0.2em]"}`}>
               {t("hero.label")}
             </p>
-            <h1
-              className="mb-6 text-[28px] font-bold leading-[1.15] tracking-[-0.02em] text-white md:text-[40px] lg:text-[52px]"
-              style={isTh ? { fontSize: "52px", lineHeight: 1.3 } : undefined}
-            >
+            <h1 className={`mb-6 text-white ${isTh ? "" : "text-[28px] font-bold leading-[1.15] tracking-[-0.02em] md:text-[40px] lg:text-[52px]"}`}>
               {t("hero.heading")}
             </h1>
-            <p
-              className="max-w-xl text-[15px] leading-[1.8] text-white/70 md:text-base"
-              style={isTh ? { fontSize: "20px", lineHeight: 1.6 } : undefined}
-            >
+            <p className={`max-w-xl text-white/70 ${isTh ? "th-body-lg" : "text-[15px] leading-[1.8] md:text-base"}`}>
               {t("hero.description")}
             </p>
           </div>
@@ -78,32 +69,20 @@ export default function AboutPage() {
         <div className="flex flex-col gap-8 md:gap-12 lg:flex-row lg:gap-20">
           {/* Heading — left */}
           <div className="lg:w-[40%]">
-            <p
-              className="mb-4 text-xs font-normal uppercase tracking-[0.2em] text-[#999]"
-              style={isTh ? { fontSize: "18px" } : undefined}
-            >
+            <p className={`mb-4 text-[#999] ${isTh ? "th-eyebrow" : "text-xs font-normal uppercase tracking-[0.2em]"}`}>
               Our Philosophy
             </p>
-            <h2
-              className="text-[26px] font-bold leading-[1.2] tracking-[-0.01em] text-[#1a1a1a] md:text-[32px]"
-              style={isTh ? { fontSize: "36px", lineHeight: 1.3 } : undefined}
-            >
+            <h2 className={`text-[#1a1a1a] ${isTh ? "" : "text-[26px] font-bold leading-[1.2] tracking-[-0.01em] md:text-[32px]"}`}>
               {t("philosophy.heading")}
             </h2>
           </div>
 
           {/* Paragraphs — right */}
           <div className="flex flex-col gap-6 lg:w-[60%]">
-            <p
-              className="text-[15px] leading-[1.7] text-[#666]"
-              style={isTh ? { fontSize: "20px", lineHeight: 1.6 } : undefined}
-            >
+            <p className={`text-[#666] ${isTh ? "th-body-lg" : "text-[15px] leading-[1.7]"}`}>
               {t("philosophy.paragraph1")}
             </p>
-            <p
-              className="text-[15px] leading-[1.7] text-[#666]"
-              style={isTh ? { fontSize: "20px", lineHeight: 1.6 } : undefined}
-            >
+            <p className={`text-[#666] ${isTh ? "th-body-lg" : "text-[15px] leading-[1.7]"}`}>
               {t("philosophy.paragraph2")}
             </p>
           </div>
@@ -112,16 +91,10 @@ export default function AboutPage() {
 
       {/* ─── The Team ─── */}
       <section className="mx-auto max-w-[1440px] px-5 pb-20 md:px-10 md:pb-[120px] lg:px-20 lg:pb-[140px]">
-        <p
-          className="mb-4 text-xs font-normal uppercase tracking-[0.2em] text-[#999]"
-          style={isTh ? { fontSize: "18px" } : undefined}
-        >
+        <p className={`mb-4 text-[#999] ${isTh ? "th-eyebrow" : "text-xs font-normal uppercase tracking-[0.2em]"}`}>
           The Team
         </p>
-        <h2
-          className="mb-8 text-[26px] font-bold tracking-[-0.01em] text-[#1a1a1a] md:mb-12 md:text-[32px]"
-          style={isTh ? { fontSize: "36px", lineHeight: 1.3 } : undefined}
-        >
+        <h2 className={`mb-8 text-[#1a1a1a] md:mb-12 ${isTh ? "" : "text-[26px] font-bold tracking-[-0.01em] md:text-[32px]"}`}>
           {t("team.heading")}
         </h2>
 
@@ -130,26 +103,20 @@ export default function AboutPage() {
             <div key={key} className="group">
               {/* Avatar */}
               <div className="mb-4 flex aspect-[3/4] items-center justify-center overflow-hidden rounded-xl bg-[#f0f0ee]">
-                <span className="text-5xl font-bold uppercase text-[#c0c0c0] md:text-6xl">
+                <span
+                  className="text-5xl font-bold uppercase text-[#c0c0c0] md:text-6xl"
+                  style={isTh ? { fontWeight: 600 } : undefined}
+                >
                   {t(`team.members.${key}.nickname`).charAt(0)}
                 </span>
               </div>
-              <h3
-                className="mt-1 text-center text-lg font-bold uppercase tracking-wide text-[#1a1a1a] md:text-xl"
-                style={isTh ? { fontSize: "22px" } : undefined}
-              >
+              <h3 className={`mt-1 text-center uppercase text-[#1a1a1a] ${isTh ? "" : "text-lg font-bold tracking-wide md:text-xl"}`}>
                 {t(`team.members.${key}.nickname`)}
               </h3>
-              <p
-                className="mt-1 text-center text-sm font-semibold text-[#1a1a1a]"
-                style={isTh ? { fontSize: "19px" } : undefined}
-              >
+              <p className={`mt-1 text-center text-[#1a1a1a] ${isTh ? "th-body-sm" : "text-sm font-semibold"}`}>
                 {t(`team.members.${key}.name`)}
               </p>
-              <p
-                className="mt-1 text-center text-[13px] leading-snug text-[#666]"
-                style={isTh ? { fontSize: "18px", lineHeight: 1.5 } : undefined}
-              >
+              <p className={`mt-1 text-center text-[#666] ${isTh ? "th-body-sm" : "text-[13px] leading-snug"}`}>
                 {t(`team.members.${key}.role`)}
               </p>
             </div>
@@ -160,16 +127,10 @@ export default function AboutPage() {
       {/* ─── Our Services ─── */}
       <section className="bg-[#fafaf8]">
         <div className="mx-auto max-w-[1440px] px-5 py-20 md:px-10 md:py-[120px] lg:px-20 lg:py-[140px]">
-          <p
-            className="mb-4 text-xs font-normal uppercase tracking-[0.2em] text-[#999]"
-            style={isTh ? { fontSize: "18px" } : undefined}
-          >
+          <p className={`mb-4 text-[#999] ${isTh ? "th-eyebrow" : "text-xs font-normal uppercase tracking-[0.2em]"}`}>
             {t("services.label")}
           </p>
-          <h2
-            className="mb-8 text-[26px] font-bold tracking-[-0.01em] text-[#1a1a1a] md:mb-12 md:text-[32px]"
-            style={isTh ? { fontSize: "36px", lineHeight: 1.3 } : undefined}
-          >
+          <h2 className={`mb-8 text-[#1a1a1a] md:mb-12 ${isTh ? "" : "text-[26px] font-bold tracking-[-0.01em] md:text-[32px]"}`}>
             {t("services.heading")}
           </h2>
 
@@ -180,16 +141,10 @@ export default function AboutPage() {
                 className="group border-b border-[#e5e5e5] first:border-t"
               >
                 <div className="flex flex-col gap-2 py-7 transition-all duration-300 sm:flex-row sm:items-baseline sm:justify-between sm:gap-16 md:py-8 lg:group-hover:px-4">
-                  <h3
-                    className="text-lg font-bold text-[#1a1a1a] transition-colors duration-300 sm:w-[280px] sm:shrink-0 lg:group-hover:text-[#6b6b6b]"
-                    style={isTh ? { fontSize: "22px" } : undefined}
-                  >
+                  <h3 className={`text-[#1a1a1a] transition-colors duration-300 sm:w-[280px] sm:shrink-0 lg:group-hover:text-[#6b6b6b] ${isTh ? "" : "text-lg font-bold"}`}>
                     {t(`services.${key}.title`)}
                   </h3>
-                  <p
-                    className="max-w-xl text-[15px] leading-[1.6] text-[#666]"
-                    style={isTh ? { fontSize: "20px", lineHeight: 1.6 } : undefined}
-                  >
+                  <p className={`max-w-xl text-[#666] ${isTh ? "th-body-lg" : "text-[15px] leading-[1.6]"}`}>
                     {t(`services.${key}.description`)}
                   </p>
                 </div>

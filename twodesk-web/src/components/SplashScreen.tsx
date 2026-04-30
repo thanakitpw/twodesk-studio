@@ -81,12 +81,6 @@ const BUBBLE_ICONS = [
     left: 'M16 22 L25 12 L34 22 L34 27 L16 27 Z M22 27 L22 21 L28 21 L28 27', // บ้าน
     right: 'M14 14 L36 14 Q38 14 38 16 L38 24 Q38 26 36 26 L14 26 Q12 26 12 24 L12 16 Q12 14 14 14 Z M18 14 L18 26 M22 18 L22 22 M26 18 L26 22 M30 18 L30 22', // ตลับเมตร
   },
-  // Round 3: L speaks (ดินสอ) | R idle (ตลับเมตร)
-  {
-    active: 'left' as const,
-    left: 'M16 8 L18 8 L18 27 L16 27 Z M18 27 L28 27 L28 25 L18 25 M16 8 L26 8 L16 18', // ดินสอ
-    right: 'M14 14 L36 14 Q38 14 38 16 L38 24 Q38 26 36 26 L14 26 Q12 26 12 24 L12 16 Q12 14 14 14 Z M18 14 L18 26 M22 18 L22 22 M26 18 L26 22 M30 18 L30 22', // ตลับเมตร
-  },
 ];
 
 function AlternatingBubbles() {
@@ -94,8 +88,7 @@ function AlternatingBubbles() {
 
   useEffect(() => {
     const t1 = setTimeout(() => setRound(1), 800);
-    const t2 = setTimeout(() => setRound(2), 1600);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
+    return () => clearTimeout(t1);
   }, []);
 
   const current = BUBBLE_ICONS[round];
@@ -151,13 +144,13 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
       setTimeout(() => setPhase(2), 1800),   // TWODESK slide in + hold
       setTimeout(() => setPhase(3), 2400),   // crossfade TWODESK → symbol + people draw
       setTimeout(() => setPhase(4), 3100),   // bubbles start (people finished drawing)
-      setTimeout(() => setPhase(5), 5500),   // 3 alternating bubbles (800ms × 3 = 2400ms)
-      setTimeout(() => setPhase(6), 6000),   // fade out all
-      setTimeout(() => setPhase(7), 6300),
-      setTimeout(() => setPhase(8), 6500),
-      setTimeout(() => setPhase(9), 6700),
-      setTimeout(() => setPhase(10), 6900),
-      setTimeout(() => handleComplete(), 7100),
+      setTimeout(() => setPhase(5), 4700),   // 2 alternating bubbles (800ms × 2 = 1600ms)
+      setTimeout(() => setPhase(6), 5200),   // fade out all
+      setTimeout(() => setPhase(7), 5500),
+      setTimeout(() => setPhase(8), 5700),
+      setTimeout(() => setPhase(9), 5900),
+      setTimeout(() => setPhase(10), 6100),
+      setTimeout(() => handleComplete(), 6300),
     ];
     return () => timers.forEach(clearTimeout);
   }, [handleComplete]);

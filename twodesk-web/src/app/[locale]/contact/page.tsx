@@ -13,22 +13,13 @@ export default function ContactPage() {
         <div className="mx-auto flex max-w-[1440px] flex-col gap-10 px-5 pb-16 pt-28 md:gap-12 md:px-10 md:pb-20 md:pt-36 lg:flex-row lg:gap-20 lg:px-20 lg:pb-24 lg:pt-40">
           {/* Left — heading + description */}
           <div className="lg:w-[55%]">
-            <p
-              className="mb-4 text-xs font-normal uppercase tracking-[0.2em] text-[#999]"
-              style={isTh ? { fontSize: "18px" } : undefined}
-            >
+            <p className={`mb-4 text-[#999] ${isTh ? "th-eyebrow" : "text-xs font-normal uppercase tracking-[0.2em]"}`}>
               {t("header.label")}
             </p>
-            <h1
-              className="mb-6 whitespace-pre-line text-[28px] font-bold leading-[1.15] tracking-[-0.02em] text-[#1a1a1a] md:text-[36px] lg:text-[44px]"
-              style={isTh ? { fontSize: "44px", lineHeight: 1.3 } : undefined}
-            >
+            <h1 className={`mb-6 whitespace-pre-line text-[#1a1a1a] ${isTh ? "" : "text-[28px] font-bold leading-[1.15] tracking-[-0.02em] md:text-[36px] lg:text-[44px]"}`}>
               {t("header.heading")}
             </h1>
-            <p
-              className="max-w-md text-[15px] leading-[1.7] text-[#666]"
-              style={isTh ? { fontSize: "20px", lineHeight: 1.6 } : undefined}
-            >
+            <p className={`max-w-md text-[#666] ${isTh ? "th-body-lg" : "text-[15px] leading-[1.7]"}`}>
               {t("header.description")}
             </p>
           </div>
@@ -37,16 +28,12 @@ export default function ContactPage() {
           <div className="flex flex-col gap-8 lg:w-[45%] lg:pt-4">
             {/* Email */}
             <div>
-              <h3
-                className="mb-2 text-xs font-bold uppercase tracking-[0.15em] text-[#999]"
-                style={isTh ? { fontSize: "18px" } : undefined}
-              >
+              <p className={`mb-2 text-[#999] ${isTh ? "th-eyebrow" : "text-xs font-bold uppercase tracking-[0.15em]"}`}>
                 {t("info.emailLabel")}
-              </h3>
+              </p>
               <a
                 href={`mailto:${t("info.email")}`}
-                className="text-base text-[#1a1a1a] transition-opacity hover:opacity-60"
-                style={isTh ? { fontSize: "20px" } : undefined}
+                className={`text-[#1a1a1a] transition-opacity hover:opacity-60 ${isTh ? "th-body-sm" : "text-base"}`}
               >
                 {t("info.email")}
               </a>
@@ -54,16 +41,12 @@ export default function ContactPage() {
 
             {/* Phone */}
             <div>
-              <h3
-                className="mb-2 text-xs font-bold uppercase tracking-[0.15em] text-[#999]"
-                style={isTh ? { fontSize: "18px" } : undefined}
-              >
+              <p className={`mb-2 text-[#999] ${isTh ? "th-eyebrow" : "text-xs font-bold uppercase tracking-[0.15em]"}`}>
                 {t("info.phoneLabel")}
-              </h3>
+              </p>
               <a
                 href={`tel:${t("info.phone")}`}
-                className="text-base text-[#1a1a1a] transition-opacity hover:opacity-60"
-                style={isTh ? { fontSize: "20px" } : undefined}
+                className={`text-[#1a1a1a] transition-opacity hover:opacity-60 ${isTh ? "th-body-sm" : "text-base"}`}
               >
                 {t("info.phone")}
               </a>
@@ -71,19 +54,15 @@ export default function ContactPage() {
 
             {/* Social */}
             <div>
-              <h3
-                className="mb-2 text-xs font-bold uppercase tracking-[0.15em] text-[#999]"
-                style={isTh ? { fontSize: "18px" } : undefined}
-              >
+              <p className={`mb-2 text-[#999] ${isTh ? "th-eyebrow" : "text-xs font-bold uppercase tracking-[0.15em]"}`}>
                 {t("info.socialLabel")}
-              </h3>
+              </p>
               <div className="flex flex-col gap-1">
                 <a
                   href="https://www.instagram.com/twodesk.studio"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-base text-[#1a1a1a] transition-opacity hover:opacity-60"
-                  style={isTh ? { fontSize: "20px" } : undefined}
+                  className={`text-[#1a1a1a] transition-opacity hover:opacity-60 ${isTh ? "th-body-sm" : "text-base"}`}
                 >
                   Instagram {t("info.instagram")}
                 </a>
@@ -91,8 +70,7 @@ export default function ContactPage() {
                   href="https://www.facebook.com/twodeskstudio"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-base text-[#1a1a1a] transition-opacity hover:opacity-60"
-                  style={isTh ? { fontSize: "20px" } : undefined}
+                  className={`text-[#1a1a1a] transition-opacity hover:opacity-60 ${isTh ? "th-body-sm" : "text-base"}`}
                 >
                   Facebook {t("info.facebook")}
                 </a>
@@ -101,32 +79,20 @@ export default function ContactPage() {
 
             {/* Location */}
             <div>
-              <h3
-                className="mb-2 text-xs font-bold uppercase tracking-[0.15em] text-[#999]"
-                style={isTh ? { fontSize: "18px" } : undefined}
-              >
+              <p className={`mb-2 text-[#999] ${isTh ? "th-eyebrow" : "text-xs font-bold uppercase tracking-[0.15em]"}`}>
                 {t("info.locationLabel")}
-              </h3>
-              <p
-                className="text-base text-[#1a1a1a]"
-                style={isTh ? { fontSize: "20px" } : undefined}
-              >
+              </p>
+              <p className={`text-[#1a1a1a] ${isTh ? "th-body-sm" : "text-base"}`}>
                 {t("info.location")}
               </p>
             </div>
 
             {/* Hours */}
             <div>
-              <h3
-                className="mb-2 text-xs font-bold uppercase tracking-[0.15em] text-[#999]"
-                style={isTh ? { fontSize: "18px" } : undefined}
-              >
+              <p className={`mb-2 text-[#999] ${isTh ? "th-eyebrow" : "text-xs font-bold uppercase tracking-[0.15em]"}`}>
                 {t("info.hoursLabel")}
-              </h3>
-              <p
-                className="text-base text-[#1a1a1a]"
-                style={isTh ? { fontSize: "20px" } : undefined}
-              >
+              </p>
+              <p className={`text-[#1a1a1a] ${isTh ? "th-body-sm" : "text-base"}`}>
                 {t("info.hours")}
               </p>
             </div>

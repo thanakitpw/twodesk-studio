@@ -37,12 +37,13 @@ export default function BlogContent({
           <button
             key={filter.key}
             onClick={() => setActiveFilter(filter.key)}
-            className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${
+            className={`rounded-full border px-4 py-1.5 transition-colors ${
+              isTh ? "th-button" : "text-xs font-medium"
+            } ${
               activeFilter === filter.key
                 ? 'border-[#1a1a1a] bg-[#1a1a1a] text-white'
                 : 'border-[#e0e0e0] bg-white text-[#666] hover:border-[#999]'
             }`}
-            style={isTh ? { fontSize: '18px' } : undefined}
           >
             {filter.label}
           </button>
@@ -74,22 +75,13 @@ export default function BlogContent({
                   {featured.date}
                 </span>
               </p>
-              <h2
-                className="mb-3 text-xl font-bold leading-snug text-[#1a1a1a] md:text-3xl"
-                style={isTh ? { fontSize: '34px', lineHeight: 1.3 } : undefined}
-              >
+              <h2 className={`mb-3 text-[#1a1a1a] ${isTh ? "" : "text-xl font-bold leading-snug md:text-3xl"}`}>
                 {featured.title}
               </h2>
-              <p
-                className="mb-4 text-sm font-light leading-relaxed text-[#666]"
-                style={isTh ? { fontSize: '20px', lineHeight: 1.6 } : undefined}
-              >
+              <p className={`mb-4 text-[#666] ${isTh ? "th-body-lg" : "text-sm font-light leading-relaxed"}`}>
                 {featured.excerpt}
               </p>
-              <span
-                className="inline-block text-sm font-medium text-[#1a1a1a]"
-                style={isTh ? { fontSize: '19px' } : undefined}
-              >
+              <span className={`inline-block text-[#1a1a1a] ${isTh ? "th-button" : "text-sm font-medium"}`}>
                 {readArticleLabel} &rarr;
               </span>
             </div>
@@ -121,16 +113,10 @@ export default function BlogContent({
                   {article.date}
                 </span>
               </p>
-              <h3
-                className="mb-1.5 line-clamp-2 text-sm font-semibold leading-snug text-[#1a1a1a] md:text-base"
-                style={isTh ? { fontSize: '20px' } : undefined}
-              >
+              <h3 className={`mb-1.5 line-clamp-2 text-[#1a1a1a] ${isTh ? "" : "text-sm font-semibold leading-snug md:text-base"}`}>
                 {article.title}
               </h3>
-              <p
-                className="line-clamp-2 text-[13px] font-light leading-relaxed text-[#666]"
-                style={isTh ? { fontSize: '17px', lineHeight: 1.5 } : undefined}
-              >
+              <p className={`line-clamp-2 text-[#666] ${isTh ? "th-body-sm" : "text-[13px] font-light leading-relaxed"}`}>
                 {article.excerpt}
               </p>
             </Link>

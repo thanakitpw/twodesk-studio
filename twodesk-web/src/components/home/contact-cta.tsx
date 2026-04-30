@@ -5,7 +5,6 @@ export default function ContactCta() {
   const t = useTranslations("home");
   const locale = useLocale();
   const isTh = locale === "th";
-  const thScale = (px: number) => isTh ? `${Math.round(px * 1.35)}px` : undefined;
 
   return (
     <div className="bg-black">
@@ -22,34 +21,24 @@ export default function ContactCta() {
         {/* Content */}
         <div className="relative z-10">
         <ScrollAnimate>
-          <p
-            className="mb-3 md:mb-4 text-xs font-normal uppercase tracking-[0.2em] text-white/50"
-            style={isTh ? { fontSize: "22px" } : undefined}
-          >
+          <p className={`mb-3 md:mb-4 text-white/50 ${isTh ? "th-eyebrow" : "text-xs font-normal uppercase tracking-[0.2em]"}`}>
             {t("ctaLabel")}
           </p>
         </ScrollAnimate>
         <ScrollAnimate>
-          <h2
-            className="mb-3 md:mb-4 text-[28px] md:text-[44px] font-bold text-white"
-            style={isTh ? { fontSize: thScale(44), lineHeight: 1.3 } : undefined}
-          >
+          <h2 className={`mb-3 md:mb-4 text-white ${isTh ? "" : "text-[28px] md:text-[44px] font-bold"}`}>
             {t("ctaTitle")}
           </h2>
         </ScrollAnimate>
         <ScrollAnimate>
-          <p
-            className="mb-6 md:mb-8 text-[13px] md:text-[15px] text-white/60"
-            style={isTh ? { fontSize: "22px", lineHeight: 1.5 } : undefined}
-          >
+          <p className={`mb-6 md:mb-8 text-white/60 ${isTh ? "th-body-lg" : "text-[13px] md:text-[15px]"}`}>
             {t("ctaDescription")}
           </p>
         </ScrollAnimate>
         <ScrollAnimate>
           <a
             href="#"
-            className="relative z-20 inline-block border border-white bg-transparent px-8 md:px-10 py-3 md:py-3.5 text-sm font-medium !text-white transition-all duration-300 hover:bg-white hover:!text-black"
-            style={isTh ? { fontSize: "22px" } : undefined}
+            className={`relative z-20 inline-block border border-white bg-transparent px-8 md:px-10 py-3 md:py-3.5 !text-white transition-all duration-300 hover:bg-white hover:!text-black ${isTh ? "th-button" : "text-sm font-medium"}`}
           >
             {t("ctaButton")}
           </a>

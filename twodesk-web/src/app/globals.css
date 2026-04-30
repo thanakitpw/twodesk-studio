@@ -21,84 +21,163 @@ a {
   color: inherit;
 }
 
-/* ThaiSans Neue — local font files */
-@font-face {
-  font-family: 'ThaiSans Neue';
-  src: url('/fonts/ThaiSansNeue-Light.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'ThaiSans Neue';
-  src: url('/fonts/ThaiSansNeue-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'ThaiSans Neue';
-  src: url('/fonts/ThaiSansNeue-Italic.ttf') format('truetype');
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'ThaiSans Neue';
-  src: url('/fonts/ThaiSansNeue-SemiBold.ttf') format('truetype');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'ThaiSans Neue';
-  src: url('/fonts/ThaiSansNeue-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'ThaiSans Neue';
-  src: url('/fonts/ThaiSansNeue-ExtraBold.ttf') format('truetype');
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
+/* ============================================================
+   Thai (Kanit) Type Scale — Two Desks Studio Design System
+   ------------------------------------------------------------
+   Apply by adding .locale-th to a wrapper. Heading semantics
+   (h1-h4) drive most type; utility classes cover label/caption
+   patterns.
 
-/* Thai font — apply when locale is 'th' */
+   font-size: NO !important → inline `style={{fontSize}}` can
+              still override for genuine exceptions.
+   weight / line-height / letter-spacing: !important → these
+              must beat Tailwind classNames (font-bold, leading-*,
+              tracking-*) to stay consistent.
+
+   Tokens (desktop / mobile):
+     Display      56 / 36   weight 700  lh 1.2   (.th-display)
+     H1           44 / 32   weight 700  lh 1.3
+     H2           36 / 26   weight 700  lh 1.35
+     H3           22 / 19   weight 600  lh 1.4
+     H4           18 / 16   weight 600  lh 1.4
+     Body Lg      19 / 17   weight 300  lh 1.6   (.th-body-lg)
+     Body         17 / 16   weight 300  lh 1.6   (default p, li)
+     Body Sm      15 / 14   weight 300  lh 1.5   (.th-body-sm)
+     Eyebrow      13 / 12   weight 500  lh 1.4   (.th-eyebrow)
+     Button       16 / 15   weight 500  lh 1.2   (.th-button)
+   ============================================================ */
+
 .locale-th,
 .locale-th * {
-  font-family: 'ThaiSans Neue', sans-serif !important;
-}
-.locale-th main p,
-.locale-th main li,
-.locale-th footer p {
-  line-height: 1.8;
-  letter-spacing: 0.015em;
-  text-wrap: pretty;
+  font-family: var(--font-kanit), sans-serif !important;
 }
 
-/* Thai font weight scale matching brand guidelines */
-.locale-th h1,
-.locale-th h2,
-.locale-th h3 {
-  font-weight: 700 !important;
+/* Thai script: no uppercase + wide tracking causes vowels/tone-marks
+   to detach from base consonants. Drop both (also capitalize) for any
+   element under .locale-th. */
+.locale-th [class*="tracking-"],
+.locale-th .uppercase,
+.locale-th [class*="uppercase"],
+.locale-th .capitalize,
+.locale-th [class*="capitalize"] {
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+/* Kanit reads heavier than Helvetica at the same numeric weight, so
+   step every Tailwind weight class down by one for Thai. */
+.locale-th .font-bold { font-weight: 600 !important; }
+.locale-th .font-semibold { font-weight: 500 !important; }
+.locale-th .font-medium { font-weight: 400 !important; }
+.locale-th .font-normal { font-weight: 300 !important; }
+
+/* ── Headings ─────────────────────────────────────── */
+.locale-th h1 {
+  font-size: 44px;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0;
   text-wrap: balance;
 }
-.locale-th h4,
+.locale-th h2 {
+  font-size: 36px;
+  font-weight: 600 !important;
+  line-height: 1.35 !important;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+.locale-th h3 {
+  font-size: 22px;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0;
+}
+.locale-th h4 {
+  font-size: 18px;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0;
+}
 .locale-th h5,
 .locale-th h6 {
   font-weight: 400 !important;
+  line-height: 1.4 !important;
 }
+
+/* ── Body ─────────────────────────────────────────── */
 .locale-th main p,
-.locale-th main li,
+.locale-th main li {
+  font-size: 17px;
+  font-weight: 300 !important;
+  line-height: 1.6;
+  letter-spacing: 0.005em;
+  text-wrap: pretty;
+}
 .locale-th main span,
-.locale-th main a,
+.locale-th main a {
+  font-weight: 300 !important;
+}
+
+/* ── Footer body — slightly smaller ───────────────── */
 .locale-th footer p,
 .locale-th footer li,
 .locale-th footer span,
 .locale-th footer a {
+  font-size: 16px;
   font-weight: 300 !important;
+  line-height: 1.5;
+  letter-spacing: 0.005em;
+}
+
+/* ── Utility classes ──────────────────────────────── */
+.locale-th .th-display {
+  font-size: 56px;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0 !important;
+}
+.locale-th .th-body-lg {
+  font-size: 19px !important;
+  font-weight: 300 !important;
+  line-height: 1.6 !important;
+  letter-spacing: 0.005em;
+}
+.locale-th .th-body-sm {
+  font-size: 15px !important;
+  font-weight: 300 !important;
+  line-height: 1.5 !important;
+}
+.locale-th .th-eyebrow {
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+.locale-th .th-button {
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0 !important;
+}
+
+/* ── Mobile responsive ────────────────────────────── */
+@media (max-width: 767px) {
+  .locale-th h1 { font-size: 32px; }
+  .locale-th h2 { font-size: 26px; }
+  .locale-th h3 { font-size: 19px; }
+  .locale-th h4 { font-size: 16px; }
+  .locale-th main p,
+  .locale-th main li { font-size: 16px; }
+  .locale-th footer p,
+  .locale-th footer li,
+  .locale-th footer span,
+  .locale-th footer a { font-size: 15px; }
+  .locale-th .th-display { font-size: 36px; }
+  .locale-th .th-body-lg { font-size: 17px !important; }
+  .locale-th .th-body-sm { font-size: 14px !important; }
+  .locale-th .th-eyebrow { font-size: 12px !important; }
+  .locale-th .th-button { font-size: 15px !important; }
 }
 
 

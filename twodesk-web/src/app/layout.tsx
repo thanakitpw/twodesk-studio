@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Geist } from "next/font/google";
+import { Geist, Kanit } from "next/font/google";
 import { cn } from "@/lib/utils";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
+const kanit = Kanit({
+  subsets: ["thai", "latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-kanit",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "TWO DESK — Design Studio",
@@ -17,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html suppressHydrationWarning className={cn("font-sans", geist.variable)}>
+    <html suppressHydrationWarning className={cn("font-sans", geist.variable, kanit.variable)}>
       <body className="min-h-screen antialiased">{children}</body>
     </html>
   );

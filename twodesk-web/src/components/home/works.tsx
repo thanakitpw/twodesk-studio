@@ -83,7 +83,6 @@ function ProjectCard({
   tagLabel: string;
   isTh: boolean;
 }) {
-  const thScale = (px: number) => isTh ? `${Math.round(px * 1.35)}px` : undefined;
   const data = PROJECT_DATA[project.nameKey];
 
   return (
@@ -101,22 +100,15 @@ function ProjectCard({
         </div>
         <div className="mb-1.5 flex gap-2">
           <span
-            className={`rounded-[3px] px-2 py-[3px] text-[10px] font-semibold uppercase tracking-[1px] ${TAG_STYLES[project.tagType]}`}
-            style={isTh ? { fontSize: thScale(10) } : undefined}
+            className={`rounded-[3px] px-2 py-[3px] font-semibold uppercase ${TAG_STYLES[project.tagType]} ${isTh ? "th-eyebrow" : "text-[10px] tracking-[1px]"}`}
           >
             {tagLabel}
           </span>
         </div>
-        <h3
-          className="mb-1 text-lg md:text-xl font-semibold transition-colors duration-300 group-hover:text-[#555]"
-          style={isTh ? { fontSize: "22px" } : undefined}
-        >
+        <h3 className={`mb-1 transition-colors duration-300 group-hover:text-[#555] ${isTh ? "" : "text-lg md:text-xl font-semibold"}`}>
           {data.name}
         </h3>
-        <p
-          className="text-xs md:text-sm text-[#999]"
-          style={isTh ? { fontSize: "19px" } : undefined}
-        >
+        <p className={`text-[#999] ${isTh ? "th-body-sm" : "text-xs md:text-sm"}`}>
           {data.location}
         </p>
       </Link>
@@ -129,7 +121,6 @@ export default function Works() {
   const tc = useTranslations("common");
   const locale = useLocale();
   const isTh = locale === "th";
-  const thScale = (px: number) => isTh ? `${Math.round(px * 1.35)}px` : undefined;
 
   return (
     <section className="mx-auto max-w-[1440px] px-5 md:px-20 py-16 md:py-[100px]">
@@ -137,23 +128,16 @@ export default function Works() {
       <ScrollAnimate>
         <div className="mb-8 md:mb-10 flex items-end justify-between">
           <div>
-            <p
-              className="mb-3 md:mb-4 text-xs font-normal uppercase tracking-[0.2em] text-[#999]"
-              style={isTh ? { fontSize: "18px" } : undefined}
-            >
+            <p className={`mb-3 md:mb-4 text-[#999] ${isTh ? "th-eyebrow" : "text-xs font-normal uppercase tracking-[0.2em]"}`}>
               {t("worksLabel")}
             </p>
-            <h2
-              className="text-[26px] md:text-[32px] font-bold tracking-tight"
-              style={isTh ? { fontSize: thScale(32) } : undefined}
-            >
+            <h2 className={isTh ? "" : "text-[26px] md:text-[32px] font-bold tracking-tight"}>
               {t("worksTitle")}
             </h2>
           </div>
           <Link
             href="/projects"
-            className="flex items-center gap-1.5 text-xs md:text-sm hover:opacity-60 transition-opacity"
-            style={isTh ? { fontSize: "19px" } : undefined}
+            className={`flex items-center gap-1.5 hover:opacity-60 transition-opacity ${isTh ? "th-button" : "text-xs md:text-sm"}`}
           >
             {t("viewAllProjects")} →
           </Link>

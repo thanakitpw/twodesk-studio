@@ -6,7 +6,8 @@ export default function Footer() {
   const nav = useTranslations("nav");
   const locale = useLocale();
   const isTh = locale === "th";
-  const thScale = (px: number) => isTh ? `${Math.round(px * 1.35)}px` : undefined;
+  const colHeading = `text-[#999] mb-3 md:mb-4 ${isTh ? "th-eyebrow" : "text-[11px] font-bold tracking-[2px] uppercase"}`;
+  const colLink = `block text-[#333] mb-2 md:mb-2.5 hover:opacity-60 transition-opacity ${isTh ? "" : "text-sm"}`;
 
   return (
     <div className="bg-[#fafaf8]">
@@ -21,66 +22,32 @@ export default function Footer() {
             />
             <h3 className="sr-only">TWO DESKS
             </h3>
-            <p
-              className="text-[12px] md:text-[13px] text-[#666] leading-[1.7] whitespace-pre-line"
-              style={isTh ? { fontSize: thScale(13) } : undefined}
-            >
+            <p className={`text-[#666] leading-[1.7] whitespace-pre-line ${isTh ? "" : "text-[12px] md:text-[13px]"}`}>
               {t("brandDescription")}
             </p>
           </div>
 
           {/* Navigate */}
           <div>
-            <h4
-              className="text-[11px] font-bold tracking-[2px] uppercase text-[#999] mb-3 md:mb-4"
-              style={isTh ? { fontSize: thScale(11) } : undefined}
-            >
+            <h4 className={colHeading}>
               {t("navigate")}
             </h4>
-            <Link
-              href="/projects"
-              className="block text-sm text-[#333] mb-2 md:mb-2.5 hover:opacity-60 transition-opacity"
-              style={isTh ? { fontSize: "19px" } : undefined}
-            >
-              {nav("projects")}
-            </Link>
-            <Link
-              href="/blog"
-              className="block text-sm text-[#333] mb-2 md:mb-2.5 hover:opacity-60 transition-opacity"
-              style={isTh ? { fontSize: "19px" } : undefined}
-            >
-              {nav("blog")}
-            </Link>
-            <Link
-              href="/about"
-              className="block text-sm text-[#333] mb-2 md:mb-2.5 hover:opacity-60 transition-opacity"
-              style={isTh ? { fontSize: "19px" } : undefined}
-            >
-              {nav("about")}
-            </Link>
-            <Link
-              href="/contact"
-              className="block text-sm text-[#333] mb-2 md:mb-2.5 hover:opacity-60 transition-opacity"
-              style={isTh ? { fontSize: "19px" } : undefined}
-            >
-              {nav("contact")}
-            </Link>
+            <Link href="/projects" className={colLink}>{nav("projects")}</Link>
+            <Link href="/blog" className={colLink}>{nav("blog")}</Link>
+            <Link href="/about" className={colLink}>{nav("about")}</Link>
+            <Link href="/contact" className={colLink}>{nav("contact")}</Link>
           </div>
 
           {/* Connect */}
           <div>
-            <h4
-              className="text-[11px] font-bold tracking-[2px] uppercase text-[#999] mb-3 md:mb-4"
-              style={isTh ? { fontSize: thScale(11) } : undefined}
-            >
+            <h4 className={colHeading}>
               {t("connect")}
             </h4>
             <a
               href="https://www.instagram.com/twodesk.studio"
               target="_blank"
               rel="noopener noreferrer"
-              className="block text-sm text-[#333] mb-2 md:mb-2.5 hover:opacity-60 transition-opacity"
-              style={isTh ? { fontSize: "19px" } : undefined}
+              className={colLink}
             >
               {t("instagram")}
             </a>
@@ -88,41 +55,28 @@ export default function Footer() {
               href="https://www.facebook.com/twodeskstudio"
               target="_blank"
               rel="noopener noreferrer"
-              className="block text-sm text-[#333] mb-2 md:mb-2.5 hover:opacity-60 transition-opacity"
-              style={isTh ? { fontSize: "19px" } : undefined}
+              className={colLink}
             >
               {t("facebook")}
             </a>
-            <a
-              href="mailto:hello@twodesk.studio"
-              className="block text-sm text-[#333] mb-2 md:mb-2.5 hover:opacity-60 transition-opacity"
-              style={isTh ? { fontSize: "19px" } : undefined}
-            >
+            <a href="mailto:hello@twodesk.studio" className={colLink}>
               {t("email")}
             </a>
           </div>
 
           {/* Contact - hidden on mobile to avoid duplication with Connect */}
           <div className="hidden md:block">
-            <h4
-              className="text-[11px] font-bold tracking-[2px] uppercase text-[#999] mb-4"
-              style={isTh ? { fontSize: thScale(11) } : undefined}
-            >
+            <h4 className={colHeading}>
               {t("contactTitle")}
             </h4>
-            <a
-              href="mailto:hello@twodesk.studio"
-              className="block text-sm text-[#333] mb-2.5 hover:opacity-60 transition-opacity"
-              style={isTh ? { fontSize: "19px" } : undefined}
-            >
+            <a href="mailto:hello@twodesk.studio" className={colLink}>
               {t("emailAddress")}
             </a>
             <a
               href="https://www.instagram.com/twodesk.studio"
               target="_blank"
               rel="noopener noreferrer"
-              className="block text-sm text-[#333] mb-2.5 hover:opacity-60 transition-opacity"
-              style={isTh ? { fontSize: "19px" } : undefined}
+              className={colLink}
             >
               {t("instagramHandle")}
             </a>
@@ -130,9 +84,9 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="flex flex-col md:flex-row justify-between gap-2 pt-6 border-t border-[#e5e5e5] text-xs text-[#999]">
-          <span style={isTh ? { fontSize: "16px" } : undefined}>{t("copyright")}</span>
-          <span className="hidden md:inline" style={isTh ? { fontSize: "16px" } : undefined}>{t("credit")}</span>
+        <div className={`flex flex-col md:flex-row justify-between gap-2 pt-6 border-t border-[#e5e5e5] text-[#999] ${isTh ? "" : "text-xs"}`}>
+          <span>{t("copyright")}</span>
+          <span className="hidden md:inline">{t("credit")}</span>
         </div>
       </footer>
     </div>

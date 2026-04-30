@@ -55,13 +55,14 @@ export default function Nav() {
 
           {/* Desktop links */}
           <div
-            className={`hidden md:flex items-center gap-8 transition-all duration-300 ${locale === "th" ? "font-medium" : "font-light"}`}
+            className="hidden md:flex items-center gap-8 transition-all duration-300 font-light"
             style={{
-              fontSize: locale === "th" ? (scrolled ? "18px" : "20px") : (scrolled ? "12px" : "14px"),
-              ...(locale === "th" ? { fontWeight: 500 } : {}),
+              fontSize: locale === "th" ? (scrolled ? "15px" : "17px") : (scrolled ? "12px" : "14px"),
+              ...(locale === "th" ? { fontWeight: 300 } : {}),
             }}
           >
             {[
+              { href: "/" as const, label: t("home") },
               { href: "/projects" as const, label: t("projects") },
               { href: "/blog" as const, label: t("blog") },
               { href: "/about" as const, label: t("about") },
@@ -146,29 +147,36 @@ export default function Nav() {
             {/* Links */}
             <div className="flex flex-col px-5 pb-8 gap-1">
               <Link
+                href="/"
+                className={`py-3 border-b border-[#f0f0f0] hover:opacity-60 transition-opacity ${locale === "th" ? "text-2xl font-light" : "text-lg font-light"}`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t("home")}
+              </Link>
+              <Link
                 href="/projects"
-                className={`py-3 border-b border-[#f0f0f0] hover:opacity-60 transition-opacity ${locale === "th" ? "text-2xl font-normal" : "text-lg font-light"}`}
+                className={`py-3 border-b border-[#f0f0f0] hover:opacity-60 transition-opacity ${locale === "th" ? "text-2xl font-light" : "text-lg font-light"}`}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t("projects")}
               </Link>
               <Link
                 href="/blog"
-                className={`py-3 border-b border-[#f0f0f0] hover:opacity-60 transition-opacity ${locale === "th" ? "text-2xl font-normal" : "text-lg font-light"}`}
+                className={`py-3 border-b border-[#f0f0f0] hover:opacity-60 transition-opacity ${locale === "th" ? "text-2xl font-light" : "text-lg font-light"}`}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t("blog")}
               </Link>
               <Link
                 href="/about"
-                className={`py-3 border-b border-[#f0f0f0] hover:opacity-60 transition-opacity ${locale === "th" ? "text-2xl font-normal" : "text-lg font-light"}`}
+                className={`py-3 border-b border-[#f0f0f0] hover:opacity-60 transition-opacity ${locale === "th" ? "text-2xl font-light" : "text-lg font-light"}`}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t("about")}
               </Link>
               <Link
                 href="/contact"
-                className={`py-3 border-b border-[#f0f0f0] hover:opacity-60 transition-opacity ${locale === "th" ? "text-2xl font-normal" : "text-lg font-light"}`}
+                className={`py-3 border-b border-[#f0f0f0] hover:opacity-60 transition-opacity ${locale === "th" ? "text-2xl font-light" : "text-lg font-light"}`}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t("contact")}

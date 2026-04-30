@@ -92,8 +92,8 @@ export default function ProjectGallery({ images, imageGroups, title }: ProjectGa
             <button
               key={group.label}
               onClick={() => setActiveGroup(i)}
-              className={`rounded-full border font-medium transition-colors ${
-                isTh ? 'px-5 py-2 text-base' : 'px-4 py-1.5 text-xs'
+              className={`rounded-full border transition-colors ${
+                isTh ? 'px-5 py-2 th-button' : 'px-4 py-1.5 text-xs font-medium'
               } ${
                 activeGroup === i
                   ? 'border-[#1a1a1a] bg-[#1a1a1a] text-white'
@@ -101,7 +101,7 @@ export default function ProjectGallery({ images, imageGroups, title }: ProjectGa
               }`}
             >
               {group.label}
-              <span className={`ml-1.5 opacity-60 ${isTh ? 'text-sm' : 'text-[10px]'}`}>{group.images.length}</span>
+              <span className={`ml-1.5 opacity-60 ${isTh ? 'text-xs' : 'text-[10px]'}`}>{group.images.length}</span>
             </button>
           ))}
         </div>

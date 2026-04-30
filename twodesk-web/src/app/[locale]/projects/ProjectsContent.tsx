@@ -70,8 +70,7 @@ export default function ProjectsContent({ projects }: { projects: ProjectItem[] 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-4 text-xs font-normal uppercase tracking-[0.2em] text-[#999]"
-          style={isTh ? { fontSize: '18px' } : undefined}
+          className={`mb-4 text-[#999] ${isTh ? "th-eyebrow" : "text-xs font-normal uppercase tracking-[0.2em]"}`}
         >
           {t('label')}
         </motion.p>
@@ -79,8 +78,7 @@ export default function ProjectsContent({ projects }: { projects: ProjectItem[] 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="mb-4 text-4xl font-bold tracking-tight text-[#1a1a1a] md:text-5xl"
-          style={isTh ? { fontSize: '52px', lineHeight: 1.3 } : undefined}
+          className={`mb-4 text-[#1a1a1a] ${isTh ? "" : "text-4xl font-bold tracking-tight md:text-5xl"}`}
         >
           {t('heading')}
         </motion.h1>
@@ -88,8 +86,7 @@ export default function ProjectsContent({ projects }: { projects: ProjectItem[] 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="max-w-lg text-base font-light leading-relaxed text-[#6b6b6b]"
-          style={isTh ? { fontSize: '20px', lineHeight: 1.6 } : undefined}
+          className={`max-w-lg text-[#6b6b6b] ${isTh ? "th-body-lg" : "text-base font-light leading-relaxed"}`}
         >
           {t('description')}
         </motion.p>
@@ -110,12 +107,11 @@ export default function ProjectsContent({ projects }: { projects: ProjectItem[] 
               <button
                 key={cat.key}
                 onClick={() => setActiveFilter(cat.key)}
-                className="rounded-full border px-4 py-1.5 text-xs md:px-5 md:py-2 md:text-sm font-light transition-all"
+                className={`rounded-full border px-4 py-1.5 md:px-5 md:py-2 transition-all ${isTh ? "th-button" : "text-xs md:text-sm font-light"}`}
                 style={{
                   backgroundColor: isActive ? palette.solid : palette.tint,
                   borderColor: palette.solid,
                   color: isActive ? '#fff' : palette.solid,
-                  ...(isTh ? { fontSize: '18px' } : {}),
                 }}
               >
                 {t(cat.labelKey)}
@@ -159,16 +155,10 @@ export default function ProjectsContent({ projects }: { projects: ProjectItem[] 
                     {project.category}
                   </span>
                 </div>
-                <h3
-                  className="mb-1 text-base font-semibold text-[#1a1a1a] md:text-xl"
-                  style={isTh ? { fontSize: '22px' } : undefined}
-                >
+                <h3 className={`mb-1 text-[#1a1a1a] ${isTh ? "" : "text-base font-semibold md:text-xl"}`}>
                   {project.title}
                 </h3>
-                <p
-                  className="text-sm text-[#999]"
-                  style={isTh ? { fontSize: '19px' } : undefined}
-                >
+                <p className={`text-[#999] ${isTh ? "th-body-sm" : "text-sm"}`}>
                   {project.location}
                 </p>
               </Link>

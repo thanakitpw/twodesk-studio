@@ -1,10 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 export default function ContactForm() {
   const t = useTranslations("contact.form");
+  const locale = useLocale();
+  const isTh = locale === "th";
+  const labelClass = `mb-2 block text-[#999] ${isTh ? "th-eyebrow" : "text-xs font-medium uppercase tracking-[0.1em]"}`;
+  const fieldClass = `${isTh ? "th-body-sm" : "text-sm"}`;
 
   const [formData, setFormData] = useState({
     name: "",
@@ -54,19 +58,18 @@ export default function ContactForm() {
     }
   };
 
-  const inputClass =
-    "w-full border border-[#e5e5e5] bg-white px-4 py-3 text-sm text-[#1a1a1a] outline-none transition-colors placeholder:text-[#bbb] focus:border-[#1a1a1a]";
+  const inputClass = `w-full border border-[#e5e5e5] bg-white px-4 py-3 text-[#1a1a1a] outline-none transition-colors placeholder:text-[#bbb] focus:border-[#1a1a1a] ${fieldClass}`;
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-      <h2 className="mb-2 text-[24px] font-bold text-[#1a1a1a] md:text-[28px]">
+      <h2 className={`mb-2 text-[#1a1a1a] ${isTh ? "" : "text-[24px] font-bold md:text-[28px]"}`}>
         {t("heading")}
       </h2>
 
       {/* Name + Email row */}
       <div className="flex flex-col gap-6 sm:flex-row">
         <div className="flex-1">
-          <label className="mb-2 block text-xs font-medium uppercase tracking-[0.1em] text-[#999]">
+          <label className={labelClass}>
             {t("name")}
           </label>
           <input
@@ -80,7 +83,7 @@ export default function ContactForm() {
           />
         </div>
         <div className="flex-1">
-          <label className="mb-2 block text-xs font-medium uppercase tracking-[0.1em] text-[#999]">
+          <label className={labelClass}>
             {t("email")}
           </label>
           <input
@@ -98,7 +101,7 @@ export default function ContactForm() {
       {/* Phone + Project Type row */}
       <div className="flex flex-col gap-6 sm:flex-row">
         <div className="flex-1">
-          <label className="mb-2 block text-xs font-medium uppercase tracking-[0.1em] text-[#999]">
+          <label className={labelClass}>
             {t("phone")}
           </label>
           <input
@@ -111,7 +114,7 @@ export default function ContactForm() {
           />
         </div>
         <div className="flex-1">
-          <label className="mb-2 block text-xs font-medium uppercase tracking-[0.1em] text-[#999]">
+          <label className={labelClass}>
             {t("projectType")}
           </label>
           <select
@@ -134,7 +137,7 @@ export default function ContactForm() {
 
       {/* Message */}
       <div>
-        <label className="mb-2 block text-xs font-medium uppercase tracking-[0.1em] text-[#999]">
+        <label className={labelClass}>
           {t("message")}
         </label>
         <textarea
@@ -160,7 +163,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={submitting}
-        className="w-full bg-black px-10 py-3.5 text-sm font-medium text-white transition-colors hover:bg-[#333] disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:self-start"
+        className={`w-full bg-black px-10 py-3.5 text-white transition-colors hover:bg-[#333] disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:self-start ${isTh ? "th-button" : "text-sm font-medium"}`}
       >
         {submitting ? t("submitting") : t("submit")}
       </button>
