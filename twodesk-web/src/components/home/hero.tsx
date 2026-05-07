@@ -1,22 +1,55 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
+import { motion, AnimatePresence } from "framer-motion";
+
+const BANNERS = [
+  "https://ivslfjtahzkpdgoqjobh.supabase.co/storage/v1/object/public/projects/banners/banner-01.webp",
+  "https://ivslfjtahzkpdgoqjobh.supabase.co/storage/v1/object/public/projects/banners/banner-02.webp",
+  "https://ivslfjtahzkpdgoqjobh.supabase.co/storage/v1/object/public/projects/banners/banner-03.webp",
+  "https://ivslfjtahzkpdgoqjobh.supabase.co/storage/v1/object/public/projects/banners/banner-04.webp",
+  "https://ivslfjtahzkpdgoqjobh.supabase.co/storage/v1/object/public/projects/banners/banner-05.webp",
+  "https://ivslfjtahzkpdgoqjobh.supabase.co/storage/v1/object/public/projects/banners/banner-06.webp",
+  "https://ivslfjtahzkpdgoqjobh.supabase.co/storage/v1/object/public/projects/banners/banner-07.webp",
+  "https://ivslfjtahzkpdgoqjobh.supabase.co/storage/v1/object/public/projects/banners/banner-08.webp",
+  "https://ivslfjtahzkpdgoqjobh.supabase.co/storage/v1/object/public/projects/banners/banner-09.webp",
+];
+
+const INTERVAL_MS = 4000;
 
 export default function Hero() {
   const t = useTranslations("home");
   const locale = useLocale();
   const isTh = locale === "th";
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % BANNERS.length);
+    }, INTERVAL_MS);
+    return () => clearInterval(id);
+  }, []);
 
   return (
     <section className="relative h-[420px] md:h-[85vh] overflow-hidden">
-      {/* Background Image */}
-      <img
-        src="https://workers.paper.design/file-assets/01KKH1XNYR2JH27ZNJAM5Y6B8Q/5ZBHYX54W047K1FN4NSANHGY8Y.jpg"
-        alt="Hero"
-        className="h-full w-full object-cover"
-      />
+      {/* Slides */}
+      <AnimatePresence mode="sync">
+        <motion.img
+          key={BANNERS[index]}
+          src={BANNERS[index]}
+          alt="Hero"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.2, ease: "easeInOut" }}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      </AnimatePresence>
 
       {/* Gradient Overlay */}
       <div
-        className="absolute bottom-0 left-0 right-0 h-[200px] md:h-[360px]"
+        className="pointer-events-none absolute bottom-0 left-0 right-0 h-[200px] md:h-[360px]"
         style={{
           background:
             "linear-gradient(to top, rgba(250,250,248,0.95) 0%, rgba(250,250,248,0.7) 50%, transparent 100%)",
@@ -48,6 +81,20 @@ export default function Hero() {
         >
           {t("heroSubtitle")}
         </p>
+      </div>
+
+      {/* Dots */}
+      <div className="absolute bottom-4 right-5 md:right-20 flex gap-1.5 md:gap-2">
+        {BANNERS.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setIndex(i)}
+            aria-label={`Slide ${i + 1}`}
+            className={`h-1.5 rounded-full transition-all ${
+              i === index ? "w-6 bg-[#1a1a1a]" : "w-1.5 bg-[#1a1a1a]/30"
+            }`}
+          />
+        ))}
       </div>
     </section>
   );

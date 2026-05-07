@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Geist, Kanit } from "next/font/google";
 import { cn } from "@/lib/utils";
+import SmoothScrollProvider from "@/components/smooth-scroll-provider";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 const kanit = Kanit({
@@ -24,7 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html suppressHydrationWarning className={cn("font-sans", geist.variable, kanit.variable)}>
-      <body className="min-h-screen antialiased">{children}</body>
+      <body className="min-h-screen antialiased">
+        <SmoothScrollProvider>{children}</SmoothScrollProvider>
+      </body>
     </html>
   );
 }

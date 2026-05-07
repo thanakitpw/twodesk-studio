@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { motion, type Variants } from 'framer-motion';
@@ -56,11 +56,31 @@ export default function ProjectsContent({ projects }: { projects: ProjectItem[] 
   const locale = useLocale();
   const isTh = locale === 'th';
   const [activeFilter, setActiveFilter] = useState<string>('all');
+  const [page, setPage] = useState<number>(1);
+  const PAGE_SIZE = 9;
 
-  const filtered =
-    activeFilter === 'all'
-      ? projects
-      : projects.filter((p) => p.category === activeFilter);
+  const filtered = useMemo(
+    () =>
+      activeFilter === 'all'
+        ? projects
+        : projects.filter((p) => p.category === activeFilter),
+    [activeFilter, projects],
+  );
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const currentPage = Math.min(page, totalPages);
+  const paged = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+
+  useEffect(() => {
+    setPage(1);
+  }, [activeFilter]);
+
+  const goTo = (p: number) => {
+    setPage(p);
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -124,7 +144,7 @@ export default function ProjectsContent({ projects }: { projects: ProjectItem[] 
       {/* Grid */}
       <section className="mx-auto max-w-[1440px] px-5 pb-16 md:px-20 md:pb-24">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-6">
-          {filtered.map((project, i) => (
+          {paged.map((project, i) => (
             <motion.div
               key={project.id}
               custom={i}
@@ -170,6 +190,45 @@ export default function ProjectsContent({ projects }: { projects: ProjectItem[] 
           <p className="py-20 text-center text-[#999]">
             {t('noProjects')}
           </p>
+        )}
+
+        {totalPages > 1 && (
+          <div className="mt-12 flex items-center justify-center gap-2 md:mt-16">
+            <button
+              onClick={() => goTo(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="h-9 w-9 rounded-full border border-[#e5e5e5] text-sm text-[#1a1a1a] transition-colors hover:border-[#1a1a1a] disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-[#e5e5e5]"
+              aria-label="Previous page"
+            >
+              ‹
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => {
+              const isActive = p === currentPage;
+              return (
+                <button
+                  key={p}
+                  onClick={() => goTo(p)}
+                  className={`h-9 w-9 rounded-full border text-sm transition-colors ${
+                    isActive
+                      ? 'border-[#1a1a1a] bg-[#1a1a1a] text-white'
+                      : 'border-[#e5e5e5] text-[#1a1a1a] hover:border-[#1a1a1a]'
+                  }`}
+                  aria-label={`Page ${p}`}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  {p}
+                </button>
+              );
+            })}
+            <button
+              onClick={() => goTo(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="h-9 w-9 rounded-full border border-[#e5e5e5] text-sm text-[#1a1a1a] transition-colors hover:border-[#1a1a1a] disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-[#e5e5e5]"
+              aria-label="Next page"
+            >
+              ›
+            </button>
+          </div>
         )}
       </section>
     </div>

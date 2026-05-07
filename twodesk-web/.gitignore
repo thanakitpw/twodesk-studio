@@ -43,3 +43,6 @@ next-env.d.ts
 # Playwright
 test-results/
 playwright-report/
+
+# Project source assets (uploaded to Supabase storage, not version controlled)
+/projects/
