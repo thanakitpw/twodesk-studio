@@ -4,27 +4,14 @@ import ContactCTA from "@/components/ContactCTA";
 const TEAM_PHOTO =
   "https://workers.paper.design/file-assets/01KKH1XNYR2JH27ZNJAM5Y6B8Q/5SSJHKWF80EZ17391VTRASH3RT.jpg";
 
+const TEAM_BUCKET =
+  "https://ivslfjtahzkpdgoqjobh.supabase.co/storage/v1/object/public/projects/team";
+
 const TEAM_MEMBERS = [
-  {
-    key: "nut" as const,
-    photo:
-      "https://workers.paper.design/file-assets/01KKH1XNYR2JH27ZNJAM5Y6B8Q/6GMP96ZK01XVNNGBCTJWT2KXQK.jpg",
-  },
-  {
-    key: "gun" as const,
-    photo:
-      "https://workers.paper.design/file-assets/01KKH1XNYR2JH27ZNJAM5Y6B8Q/5X8HXKMAD0GWBEAV630BRTGVSY.jpg",
-  },
-  {
-    key: "ping" as const,
-    photo:
-      "https://workers.paper.design/file-assets/01KKH1XNYR2JH27ZNJAM5Y6B8Q/2RWM1AZK3SASHZ0FDT0YJF33MV.jpg",
-  },
-  {
-    key: "yo" as const,
-    photo:
-      "https://workers.paper.design/file-assets/01KKH1XNYR2JH27ZNJAM5Y6B8Q/0KATTQ0NYTF7T4QVKDX0QH44BC.jpg",
-  },
+  { key: "nut" as const, photo: `${TEAM_BUCKET}/nut.webp` },
+  { key: "gun" as const, photo: `${TEAM_BUCKET}/gun.webp` },
+  { key: "ping" as const, photo: `${TEAM_BUCKET}/ping.webp` },
+  { key: "yo" as const, photo: `${TEAM_BUCKET}/yo.webp` },
 ];
 
 const SERVICES = ["architecture", "interior", "engineering", "consult", "furniture"] as const;
@@ -102,13 +89,13 @@ export default function AboutPage() {
           {TEAM_MEMBERS.map(({ key, photo }) => (
             <div key={key} className="group">
               {/* Avatar */}
-              <div className="mb-4 flex aspect-[3/4] items-center justify-center overflow-hidden rounded-xl bg-[#f0f0ee]">
-                <span
-                  className="text-5xl font-bold uppercase text-[#c0c0c0] md:text-6xl"
-                  style={isTh ? { fontWeight: 600 } : undefined}
-                >
-                  {t(`team.members.${key}.nickname`).charAt(0)}
-                </span>
+              <div className="mb-4 aspect-[3/4] overflow-hidden rounded-xl bg-[#f0f0ee]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={photo}
+                  alt={t(`team.members.${key}.name`)}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
               </div>
               <h3 className={`mt-1 text-center uppercase text-[#1a1a1a] ${isTh ? "" : "text-lg font-bold tracking-wide md:text-xl"}`}>
                 {t(`team.members.${key}.nickname`)}
