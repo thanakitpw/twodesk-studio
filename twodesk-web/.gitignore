@@ -46,3 +46,4 @@ playwright-report/
 
 # Project source assets (uploaded to Supabase storage, not version controlled)
 /projects/
+.env*.local
