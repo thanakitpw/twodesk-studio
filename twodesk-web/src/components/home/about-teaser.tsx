@@ -24,7 +24,7 @@ export default function AboutTeaser() {
       <img
         src="/images/about-working.jpg"
         alt="Design process"
-        className="relative z-10 w-full md:w-1/2 h-[280px] md:h-auto md:min-h-[480px] object-cover"
+        className="relative z-10 w-full md:w-[45%] h-[280px] md:h-auto md:min-h-[400px] object-cover"
       />
 
       {/* Content */}

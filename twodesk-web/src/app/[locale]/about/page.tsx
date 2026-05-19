@@ -2,7 +2,7 @@ import { useTranslations, useLocale } from "next-intl";
 import ContactCTA from "@/components/ContactCTA";
 
 const TEAM_PHOTO =
-  "https://workers.paper.design/file-assets/01KKH1XNYR2JH27ZNJAM5Y6B8Q/5SSJHKWF80EZ17391VTRASH3RT.jpg";
+  "https://ivslfjtahzkpdgoqjobh.supabase.co/storage/v1/object/public/projects/team/team-image.webp";
 
 const TEAM_BUCKET =
   "https://ivslfjtahzkpdgoqjobh.supabase.co/storage/v1/object/public/projects/team";
@@ -40,12 +40,12 @@ export default function AboutPage() {
           </div>
 
           {/* Team photo — right ~45% (on top for mobile) */}
-          <div className="w-full lg:w-[45%]">
+          <div className="w-full bg-[#f2f2f2] lg:w-[45%]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={TEAM_PHOTO}
               alt="Two Desk Studio Team"
-              className="h-full min-h-[300px] w-full object-cover md:min-h-[400px] lg:min-h-full"
+              className="h-full min-h-[300px] w-full object-contain md:min-h-[400px] lg:min-h-full"
             />
           </div>
         </div>

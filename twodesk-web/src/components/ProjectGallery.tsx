@@ -80,14 +80,18 @@ export default function ProjectGallery({ images, imageGroups, title }: ProjectGa
   const locale = useLocale();
   const isTh = locale === 'th';
 
-  const groups = imageGroups && imageGroups.length > 0 ? imageGroups : [{ label: 'All', images }];
-  const currentGroup = groups[activeGroup];
+  const hasGroups = !!imageGroups && imageGroups.length > 0;
+  const allLabel = isTh ? 'ทั้งหมด' : 'All';
+  const groups = hasGroups
+    ? [{ label: allLabel, images }, ...imageGroups!]
+    : [{ label: allLabel, images }];
+  const currentGroup = groups[activeGroup] ?? groups[0];
 
   return (
     <>
       {/* Group Tabs */}
-      {imageGroups && imageGroups.length > 0 && (
-        <div className="mb-6 flex gap-2">
+      {hasGroups && (
+        <div className="mb-6 flex flex-wrap gap-2">
           {groups.map((group, i) => (
             <button
               key={group.label}

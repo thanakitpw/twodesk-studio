@@ -48,7 +48,7 @@ export default function Services() {
               {t("servicesTitle")}
             </h2>
           </div>
-          <p className={`max-w-[480px] md:text-right text-[#6b6b6b] ${isTh ? "th-body-lg" : "text-sm md:text-base font-light leading-[24px] md:leading-[26px]"}`}>
+          <p className={`max-w-[420px] whitespace-pre-line md:self-end md:text-right text-[#8a8a8a] ${isTh ? "th-body-sm leading-[1.7]" : "text-xs md:text-sm font-light leading-[20px] md:leading-[22px]"}`}>
             {t("servicesDescription")}
           </p>
         </div>
