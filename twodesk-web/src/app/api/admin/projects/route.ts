@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/admin';
+import { requireAdmin } from '@/lib/supabase/auth';
 
 // GET /api/admin/projects — list all projects
 export async function GET(request: NextRequest) {
+  const gate = await requireAdmin();
+  if (!gate.ok) return gate.error;
+
   const { searchParams } = request.nextUrl;
   const category = searchParams.get('category');
   const status = searchParams.get('status');
@@ -45,6 +49,9 @@ export async function GET(request: NextRequest) {
 
 // POST /api/admin/projects — create new project
 export async function POST(request: NextRequest) {
+  const gate = await requireAdmin();
+  if (!gate.ok) return gate.error;
+
   const body = await request.json();
 
   const { data, error } = await supabaseAdmin

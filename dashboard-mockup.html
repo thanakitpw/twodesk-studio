@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TWO DESK — Admin Dashboard (Mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fafafa; --panel:#fff; --ink:#000; --muted:#737373;
+    --line:#e5e5e5; --line2:#f0f0f0;
+    --red:#dc2626; --blue:#2563eb; --green:#16a34a; --yellow:#ca8a04;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:"Noto Sans Thai",Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--ink);
+    -webkit-font-smoothing:antialiased; font-size:14px;
+  }
+  .app{display:grid;grid-template-columns:248px 1fr;min-height:100vh}
+
+  /* Sidebar — fixed full-height, ไม่ scroll ตามเนื้อหา main */
+  .side{background:#000;color:#fff;padding:24px 0;display:flex;flex-direction:column;
+    position:sticky;top:0;height:100vh}
+  .brand{font-weight:bold;letter-spacing:.18em;font-size:15px;padding:0 24px 28px}
+  .search{margin:0 16px 22px;background:#161616;border:1px solid #262626;border-radius:6px;
+    padding:8px 12px;color:#888;font-size:12.5px;display:flex;justify-content:space-between}
+  .grp{padding:0 16px;margin-bottom:18px}
+  .grp h4{font-size:10.5px;letter-spacing:.16em;color:#666;font-weight:bold;
+    text-transform:uppercase;padding:0 8px 8px}
+  .nav{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:6px;
+    color:#bbb;font-size:13px;cursor:pointer}
+  .nav:hover{background:#161616;color:#fff}
+  .nav.active{background:#fff;color:#000;font-weight:bold}
+  .nav .badge{margin-left:auto;background:var(--red);color:#fff;font-size:10px;
+    font-weight:bold;border-radius:999px;padding:1px 7px}
+  .nav.active .badge{background:#000;color:#fff}
+  .dot{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.7}
+  .me{margin-top:auto;padding:14px 24px 0;border-top:1px solid #1f1f1f;
+    display:flex;align-items:center;gap:10px}
+  .ava{width:32px;height:32px;border-radius:50%;background:#2a2a2a;display:grid;
+    place-items:center;font-size:12px;font-weight:bold}
+  .me small{display:block;color:#777;font-size:11px}
+
+  /* Main */
+  main{padding:0}
+  .top{display:flex;align-items:center;justify-content:space-between;
+    padding:18px 32px;border-bottom:1px solid var(--line);background:var(--panel)}
+  .top .date{color:var(--muted);font-size:12.5px}
+  .top .bell{width:34px;height:34px;border:1px solid var(--line);border-radius:8px;
+    display:grid;place-items:center;position:relative}
+  .top .bell::after{content:"";position:absolute;top:7px;right:7px;width:7px;
+    height:7px;background:var(--red);border-radius:50%}
+  .wrap{padding:32px}
+  .head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px}
+  .head h1{font-size:24px;letter-spacing:-.01em}
+  .head p{color:var(--muted);margin-top:4px;font-size:13px}
+  .actions{display:flex;gap:10px}
+  .btn{border:1px solid var(--ink);background:#000;color:#fff;padding:9px 16px;
+    border-radius:7px;font-size:13px;font-weight:bold;cursor:pointer}
+  .btn.ghost{background:#fff;color:#000}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px}
+  .card .lbl{color:var(--muted);font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+  .card .num{font-size:32px;font-weight:bold;margin-top:10px;letter-spacing:-.02em}
+  .card .delta{font-size:12px;color:var(--muted);margin-top:6px}
+  .card .delta b{color:var(--green)}
+
+  .cols{display:grid;grid-template-columns:1.5fr 1fr;gap:16px;margin-bottom:16px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .panel .ph{display:flex;justify-content:space-between;align-items:center;
+    padding:16px 20px;border-bottom:1px solid var(--line2)}
+  .panel .ph h3{font-size:14px}
+  .panel .ph a{color:var(--muted);font-size:12px;text-decoration:none}
+  table{width:100%;border-collapse:collapse}
+  th{text-align:left;font-size:11px;letter-spacing:.06em;color:var(--muted);
+    text-transform:uppercase;padding:12px 20px;border-bottom:1px solid var(--line2)}
+  td{padding:13px 20px;border-bottom:1px solid var(--line2);font-size:13px}
+  tr:last-child td{border-bottom:0}
+  .tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:bold;
+    padding:3px 9px;border-radius:999px}
+  .tag::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+  .t-com{color:var(--red);background:#fef2f2}
+  .t-caf{color:var(--blue);background:#eff6ff}
+  .t-res{color:var(--green);background:#f0fdf4}
+  .t-oth{color:var(--yellow);background:#fefce8}
+  .st{font-size:11px;font-weight:bold;color:var(--muted)}
+  .st.pub{color:var(--green)}
+
+  .msg{padding:15px 20px;border-bottom:1px solid var(--line2);display:flex;gap:12px}
+  .msg:last-child{border-bottom:0}
+  .msg .ud{width:8px;height:8px;border-radius:50%;background:var(--ink);margin-top:5px;flex:none}
+  .msg.read .ud{background:transparent;border:1px solid var(--line)}
+  .msg .nm{font-weight:bold;font-size:13px;display:flex;justify-content:space-between}
+  .msg .nm span{color:var(--muted);font-weight:normal;font-size:11px}
+  .msg .ex{color:var(--muted);font-size:12.5px;margin-top:3px;line-height:1.5}
+
+  .chart{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px}
+  .chart h3{font-size:14px;margin-bottom:18px}
+  .bars{display:flex;align-items:flex-end;gap:10px;height:140px}
+  .bars i{flex:1;background:#000;border-radius:4px 4px 0 0;display:block;opacity:.85}
+  .bars i:hover{opacity:1}
+  .axis{display:flex;gap:10px;margin-top:8px}
+  .axis span{flex:1;text-align:center;font-size:10.5px;color:var(--muted)}
+  .note{margin:20px 32px;padding:10px 14px;background:#fff8e1;border:1px solid #f0e0a8;
+    border-radius:8px;font-size:12px;color:#7a5d00}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <aside class="side">
+    <div class="brand">TWO&nbsp;DESK</div>
+    <div class="search"><span>Search…</span><span>⌘K</span></div>
+
+    <div class="grp">
+      <h4>General</h4>
+      <div class="nav active"><span class="dot"></span>Dashboard</div>
+      <div class="nav"><span class="dot"></span>Analytics</div>
+    </div>
+    <div class="grp">
+      <h4>Content</h4>
+      <div class="nav"><span class="dot"></span>Projects</div>
+      <div class="nav"><span class="dot"></span>Blog</div>
+      <div class="nav"><span class="dot"></span>Media</div>
+      <div class="nav"><span class="dot"></span>Pages</div>
+    </div>
+    <div class="grp">
+      <h4>Communication</h4>
+      <div class="nav"><span class="dot"></span>Messages<span class="badge">3</span></div>
+    </div>
+    <div class="grp">
+      <h4>Settings</h4>
+      <div class="nav"><span class="dot"></span>General</div>
+      <div class="nav"><span class="dot"></span>Team</div>
+    </div>
+
+    <div class="me">
+      <div class="ava">NU</div>
+      <div><b style="font-size:13px">Nut</b><small>Admin</small></div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="top">
+      <div class="date">วันจันทร์ที่ 19 พฤษภาคม 2569</div>
+      <div class="bell" aria-label="Notifications">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#000"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.7 21a2 2 0 0 1-3.4 0"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="note">ตัวอย่าง mockup เท่านั้น — ข้อมูลสมมติ ยังไม่ผูก Supabase</div>
+
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <h1>Dashboard</h1>
+          <p>ภาพรวมระบบจัดการเนื้อหา Two Desks Studio</p>
+        </div>
+        <div class="actions">
+          <button class="btn ghost">+ New Article</button>
+          <button class="btn">+ New Project</button>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="card"><div class="lbl">Projects</div><div class="num">26</div>
+          <div class="delta"><b>+3</b> เดือนนี้</div></div>
+        <div class="card"><div class="lbl">Articles</div><div class="num">7</div>
+          <div class="delta"><b>+1</b> เดือนนี้</div></div>
+        <div class="card"><div class="lbl">Unread Messages</div><div class="num">3</div>
+          <div class="delta">จากทั้งหมด 18</div></div>
+        <div class="card"><div class="lbl">Page Views (30d)</div><div class="num">4,210</div>
+          <div class="delta"><b>+12%</b> vs เดือนก่อน</div></div>
+      </div>
+
+      <div class="cols">
+        <div class="panel">
+          <div class="ph"><h3>Recent Projects</h3><a href="#">ดูทั้งหมด →</a></div>
+          <table>
+            <thead><tr><th>Project</th><th>Category</th><th>Year</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Hidden Sunken Hub</td><td><span class="tag t-com">Commercial</span></td><td>2025</td><td><span class="st pub">Published</span></td></tr>
+              <tr><td>Bbambbm Cafe</td><td><span class="tag t-caf">Cafe</span></td><td>2025</td><td><span class="st pub">Published</span></td></tr>
+              <tr><td>MM Bridal House</td><td><span class="tag t-oth">Others</span></td><td>2024</td><td><span class="st">Draft</span></td></tr>
+              <tr><td>Office Sakaew</td><td><span class="tag t-com">Commercial</span></td><td>2024</td><td><span class="st pub">Published</span></td></tr>
+              <tr><td>Flow the Hub</td><td><span class="tag t-res">Residential</span></td><td>2024</td><td><span class="st pub">Published</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="panel">
+          <div class="ph"><h3>Recent Messages</h3><a href="#">Inbox →</a></div>
+          <div class="msg"><span class="ud"></span><div style="flex:1">
+            <div class="nm">คุณสมชาย ใจดี<span>2 ชม.</span></div>
+            <div class="ex">สนใจออกแบบคาเฟ่ย่านอารีย์ ขอใบเสนอราคา…</div></div></div>
+          <div class="msg"><span class="ud"></span><div style="flex:1">
+            <div class="nm">Pim Studio<span>5 ชม.</span></div>
+            <div class="ex">อยากปรึกษางาน renovate ออฟฟิศ 200 ตร.ม.…</div></div></div>
+          <div class="msg read"><span class="ud"></span><div style="flex:1">
+            <div class="nm">K. Warat<span>เมื่อวาน</span></div>
+            <div class="ex">ขอบคุณสำหรับงานบ้านพักครับ ประทับใจมาก…</div></div></div>
+        </div>
+      </div>
+
+      <div class="chart">
+        <h3>Page Views — 7 วันล่าสุด</h3>
+        <div class="bars">
+          <i style="height:55%"></i><i style="height:72%"></i><i style="height:48%"></i>
+          <i style="height:88%"></i><i style="height:66%"></i><i style="height:95%"></i>
+          <i style="height:78%"></i>
+        </div>
+        <div class="axis">
+          <span>จ.</span><span>อ.</span><span>พ.</span><span>พฤ.</span>
+          <span>ศ.</span><span>ส.</span><span>อา.</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+</div>
+</body>
+</html>

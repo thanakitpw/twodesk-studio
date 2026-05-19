@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { supabaseAdmin } from '@/lib/supabase/admin';
+import { supabasePublic } from '@/lib/supabase/public';
 import { articles as fallbackArticles } from '@/lib/data';
 import type { Article } from '@/lib/data';
 import type { Metadata } from 'next';
@@ -25,7 +25,7 @@ export default async function BlogPage({ params }: Props) {
   let articleItems: Article[];
 
   try {
-    const { data, error } = await supabaseAdmin
+    const { data, error } = await supabasePublic
       .from('articles')
       .select('*')
       .eq('status', 'published')

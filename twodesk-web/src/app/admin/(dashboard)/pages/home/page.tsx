@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { adminFetch } from '@/lib/admin-fetch';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -31,7 +32,7 @@ export default function HomePageEditor() {
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    fetch('/api/admin/settings')
+    adminFetch('/api/admin/settings')
       .then(r => r.json())
       .then(data => {
         setForm({
@@ -52,7 +53,7 @@ export default function HomePageEditor() {
 
   const handleSave = async () => {
     setSaving(true);
-    const res = await fetch('/api/admin/settings', {
+    const res = await adminFetch('/api/admin/settings', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),

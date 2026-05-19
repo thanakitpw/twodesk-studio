@@ -36,18 +36,20 @@ export async function proxy(request: NextRequest) {
       }
     );
 
+    // getUser() revalidates the JWT กับ Supabase Auth server (กัน cookie ปลอม)
+    // — ปลอดภัยกว่า getSession() ที่เชื่อ cookie ตรงๆ
     const {
-      data: { session },
-    } = await supabase.auth.getSession();
+      data: { user },
+    } = await supabase.auth.getUser();
 
-    // No session → redirect to login (unless already on login page)
-    if (!session && !isLoginPage) {
+    // No user → redirect to login (unless already on login page)
+    if (!user && !isLoginPage) {
       const loginUrl = new URL("/admin/login", request.url);
       return NextResponse.redirect(loginUrl);
     }
 
-    // Has session + on login page → redirect to admin dashboard
-    if (session && isLoginPage) {
+    // Has user + on login page → redirect to admin dashboard
+    if (user && isLoginPage) {
       const adminUrl = new URL("/admin", request.url);
       return NextResponse.redirect(adminUrl);
     }

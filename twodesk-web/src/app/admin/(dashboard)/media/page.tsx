@@ -23,6 +23,8 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { toast } from 'sonner';
+import { useRef } from 'react';
+import { adminFetch } from '@/lib/admin-fetch';
 
 interface MediaItem {
   id: string;
@@ -57,9 +59,10 @@ export default function MediaPage() {
 
   // Upload dialog
   const [uploadOpen, setUploadOpen] = useState(false);
-  const [urlInput, setUrlInput] = useState('');
+  const [files, setFiles] = useState<File[]>([]);
   const [altInput, setAltInput] = useState('');
   const [uploading, setUploading] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   // Delete dialog
   const [deleteTarget, setDeleteTarget] = useState<MediaItem | null>(null);
@@ -76,7 +79,7 @@ export default function MediaPage() {
     try {
       const params = new URLSearchParams();
       if (debouncedSearch) params.set('search', debouncedSearch);
-      const res = await fetch(`/api/admin/media?${params.toString()}`);
+      const res = await adminFetch(`/api/admin/media?${params.toString()}`);
       const json = await res.json();
       if (res.ok) {
         setMedia(json.media ?? []);
@@ -95,28 +98,32 @@ export default function MediaPage() {
   }, [fetchMedia]);
 
   async function handleUpload() {
-    if (!urlInput.trim()) return;
+    if (files.length === 0) return;
     setUploading(true);
+    let ok = 0;
     try {
-      const filename = urlInput.trim().split('/').pop() || 'untitled';
-      const res = await fetch('/api/admin/media', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          url: urlInput.trim(),
-          alt_text: altInput.trim(),
-          filename,
-        }),
-      });
-      const json = await res.json();
-      if (res.ok) {
-        toast.success('Image added successfully');
+      for (const f of files) {
+        const fd = new FormData();
+        fd.append('file', f);
+        if (altInput.trim()) fd.append('alt_text', altInput.trim());
+        const res = await adminFetch('/api/admin/media/upload', {
+          method: 'POST',
+          body: fd,
+        });
+        if (res.ok) {
+          ok += 1;
+        } else {
+          const json = await res.json().catch(() => ({}));
+          toast.error(`${f.name}: ${json.error ?? 'Upload failed'}`);
+        }
+      }
+      if (ok > 0) {
+        toast.success(`อัปโหลด ${ok} รูปสำเร็จ`);
         setUploadOpen(false);
-        setUrlInput('');
+        setFiles([]);
         setAltInput('');
+        if (fileRef.current) fileRef.current.value = '';
         fetchMedia();
-      } else {
-        toast.error(json.error ?? 'Failed to add image');
       }
     } catch {
       toast.error('Network error');
@@ -129,7 +136,7 @@ export default function MediaPage() {
     if (!deleteTarget) return;
     setDeleting(true);
     try {
-      const res = await fetch(`/api/admin/media/${deleteTarget.id}`, {
+      const res = await adminFetch(`/api/admin/media/${deleteTarget.id}`, {
         method: 'DELETE',
       });
       if (res.ok) {
@@ -255,16 +262,28 @@ export default function MediaPage() {
           </DialogHeader>
           <div className="flex flex-col gap-4 py-2">
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="media-url" className="text-[13px] text-[#1A1A1A]">
-                Image URL <span className="text-[#C0392B]">*</span>
+              <Label className="text-[13px] text-[#1A1A1A]">
+                ไฟล์รูป <span className="text-[#C0392B]">*</span>
               </Label>
-              <Input
-                id="media-url"
-                placeholder="https://example.com/image.jpg"
-                value={urlInput}
-                onChange={(e) => setUrlInput(e.target.value)}
-                className="border-[#E5E4E2] text-[#1A1A1A] placeholder:text-[#999]"
-              />
+              <div
+                onClick={() => fileRef.current?.click()}
+                className="flex cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-[#E5E4E2] px-4 py-6 text-center text-[13px] text-[#6B6B6B] hover:border-[#999]"
+              >
+                เลือกไฟล์ หรือลากมาวาง (เลือกหลายไฟล์ได้)
+                <span className="mt-1 text-[11px] text-[#999]">
+                  JPG / PNG / WEBP / AVIF / GIF / SVG · สูงสุด 10MB
+                </span>
+                <input
+                  ref={fileRef}
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  hidden
+                  onChange={(e) =>
+                    setFiles(e.target.files ? Array.from(e.target.files) : [])
+                  }
+                />
+              </div>
             </div>
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="media-alt" className="text-[13px] text-[#1A1A1A]">
@@ -279,17 +298,21 @@ export default function MediaPage() {
               />
             </div>
             {/* Preview */}
-            {urlInput.trim() && (
-              <div className="overflow-hidden rounded-lg border border-[#E5E4E2] bg-[#F0EFED]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={urlInput.trim()}
-                  alt="preview"
-                  className="max-h-40 w-full object-contain"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = 'none';
-                  }}
-                />
+            {files.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {files.map((f, i) => (
+                  <div
+                    key={`${f.name}-${i}`}
+                    className="h-20 w-20 overflow-hidden rounded-md border border-[#E5E4E2] bg-[#F0EFED]"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={URL.createObjectURL(f)}
+                      alt={f.name}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                ))}
               </div>
             )}
           </div>
@@ -304,11 +327,11 @@ export default function MediaPage() {
             </Button>
             <Button
               onClick={handleUpload}
-              disabled={!urlInput.trim() || uploading}
+              disabled={files.length === 0 || uploading}
               className="bg-[#1A1A1A] text-white hover:bg-black"
             >
               <Check className="size-4" />
-              {uploading ? 'Saving...' : 'Save'}
+              {uploading ? 'Uploading...' : 'Upload'}
             </Button>
           </DialogFooter>
         </DialogContent>

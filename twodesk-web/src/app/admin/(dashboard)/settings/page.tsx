@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
+import { adminFetch } from '@/lib/admin-fetch';
 
 interface Settings {
   company_name: string;
@@ -64,7 +65,7 @@ export default function SettingsPage() {
   useEffect(() => {
     async function fetchSettings() {
       try {
-        const res = await fetch('/api/admin/settings');
+        const res = await adminFetch('/api/admin/settings');
         const json = await res.json();
         if (res.ok) {
           setSettings((prev) => ({ ...prev, ...json }));
@@ -87,7 +88,7 @@ export default function SettingsPage() {
   async function handleSave() {
     setSaving(true);
     try {
-      const res = await fetch('/api/admin/settings', {
+      const res = await adminFetch('/api/admin/settings', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(settings),

@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/admin';
+import { requireAdmin } from '@/lib/supabase/auth';
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const gate = await requireAdmin();
+  if (!gate.ok) return gate.error;
+
   const { id } = await params;
   const { data, error } = await supabaseAdmin.from('articles').select('*').eq('id', id).single();
   if (error) return NextResponse.json({ error: error.message }, { status: 404 });
@@ -9,6 +13,9 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
 }
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const gate = await requireAdmin();
+  if (!gate.ok) return gate.error;
+
   const { id } = await params;
   const body = await request.json();
   const { data, error } = await supabaseAdmin.from('articles').update(body).eq('id', id).select().single();
@@ -17,6 +24,9 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 }
 
 export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const gate = await requireAdmin();
+  if (!gate.ok) return gate.error;
+
   const { id } = await params;
   const { error } = await supabaseAdmin.from('articles').delete().eq('id', id);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });

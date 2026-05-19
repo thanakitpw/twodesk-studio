@@ -12,6 +12,9 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import RichTextEditor from '@/components/admin/RichTextEditor';
+import ImageUploadField from '@/components/admin/ImageUploadField';
+import { adminFetch } from '@/lib/admin-fetch';
+import { toast } from 'sonner';
 
 interface ArticleData {
   title_th: string; title_en: string; slug: string; category: string;
@@ -43,7 +46,7 @@ export default function BlogEditorPage() {
 
   useEffect(() => {
     if (!isNew) {
-      fetch(`/api/admin/articles/${id}`).then(r => r.json()).then(data => {
+      adminFetch(`/api/admin/articles/${id}`).then(r => r.json()).then(data => {
         setForm({
           title_th: data.title_th ?? '', title_en: data.title_en ?? '',
           slug: data.slug ?? '', category: data.category ?? 'Tips',
@@ -64,6 +67,15 @@ export default function BlogEditorPage() {
   const genSlug = (t: string) => t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
   const handleSave = async (status?: string) => {
+    if (!form.title_en.trim() && !form.title_th.trim()) {
+      toast.error('กรุณากรอกหัวข้อบทความ (EN หรือ TH)');
+      return;
+    }
+    if (!form.slug.trim()) {
+      toast.error('กรุณากรอก URL slug');
+      return;
+    }
+
     setSaving(true);
     const payload = {
       ...form,
@@ -71,9 +83,20 @@ export default function BlogEditorPage() {
       published_at: form.published_at || (status === 'published' ? new Date().toISOString() : null),
     };
     const url = isNew ? '/api/admin/articles' : `/api/admin/articles/${id}`;
-    const res = await fetch(url, { method: isNew ? 'POST' : 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-    if (res.ok) router.push('/admin/blog');
-    setSaving(false);
+    try {
+      const res = await adminFetch(url, { method: isNew ? 'POST' : 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      if (res.ok) {
+        toast.success(isNew ? 'สร้างบทความสำเร็จ' : 'บันทึกสำเร็จ');
+        router.push('/admin/blog');
+      } else {
+        const json = await res.json().catch(() => ({}));
+        toast.error(json.error ?? 'บันทึกไม่สำเร็จ');
+      }
+    } catch {
+      toast.error('Network error');
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -216,15 +239,10 @@ export default function BlogEditorPage() {
           <Card>
             <CardContent className="flex flex-col gap-3 p-5">
               <span className="text-[13px] font-bold text-[#1A1A1A]">Cover Image</span>
-              {form.cover_image ? (
-                <div className="relative aspect-video overflow-hidden rounded-lg bg-[#F0EFED]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={form.cover_image} alt="Cover" className="h-full w-full object-cover" />
-                </div>
-              ) : (
-                <div className="flex aspect-video items-center justify-center rounded-lg bg-[#F0EFED]"><span className="text-[12px] text-[#999]">No cover image</span></div>
-              )}
-              <Input value={form.cover_image} onChange={e => update('cover_image', e.target.value)} placeholder="Image URL" className="text-[12px]" />
+              <ImageUploadField
+                value={form.cover_image}
+                onChange={(v) => update('cover_image', v as string)}
+              />
             </CardContent>
           </Card>
         </div>

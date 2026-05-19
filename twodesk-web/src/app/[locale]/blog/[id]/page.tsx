@@ -2,8 +2,9 @@ import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
-import { supabaseAdmin } from '@/lib/supabase/admin';
+import { supabasePublic } from '@/lib/supabase/public';
 import { articles as fallbackArticles } from '@/lib/data';
+import { renderTiptap } from '@/lib/tiptap';
 
 export const dynamic = 'force-dynamic';
 export const dynamicParams = true;
@@ -14,7 +15,7 @@ interface Props {
 
 export async function generateStaticParams() {
   try {
-    const { data } = await supabaseAdmin
+    const { data } = await supabasePublic
       .from('articles')
       .select('slug')
       .eq('status', 'published');
@@ -32,7 +33,7 @@ export async function generateMetadata({ params }: Props) {
   const { id, locale } = await params;
 
   try {
-    const { data } = await supabaseAdmin
+    const { data } = await supabasePublic
       .from('articles')
       .select('title_th, title_en, excerpt_th, excerpt_en')
       .eq('slug', id)
@@ -66,10 +67,11 @@ export default async function ArticleDetailPage({ params }: Props) {
     date: string;
     excerpt: string;
     image: string;
+    contentHtml: string;
   } | null = null;
 
   try {
-    const { data } = await supabaseAdmin
+    const { data } = await supabasePublic
       .from('articles')
       .select('*')
       .eq('slug', id)
@@ -87,6 +89,11 @@ export default async function ArticleDetailPage({ params }: Props) {
           : '',
         excerpt: locale === 'th' ? data.excerpt_th : data.excerpt_en,
         image: data.cover_image,
+        contentHtml: renderTiptap(
+          (locale === 'th' ? data.content_th : data.content_en) ??
+            data.content_en ??
+            data.content_th
+        ),
       };
     }
   } catch {
@@ -104,6 +111,7 @@ export default async function ArticleDetailPage({ params }: Props) {
       date: staticArticle.date,
       excerpt: staticArticle.excerpt,
       image: staticArticle.image,
+      contentHtml: '',
     };
   }
 
@@ -147,43 +155,20 @@ export default async function ArticleDetailPage({ params }: Props) {
             {article.title}
           </h1>
 
-          <div
-            className="space-y-5 text-sm font-light leading-relaxed text-[#4a4a4a] md:space-y-6 md:text-base"
-            style={isTh ? { fontSize: '20px', lineHeight: 1.7 } : undefined}
-          >
-            <p>
-              {article.excerpt} In this article, we explore the ideas and
-              inspirations that shaped this topic — from early observations to
-              the broader trends transforming the design landscape in Southeast
-              Asia.
-            </p>
-
-            <p>
-              Good design begins long before the first sketch. It starts with
-              listening — to the client, the site, and the culture that
-              surrounds it. At Two Desk Studio, we believe every space has a
-              story waiting to be told. Our role is to uncover that story and
-              give it form through thoughtful material choices, spatial planning,
-              and attention to the smallest details.
-            </p>
-
-            <p>
-              Whether we are working on a cafe in the heart of Bangkok or a
-              residential project in the suburbs, the principles remain the
-              same: clarity of purpose, honesty of materials, and respect for
-              the people who will inhabit the space. These values guide every
-              decision we make, from the initial concept to the final handover.
-            </p>
-
-            <p>
-              As the design industry continues to evolve, we remain committed to
-              learning, experimenting, and pushing the boundaries of what is
-              possible. We hope this article offers a glimpse into our thinking
-              and inspires you to look at the spaces around you with fresh eyes.
-              If you have a project in mind or simply want to talk design, we
-              would love to hear from you.
-            </p>
-          </div>
+          {article.contentHtml ? (
+            <div
+              className="prose prose-neutral max-w-none text-sm font-light leading-relaxed text-[#4a4a4a] md:text-base"
+              style={isTh ? { fontSize: '20px', lineHeight: 1.7 } : undefined}
+              dangerouslySetInnerHTML={{ __html: article.contentHtml }}
+            />
+          ) : (
+            <div
+              className="space-y-5 text-sm font-light leading-relaxed text-[#4a4a4a] md:space-y-6 md:text-base"
+              style={isTh ? { fontSize: '20px', lineHeight: 1.7 } : undefined}
+            >
+              <p>{article.excerpt}</p>
+            </div>
+          )}
         </article>
       </section>
     </div>

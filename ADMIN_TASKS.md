@@ -257,3 +257,28 @@
 | Phase 6: Analytics + Settings | ~20 tasks | 0 | ยังไม่ได้ทำ |
 | Phase 7: Testing + Deploy | ~15 tasks | ~3 ✅ | deploy เสร็จ |
 | **รวม** | **~155 tasks** | **~79 ✅** | **~51% เสร็จ** |
+
+---
+
+## รอบงาน CMS completion — 2026-05-19
+
+ปิดงานที่เหลือ (ยกเว้น Analytics GA4 + Email Resend ที่เลื่อน). รายละเอียดเต็ม: `HANDOVER.md`
+
+- [x] **P0 Security**: proxy `getSession→getUser`, `requireAdmin()` guard ครบทุก
+  `/api/admin/*` (9 routes), `admin-fetch.ts` (401→login), logout `router.refresh()`,
+  RLS เปิด 6 ตาราง + policy, hardening `set_updated_at` search_path
+- [x] **Supabase Storage**: bucket `media` + storage RLS, `media/upload` route,
+  `media/[id]` ลบไฟล์ใน storage, `ImageUploadField` component, mount `<Toaster/>`
+- [x] **Media Library**: อัปโหลดไฟล์จริง (multi) แทน URL-paste
+- [x] **Project/Blog editor**: cover+gallery → ImageUploadField, validation + sonner
+- [x] **Public frontend**: `renderTiptap` (dependency-free), blog/project detail
+  render content จริงแทน lorem, public ใช้ anon client (`supabase/public.ts`),
+  Hero ดึง `site_settings` + fallback i18n, `site-settings-keys.ts`
+- [x] **Settings/Team**: users CRUD API + team page (add/edit/delete dialog),
+  settings/pages editors swap → `adminFetch`
+- [x] **Verify**: `npm run build` ผ่าน, Playwright security 12/12 ผ่าน
+      (`admin-api-security.spec.ts`, `admin-auth.spec.ts`)
+- [x] Phase 0: ยืนยัน canonical `ivslfjtahzkpdgoqjobh`, seed `site_settings` 15 keys,
+      สร้าง `.env.example`
+- [x] Seed admin user แรก: `thanakit.dev@gmail.com` role=admin (login ทดสอบผ่าน)
+- [ ] Custom domain + Vercel env (เป็น action ฝั่ง Vercel/DNS)

@@ -1,7 +1,7 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import ScrollAnimate from "@/components/scroll-animate";
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { supabasePublic } from "@/lib/supabase/public";
 
 const TAG_STYLES: Record<string, string> = {
   cafe: "bg-[#e8f0fe] text-[#1a73e8]",
@@ -80,7 +80,7 @@ export default async function Works() {
   const tc = await getTranslations("common");
   const isTh = locale === "th";
 
-  const { data } = await supabaseAdmin
+  const { data } = await supabasePublic
     .from("projects")
     .select("slug, title_th, title_en, location_th, location_en, category, cover_image")
     .eq("status", "published")

@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/admin';
+import { requireAdmin } from '@/lib/supabase/auth';
 
 // GET /api/admin/projects/[id]
 export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const gate = await requireAdmin();
+  if (!gate.ok) return gate.error;
+
   const { id } = await params;
   const { data, error } = await supabaseAdmin
     .from('projects')
@@ -24,6 +28,9 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const gate = await requireAdmin();
+  if (!gate.ok) return gate.error;
+
   const { id } = await params;
   const body = await request.json();
 
@@ -45,6 +52,9 @@ export async function DELETE(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const gate = await requireAdmin();
+  if (!gate.ok) return gate.error;
+
   const { id } = await params;
   const { error } = await supabaseAdmin
     .from('projects')

@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/admin';
+import { requireAdmin } from '@/lib/supabase/auth';
 
 // GET /api/admin/settings — return all site_settings as { key: value } object
 export async function GET() {
+  const gate = await requireAdmin();
+  if (!gate.ok) return gate.error;
+
   const { data, error } = await supabaseAdmin
     .from('site_settings')
     .select('key, value');
@@ -21,6 +25,9 @@ export async function GET() {
 
 // PUT /api/admin/settings — upsert multiple settings { key: value, ... }
 export async function PUT(request: NextRequest) {
+  const gate = await requireAdmin();
+  if (!gate.ok) return gate.error;
+
   const body = await request.json();
 
   if (!body || typeof body !== 'object') {

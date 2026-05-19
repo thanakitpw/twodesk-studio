@@ -1,4 +1,5 @@
 import AdminSidebar from '@/components/admin/AdminSidebar';
+import { Toaster } from '@/components/ui/sonner';
 
 export default function DashboardLayout({
   children,
@@ -26,6 +27,7 @@ export default function DashboardLayout({
         {/* Page content */}
         <div className="flex-1 overflow-auto p-8">{children}</div>
       </main>
+      <Toaster position="top-right" richColors />
     </div>
   );
 }

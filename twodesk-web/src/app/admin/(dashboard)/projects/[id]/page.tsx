@@ -18,6 +18,9 @@ import {
 } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import RichTextEditor from '@/components/admin/RichTextEditor';
+import ImageUploadField from '@/components/admin/ImageUploadField';
+import { adminFetch } from '@/lib/admin-fetch';
+import { toast } from 'sonner';
 
 interface ProjectData {
   title_th: string;
@@ -33,6 +36,7 @@ interface ProjectData {
   content_en: JSONContent | null;
   content_th: JSONContent | null;
   cover_image: string;
+  images: string[];
   seo_title: string;
   seo_description: string;
   seo_keywords: string[];
@@ -44,7 +48,7 @@ const emptyProject: ProjectData = {
   location_th: '', location_en: '', area_sqm: '', year: '',
   description_th: '', description_en: '',
   content_en: null, content_th: null,
-  cover_image: '',
+  cover_image: '', images: [],
   seo_title: '', seo_description: '', seo_keywords: [], status: 'draft',
 };
 
@@ -61,7 +65,7 @@ export default function ProjectEditorPage() {
 
   useEffect(() => {
     if (!isNew) {
-      fetch(`/api/admin/projects/${id}`)
+      adminFetch(`/api/admin/projects/${id}`)
         .then((r) => r.json())
         .then((data) => {
           setForm({
@@ -78,6 +82,7 @@ export default function ProjectEditorPage() {
             content_en: data.content_en ?? null,
             content_th: data.content_th ?? null,
             cover_image: data.cover_image ?? '',
+            images: Array.isArray(data.images) ? data.images : [],
             seo_title: data.seo_title ?? '',
             seo_description: data.seo_description ?? '',
             seo_keywords: data.seo_keywords ?? [],
@@ -114,6 +119,16 @@ export default function ProjectEditorPage() {
   };
 
   const handleSave = async (status?: string) => {
+    // validation: ต้องมีชื่ออย่างน้อย 1 ภาษา + slug
+    if (!form.title_en.trim() && !form.title_th.trim()) {
+      toast.error('กรุณากรอกชื่อโปรเจกต์ (EN หรือ TH)');
+      return;
+    }
+    if (!form.slug.trim()) {
+      toast.error('กรุณากรอก URL slug');
+      return;
+    }
+
     setSaving(true);
     const payload = {
       ...form,
@@ -124,16 +139,25 @@ export default function ProjectEditorPage() {
     const url = isNew ? '/api/admin/projects' : `/api/admin/projects/${id}`;
     const method = isNew ? 'POST' : 'PUT';
 
-    const res = await fetch(url, {
-      method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
+    try {
+      const res = await adminFetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
 
-    if (res.ok) {
-      router.push('/admin/projects');
+      if (res.ok) {
+        toast.success(isNew ? 'สร้างโปรเจกต์สำเร็จ' : 'บันทึกสำเร็จ');
+        router.push('/admin/projects');
+      } else {
+        const json = await res.json().catch(() => ({}));
+        toast.error(json.error ?? 'บันทึกไม่สำเร็จ');
+      }
+    } catch {
+      toast.error('Network error');
+    } finally {
+      setSaving(false);
     }
-    setSaving(false);
   };
 
   return (
@@ -379,21 +403,21 @@ export default function ProjectEditorPage() {
           <Card>
             <CardContent className="flex flex-col gap-3 p-5">
               <span className="text-[13px] font-bold text-[#1A1A1A]">Cover Image</span>
-              {form.cover_image ? (
-                <div className="relative aspect-video overflow-hidden rounded-lg bg-[#F0EFED]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={form.cover_image} alt="Cover" className="h-full w-full object-cover" />
-                </div>
-              ) : (
-                <div className="flex aspect-video items-center justify-center rounded-lg bg-[#F0EFED]">
-                  <span className="text-[12px] text-[#999]">No cover image</span>
-                </div>
-              )}
-              <Input
+              <ImageUploadField
                 value={form.cover_image}
-                onChange={(e) => update('cover_image', e.target.value)}
-                placeholder="Image URL"
-                className="text-[12px]"
+                onChange={(v) => update('cover_image', v as string)}
+              />
+            </CardContent>
+          </Card>
+
+          {/* Gallery */}
+          <Card>
+            <CardContent className="flex flex-col gap-3 p-5">
+              <span className="text-[13px] font-bold text-[#1A1A1A]">Gallery</span>
+              <ImageUploadField
+                multiple
+                value={form.images}
+                onChange={(v) => update('images', v as string[])}
               />
             </CardContent>
           </Card>

@@ -2,9 +2,10 @@ import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
-import { supabaseAdmin } from '@/lib/supabase/admin';
+import { supabasePublic } from '@/lib/supabase/public';
 import { projects as fallbackProjects } from '@/lib/data';
 import ProjectGallery from '@/components/ProjectGallery';
+import { renderTiptap } from '@/lib/tiptap';
 
 export const dynamic = 'force-dynamic';
 export const dynamicParams = true;
@@ -15,7 +16,7 @@ interface Props {
 
 export async function generateStaticParams() {
   try {
-    const { data } = await supabaseAdmin
+    const { data } = await supabasePublic
       .from('projects')
       .select('slug')
       .eq('status', 'published');
@@ -33,7 +34,7 @@ export async function generateMetadata({ params }: Props) {
   const { id, locale } = await params;
 
   try {
-    const { data } = await supabaseAdmin
+    const { data } = await supabasePublic
       .from('projects')
       .select('title_th, title_en, description_th, description_en')
       .eq('slug', id)
@@ -79,12 +80,13 @@ export default async function ProjectDetailPage({ params }: Props) {
     image: string;
     images: string[];
     imageGroups?: { label: string; images: string[] }[];
+    contentHtml: string;
   } | null = null;
 
   let allProjectSlugs: string[] = [];
 
   try {
-    const { data } = await supabaseAdmin
+    const { data } = await supabasePublic
       .from('projects')
       .select('*')
       .eq('slug', id)
@@ -101,10 +103,15 @@ export default async function ProjectDetailPage({ params }: Props) {
         image: data.cover_image,
         images: data.images ?? [],
         imageGroups: data.image_groups ?? [],
+        contentHtml: renderTiptap(
+          (locale === 'th' ? data.content_th : data.content_en) ??
+            data.content_en ??
+            data.content_th
+        ),
       };
 
       // Get all slugs for next project navigation
-      const { data: allProjects } = await supabaseAdmin
+      const { data: allProjects } = await supabasePublic
         .from('projects')
         .select('slug')
         .eq('status', 'published')
@@ -133,6 +140,7 @@ export default async function ProjectDetailPage({ params }: Props) {
       image: staticProject.image,
       images: staticProject.images ?? [staticProject.image],
       imageGroups: staticProject.imageGroups,
+      contentHtml: '',
     };
     allProjectSlugs = fallbackProjects.map((p) => p.id);
   }
@@ -144,7 +152,7 @@ export default async function ProjectDetailPage({ params }: Props) {
   // Get next project title
   let nextTitle = '';
   try {
-    const { data: nextData } = await supabaseAdmin
+    const { data: nextData } = await supabasePublic
       .from('projects')
       .select('title_th, title_en')
       .eq('slug', nextSlug)
@@ -254,6 +262,15 @@ export default async function ProjectDetailPage({ params }: Props) {
             title={project.title}
           />
         </div>
+
+        {/* Project Content (Tiptap) */}
+        {project.contentHtml && (
+          <div
+            className="prose prose-neutral mx-auto mb-10 max-w-3xl text-[#4a4a4a] md:mb-16"
+            style={isTh ? { fontSize: '20px', lineHeight: 1.7 } : undefined}
+            dangerouslySetInnerHTML={{ __html: project.contentHtml }}
+          />
+        )}
 
         {/* Next Project */}
         {nextSlug && nextTitle && (

@@ -18,11 +18,20 @@ const BANNERS = [
 
 const INTERVAL_MS = 4000;
 
-export default function Hero() {
+interface HeroProps {
+  /** override จาก site_settings (Pages > Home); ว่าง = ใช้ค่า i18n เดิม */
+  title?: string;
+  subtitle?: string;
+}
+
+export default function Hero({ title, subtitle }: HeroProps = {}) {
   const t = useTranslations("home");
   const locale = useLocale();
   const isTh = locale === "th";
   const [index, setIndex] = useState(0);
+
+  const heroTitle = title?.trim() ? title : t("heroTitle");
+  const heroSubtitle = subtitle?.trim() ? subtitle : t("heroSubtitle");
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -65,7 +74,7 @@ export default function Hero() {
               : "text-[32px] md:text-[56px] leading-[38px] md:leading-[64px] tracking-tight"
           }`}
         >
-          {t("heroTitle")
+          {heroTitle
             .split("\n")
             .map((line, i) => (
               <span key={i}>
@@ -79,7 +88,7 @@ export default function Hero() {
             isTh ? "th-body-lg" : "text-[14px] md:text-[17px]"
           }`}
         >
-          {t("heroSubtitle")}
+          {heroSubtitle}
         </p>
       </div>
 

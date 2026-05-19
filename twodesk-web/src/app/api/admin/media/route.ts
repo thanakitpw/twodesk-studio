@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/admin';
+import { requireAdmin } from '@/lib/supabase/auth';
 
 // GET /api/admin/media — list all media records
 export async function GET(request: NextRequest) {
+  const gate = await requireAdmin();
+  if (!gate.ok) return gate.error;
+
   const { searchParams } = request.nextUrl;
   const search = searchParams.get('search');
 
@@ -26,6 +30,9 @@ export async function GET(request: NextRequest) {
 
 // POST /api/admin/media — insert new media record
 export async function POST(request: NextRequest) {
+  const gate = await requireAdmin();
+  if (!gate.ok) return gate.error;
+
   const body = await request.json();
 
   const { url, alt_text, filename, file_size, mime_type } = body;

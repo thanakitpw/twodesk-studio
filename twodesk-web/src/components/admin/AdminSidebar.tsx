@@ -58,6 +58,7 @@ export default function AdminSidebar() {
       // ignore network errors — proceed to redirect
     } finally {
       router.push('/admin/login');
+      router.refresh();
     }
   };
 

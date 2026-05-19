@@ -1,4 +1,4 @@
-import { supabaseAdmin } from '@/lib/supabase/admin';
+import { supabasePublic } from '@/lib/supabase/public';
 import { projects as fallbackProjects } from '@/lib/data';
 import ProjectsContent, { type ProjectItem } from './ProjectsContent';
 
@@ -14,7 +14,7 @@ export default async function ProjectsPage({ params }: Props) {
   let projectItems: ProjectItem[];
 
   try {
-    const { data, error } = await supabaseAdmin
+    const { data, error } = await supabasePublic
       .from('projects')
       .select('*')
       .eq('status', 'published')
